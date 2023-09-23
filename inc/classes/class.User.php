@@ -165,6 +165,10 @@ class User
         if ($resultat) {
             $requete->setFetchMode(PDO::FETCH_ASSOC);
             $data = $requete->fetch();
+            $dateAcces = explode(' ', $data['dateAcces']);
+            $date  = Application::datePHP($dateAcces[0]);
+            $heure = substr($dateAcces[1], 0, 5);
+            $data['dateAcces'] = sprintf('%s %s', $date, $heure);
         }
 
         Application::DeconnexionPDO($connexion);

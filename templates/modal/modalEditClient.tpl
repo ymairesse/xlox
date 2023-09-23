@@ -149,6 +149,9 @@
               <input
                 type="text"
                 class="form-control"
+                inputmode="numeric" 
+                pattern="[0-9]*" 
+                maxlength="5"
                 name="cpost"
                 id="cpost"
                 value="{$dataClient.cpost|default:''}"
