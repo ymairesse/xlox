@@ -1,0 +1,76 @@
+body {
+    background-image: url('../css/oxfambg.png') !important;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+h1,
+h2 {
+    text-transform: uppercase;
+}
+
+#corpsPage {
+    padding-bottom: 2em;
+}
+
+select#listeClients,
+select#listeUsers {
+    background-color: #34ac5d;
+    color: white;
+}
+
+#refClients {
+    background-color: #ca9b2c66;
+    color: #333;
+    padding: 1em 0;
+}
+
+label {
+    font-weight: bold;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .navbar-brand img {
+        width: 200px !important;
+    }
+}
+
+.modal-title:before {
+    content: url('../images/cshop.png');
+}
+
+input::placeholder {
+    color: #aaaaaa !important;
+    opacity: 1;
+    /* Firefox */
+}
+
+label.error {
+    color: red;
+    font-weight: bold;
+}
+
+.void {
+    text-align: center;
+    padding-top: 8rem;
+}
+
+.idInt {
+    font-size: 10pt;
+}
+
+.addonMdp {
+    cursor: pointer;
+}
+
+.isDisabled {
+    display: none;
+}
+
+.barre {
+    text-decoration-line: line-through;
+}
+

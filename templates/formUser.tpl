@@ -1,0 +1,174 @@
+<form id="formClient" class="extended" data-zone="formClient">
+  <div class="container-fluid">
+    <div class="row">
+      
+      <div class="form-group pb-3 col-2">
+        <label for="genre">F/M/X</label>
+        <input
+          type="text"
+          class="form-control"
+          name="civilite"
+          id="civilite"
+          readonly
+          value="{$dataClient.civilite|default:''}"
+          placeholder="Civ."
+        />
+      </div>
+
+      <div class="form-group pb-3 col-6">
+        <label for="nom">Nom</label>
+        <input
+          type="text"
+          class="form-control"
+          name="nom"
+          id="nom"
+          readonly
+          value="{$dataClient.nom|default:''}"
+          placeholder="Nom"
+          required
+        />
+      </div>
+
+      <div class="form-group pb-3 col-4">
+        <label for="prenom">Prénom</label>
+        <input
+          type="text"
+          class="form-control"
+          name="prenom"
+          id="prenom"
+          readonly
+          value="{$dataClient.prenom|default:''}"
+          placeholder="Prénom"
+        />
+      </div>
+
+      <div class="form-group pb-3 col-8">
+        <label for="mail"
+          ><i class="fa fa-send" aria-hidden="true" readonly></i> Adresse
+          mail</label
+        >
+        <input
+          type="mail"
+          class="form-control"
+          name="mail"
+          id="mail"
+          readonly
+          value="{$dataClient.mail|default:''}"
+          placeholder="Adresse mail"
+        />
+      </div>
+
+    <div class="form-group pb-3 col-4">
+      <label for="pseudo"><i class="fa fa-user-secret" aria-hidden="true"></i> Alias</label>
+      <input 
+        type="text" 
+        class="form-control"
+        name="pseudo" 
+        id="pseudo" 
+        maxlength="6" 
+        readonly 
+        value="{$dataClient.pseudo|default:''}"
+        placeholder="Alias">
+    </div>
+
+  </div>
+
+    <div class="row">
+      
+      <div class="form-group pb-3 col-6">
+        <label for="telephone"
+          ><i class="fa fa-phone" aria-hidden="true"></i> Téléphone</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          name="telephone"
+          id="telephone"
+          readonly
+          value="{$dataClient.telephone|default:''}"
+          placeholder="Téléphone"
+        />
+      </div>
+
+      <div class="form-group pb-3 col-5">
+        <label for="gsm"
+          ><i class="fa fa-mobile" aria-hidden="true"></i> GSM</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          name="gsm"
+          id="gsm"
+          readonly
+          value="{$dataClient.gsm|default:''}"
+          placeholder="GSM"
+        />
+      </div>
+      <div class="form-group pt-4 col-1">
+        <button type="button" class="btn btn-secondary btn-sm btn-extended w-100" data-zone="extraForm"><i class="fa fa-plus"></i></button>
+      </div>
+    </div>
+
+    
+<div class="row d-none extended" data-zone="extraForm">
+
+    <div class="form-group pb-3 col-12">
+      <label for="adresse">Adresse</label>
+      <input
+        type="text"
+        class="form-control"
+        name="adresse"
+        readonly
+        id="adresse"
+        value="{$dataClient.adresse|default:''}"
+        placeholder="Adresse rue / numéro"
+      />
+    </div>
+
+      <div class="form-group pb-3 col-8">
+        <label for="commune">Commune</label>
+        <input
+          type="text"
+          class="form-control"
+          name="commune"
+          readonly
+          id="commune"
+          value="{$dataClient.commune|default:''}"
+          placeholder="Commune"
+        />
+      </div>
+
+      <div class="form-group pb-3 col-4">
+        <label for="cpost">Code Postal</label>
+        <input
+          type="text"
+          class="form-control"
+          name="cpost"
+          readonly
+          id="cpost"
+          value="{$dataClient.cpost|default:''}"
+          placeholder="Code Postal"
+        />
+      </div>
+
+      <div class="form-group pb-3 col-11">
+        <label for="tva">Numéro de TVA</label>
+  
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">BE</span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            id="tva"
+            name="tva"
+            value="{$dataClient.tva|default:''}"
+          />
+        </div>
+      </div>
+
+    </div>
+  
+</form>
+
