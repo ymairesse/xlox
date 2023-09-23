@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : sam. 23 sep. 2023 à 10:54
+-- Généré le : sam. 23 sep. 2023 à 12:57
 -- Version du serveur : 10.6.12-MariaDB-0ubuntu0.22.04.1
 -- Version de PHP : 8.1.2-1ubuntu2.14
 
@@ -254,16 +254,10 @@ CREATE TABLE `ox_users` (
 
 INSERT INTO `ox_users` (`idUser`, `pseudo`, `civilite`, `nom`, `prenom`, `telephone`, `gsm`, `mail`, `adresse`, `cpost`, `commune`, `tva`, `droits`, `rgpd`, `dateAcces`, `md5passwd`) VALUES
 (1, 'ymairesse', 'M', 'Mairesse', 'Yves', '', '0474754696', 'ymairesse@sio2.be', '', '1160', '', '', 'root', 0, '2023-07-31 12:03:03', '1224b6196e600af6d118b8d7a12fec76'),
-(2, 'qsdfqsdf', 'M', 'Machin', 'Bidule', '0474754696', '', 'nomail@nomail.com', '', '1160', '', '1234567890', 'client', 0, '2023-07-31 12:00:47', '1224b6196e600af6d118b8d7a12fec76'),
-(10, 'Dodo', 'M', 'Le Dauphin', 'Thomas', '0474754696', '', 'nomail@nomail.com', '', '1160', '', '1234567890', 'root', 0, '2023-07-31 14:11:23', 'b829dae101214d738a37fb571398ae04'),
-(15, NULL, 'F', 'Esseriame', 'Sevy', '', '0474754696', 'yves@sio2.be', 'Rue de la Maison écroulée bla bla bla  blabla bla bla  blabla bla bla  bla', '1160', 'Houte-si-Plou les Bains', '', 'client', 1, '2023-09-20 08:32:59', ''),
+(10, 'Dodo', 'M', 'Juste', 'Toutcourt', '04747546993', '', 'nomail@nomail.com', '', '1160', '', '1234567890', 'root', 0, '2023-07-31 14:11:23', 'b829dae101214d738a37fb571398ae04'),
+(15, NULL, 'F', 'Esseriame', 'Sevy', '', '0474754696', 'yves@sio2.be', 'Rue de la Maison écroulée bla bla bla  blabla bla bla  blabla bla bla  bla', '1160', 'Houte-si-Plou les Bains', '1234567812', 'client', 1, '2023-09-23 12:30:57', ''),
 (23, NULL, NULL, 'Bidule', 'Machin', '', '0474754696', '', '', '', '', '', 'client', 0, '2023-08-26 21:05:07', NULL),
-(38, NULL, NULL, 'Poutine', 'Vladimir', '', 'qsdfq sdfqs', '', '', '', '', '', 'client', 0, '2023-09-08 16:55:29', NULL),
 (40, NULL, NULL, 'Mairesse', 'Yves', '', '0474 754696', '', '', '', '', '', 'client', 0, '2023-09-19 16:45:48', NULL),
-(41, NULL, NULL, 'd', 'd', '', '4', '', '', '', '', '', 'client', 0, '2023-09-19 17:39:58', NULL),
-(42, NULL, NULL, 'd', 'd', '', '4', '', '', '', '', '', 'client', 0, '2023-09-19 17:47:23', NULL),
-(44, NULL, 'M', 'Mairesse', 'Yves', '', '1111111', '', '', '', '', '', 'client', 0, '2023-09-19 23:22:16', NULL),
-(45, NULL, 'M', 'Mairesse', 'Yves', '', '1', '', '', '', '', '', 'client', 0, '2023-09-21 23:02:12', NULL),
 (47, NULL, 'M', 'Mairesse', 'Yvessss', '', '123', '', '', '', '', '', 'client', 0, '2023-09-19 18:02:50', NULL),
 (49, NULL, NULL, 'qsdfq ', 'qsdf', '', '111', '', '', '', '', '', 'client', 1, '2023-09-19 18:10:07', NULL),
 (50, NULL, 'M', 'Zorglub', 'zz', '', '1', '', '', '', '', '', 'client', 0, '2023-09-19 20:35:11', NULL);
