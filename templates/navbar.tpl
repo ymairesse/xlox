@@ -22,6 +22,21 @@
       >
 
         {if isset($user) && in_array($user.droits, ['oxfam','root'])}
+      <li class="nav-item dropdown">
+        <a href="#" 
+          class="nav-link dropdown-toggle"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >Clients</a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#" class="dropdown-item" id="gestionClients">
+              Gestion des clients
+            </a>
+          </li>
+        </ul>
+      </li>
 
         <li class="nav-item dropdown">
           <a

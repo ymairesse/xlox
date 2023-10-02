@@ -7,15 +7,14 @@ require_once '../config.inc.php';
 // ressources principales toujours nécessaires: classes Application, User, Smarty, 
 include 'entetes.inc.php';
 
-$idUser = isset($_POST['idUser']) ? $_POST['idUser'] : Null;
+$idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
 
-$nbReparations = $User->getDependancesBons($idUser);
-
+$nbReparations = $User->getDependancesBons($idClient);
 
 $delete = 'true';
 $raisons = array();
 if ($nbReparations > 0) {
-    $raisons = sprintf("Cet utilisateur a %d réparation(s) en cours.", $nbReparations);
+    $raisons = sprintf("Effacement impossible: cet utilisateur a <strong>%d</strong> réparation(s) en cours.", $nbReparations);
     $delete = 'false';
 }
 

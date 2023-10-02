@@ -12,22 +12,10 @@ $sortClient = isset($_COOKIE['sortClient']) ? $_COOKIE['sortClient'] : 'alphaAsc
 $listeClients = $User->getListeUsers('client', $sortClient);
 $smarty->assign('listeClients', $listeClients);
 
+// référence du client
+$idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
+$smarty->assign('idClient', $idClient);
 
-// fiche personnelle
-$idUser = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
-
-$formClient = isset($_COOKIE['formClient']) ? 'hidden' : '';
-$extraForm = isset($_COOKIE['extraForm']) ? 'hidden' : '';
-
-$dataClient = $idUser != Null ? $User->getDataUser($idUser, 'client') : Null;
-
-$smarty->assign('idClient', $idUser);
-$smarty->assign('dataClient', $dataClient);
 $smarty->assign('sortClient', $sortClient);
-
-$smarty->assign('formClient', $formClient);
-$smarty->assign('extraForm', $extraForm);
-
-$smarty->assign('oxxl', $_SESSION['oxxl']);
 
 $smarty->display('ficheClient.tpl');

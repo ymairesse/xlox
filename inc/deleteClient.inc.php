@@ -8,6 +8,6 @@ require_once '../config.inc.php';
 include 'entetes.inc.php';
 
 
-$idUser = isset($_POST['idUser']) ? $_POST['idUser'] : null;
+$idClient = isset($_POST['idClient']) ? $_POST['idClient'] : null;
 
-$n = $User->delUser($idUser);
+$n = $User->delUser($idClient);

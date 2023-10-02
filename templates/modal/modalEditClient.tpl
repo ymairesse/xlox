@@ -1,5 +1,3 @@
-
-
 <!-- Modal -->
 <div
   class="modal fade"
@@ -13,7 +11,15 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalEditClientLabel">Fiche Client</h1>
+        <h1 class="modal-title fs-5 w-100" id="modalEditClientLabel">Fiche Client
+          <div class="btn-group float-end">
+  
+            <button class="btn btn-warning btn-sm py-0 visuChamps" data-type="reparation" data-bs-toggle="tooltip" data-bs-title="Pour une réparation">Réparation</button>
+            <button class="btn btn-success btn-sm py-0 visuChamps" data-type="devis" data-bs-toggle="tooltip" data-bs-title="Pour un devis">Devis</button>
+            <button class="btn btn-danger btn-sm py-0 visuChamps" data-type="facture" data-bs-toggle="tooltip" data-bs-title="Pour une facture">Facture</button>
+          </div>
+
+        </h1>
         <button
           type="button"
           class="btn-close"
@@ -28,37 +34,26 @@
 
           <div class="row">
             <div class="pb-3 col-2">
-              <div class="form-check">
-                <input class="form-check-input civilite" type="checkbox"
-                name="civilite" id="civilite1" value="F" {if isset($dataClient.civilite) &&
-                $dataClient.civilite == 'F'}checked{/if}>
-                <label class="form-check-label" for="civilite1">Madame</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input civilite" type="checkbox"
-                name="civilite" id="civilite2" value="M" {if isset($dataClient.civilite) &&
-                $dataClient.civilite == 'M'}checked{/if}>
-                <label class="form-check-label" for="civilite2">Monsieur</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input civilite" type="checkbox"
-                name="civilite" id="civilite3" value="X" {if isset($dataClient.civilite) &&
-                $dataClient.civilite == 'X'}checked{/if}>
-                <label class="form-check-label" for="civilite3">MX</label>
-              </div>
-              <button
-                type="button"
-                class="btn btn-success btn-sm w-100"
-                id="nosex"
-              >
-                <i class="fa fa-recycle"></i>
-              </button>
+              <label for="civilite">
+                <i class="fa fa-female" aria-hidden="true"></i> <i class="fa fa-male" aria-hidden="true"></i> <i class="fa fa-genderless" aria-hidden="true"></i>
+
+              </label>
+              <select name="civilite" id="civilite" class="form-control">
+                <option value="">Select</option>
+                <option value="F">Madame</option>
+                <option value="M">Monsieur</option>
+                <option value="X">MX</option>
+              </select>
+
+              
             </div>
             <div class="form-group pb-3 col-5">
-              <label for="nom">Nom</label>
+              <label for="nom">
+                  Nom
+              </label>
               <input
                 type="text"
-                class="form-control"
+                class="form-control devis facture reparation"
                 name="nom"
                 id="nom"
                 value="{$dataClient.nom|default:''}"
@@ -67,10 +62,12 @@
               />
             </div>
             <div class="form-group pb-3 col-5">
-              <label for="prenom">Prénom</label>
+              <label for="prenom">
+                Prénom
+              </label>
               <input
                 type="text"
-                class="form-control"
+                class="form-control devis facture reparation"
                 name="prenom"
                 id="prenom"
                 value="{$dataClient.prenom|default:''}"
@@ -80,11 +77,13 @@
 
             <div class="form-group pb-3 col-6 col-md-4" data-bs-toggle="tooltip" data-bs-title="Au moins l'un des trois (GSM, téléphone ou mail)">
               <label for="gsm"
-                ><i class="fa fa-mobile" aria-hidden="true"></i> GSM</label
+                ><i class="fa fa-mobile" aria-hidden="true"></i> 
+                GSM
+                </label
               >
               <input
                 type="text"
-                class="form-control contact"
+                class="form-control contact phone devis facture reparation"
                 name="gsm"
                 id="gsm"
                 value="{$dataClient.gsm|default:''}"
@@ -94,11 +93,13 @@
 
             <div class="form-group pb-3 col-6 col-md-4" data-bs-toggle="tooltip" data-bs-title="Au moins l'un des trois (GSM, téléphone ou mail)">
               <label for="telephone"
-                ><i class="fa fa-phone" aria-hidden="true"></i> Téléphone</label
+                ><i class="fa fa-phone" aria-hidden="true"></i> 
+                Téléphone
+                </label
               >
               <input
                 type="text"
-                class="form-control contact"
+                class="form-control contact phone devis facture reparation"
                 name="telephone"
                 id="telephone"
                 value="{$dataClient.telephone|default:''}"
@@ -107,12 +108,13 @@
             </div>
 
             <div class="form-group pb-3 col-6 col-md-4" data-bs-toggle="tooltip" data-bs-title="Au moins l'un des trois (GSM, téléphone ou mail)">
-              <label for="mail"
-                ><i class="fa fa-send" aria-hidden="true"></i> Mail</label
+              <label for="mail">
+                <i class="fa fa-send" aria-hidden="true"></i> Mail
+              </label
               >
               <input
                 type="mail"
-                class="form-control contact"
+                class="form-control contact devis facture reparation"
                 name="mail"
                 id="mail"
                 value="{$dataClient.mail|default:''}"
@@ -122,10 +124,12 @@
 
 
           <div class="form-group pb-3 col-6 col-md-5" data-bs-toggle="tooltip" data-bs-title="Adresse nécessaire uniquement pour un devis ou une facturation">
-            <label for="adresse">Adresse</label>
+            <label for="adresse">
+              Adresse
+            </label>
             <input
               type="text"
-              class="form-control"
+              class="form-control devis facture"
               name="adresse"
               id="adresse"
               value="{$dataClient.adresse|default:''}"
@@ -134,10 +138,12 @@
           </div>
 
             <div class="form-group pb-3 col-7 col-md-4" data-bs-toggle="tooltip" data-bs-title="Adresse nécessaire uniquement pour un devis ou une facturation">
-              <label for="commune">Commune</label>
+              <label for="commune">
+                Commune
+              </label>
               <input
                 type="text"
-                class="form-control"
+                class="form-control devis facture"
                 name="commune"
                 id="commune"
                 value="{$dataClient.commune|default:''}"
@@ -145,13 +151,12 @@
               />
             </div>
             <div class="form-group pb-3 col-5 col-md-3" data-bs-toggle="tooltip" data-bs-title="Adresse nécessaire uniquement pour un devis ou une facturation">
-              <label for="cpost">Code Postal</label>
+              <label for="cpost">
+                Code postal
+              </label>
               <input
                 type="text"
-                class="form-control"
-                inputmode="numeric" 
-                pattern="[0-9]*" 
-                maxlength="5"
+                class="form-control devis facture"
                 name="cpost"
                 id="cpost"
                 value="{$dataClient.cpost|default:''}"
@@ -159,20 +164,28 @@
               />
             </div>
             <div class="form-group pb-3 col-12">
-              <label for="tva">Numéro de TVA</label>
+              <label for="tva">
+                Numéro de TVA                
+              </label>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text">BE</span>
                 </div>
-                <input type="text" class="form-control" inputmode="numeric" pattern="[0-9]*" maxlength="10" id="tva" name="tva" value="{$dataClient.tva|default:''}">
+                <input type="text" class="form-control facture" inputmode="numeric" pattern="[0-9]*" maxlength="10" id="tva" name="tva" value="{$dataClient.tva|default:''}">
               </div>
             </div>
 
+
             <div class="form-group pb-3 col-12">
               <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="rgpd" name="rgpd" {if isset($dataClient.rgpd) &&  $dataClient.rgpd == 1}checked{/if}>
-                <label class="form-check-label" for="rgpd">J'accepte que mes données personnelles soient conservées pour usage ultérieur 
-                  <button type="button" class="btn btn-primary btn-sm info-rgpd" style="height:14pt; font-size: 60%; padding:0 5px"><i class="fa fa-info-circle" aria-hidden="true"></i>
+                <input class="form-check-input" type="checkbox" role="switch" id="rgpd" name="rgpd" {if isset($dataClient.rgpd) && $dataClient.rgpd == 1}checked{/if}>
+                <label class="form-check-label" id="lblrgpd" for="rgpd">J'accepte que mes données personnelles soient conservées pour usage ultérieur 
+                  <button type="button" 
+                    class="btn btn-primary btn-sm info-rgpd" 
+                    data-bs-toggle="tooltip"
+                    data-bs-title="<strong>Oxfam Informatique</strong> s'engage à n'utiliser vos informations que pour des raisons d'usages internes au magasin ou, si nécessaire, aux services techniques de Oxfam. En aucune cas, vos informations ne seront transmises à des tiers."
+                    data-bs-html="true"
+                    style="height:14pt; font-size: 60%; padding:0 5px"><i class="fa fa-info-circle" aria-hidden="true"></i>
                   </button> </label>
               </div>
              
@@ -191,28 +204,54 @@
 </div>
 
 <style>
-  #nosex {
-    height: 2em;
-    font-size: 8pt;
-  }
 
   div.error {
     color: red;
   }
 
+  .visu {
+    background-color: #ffef007a;  
+  }
+
 </style>
 
 <script>
+
+  function phoneFormatter() {
+      $('.phone').on('input', function() {
+        var number = $(this).val().replace(/[^\d+]/g, '')
+        if (number.length == 9) {
+            var pfx = number.substr(0,2);
+            var no = number.substr(2,)
+            number = pfx + " " + no;
+        } else if (number.length == 10) {
+            var pfx = number.substr(0,4);
+            var no = number.substr(4,)
+            number = pfx + " " + no;
+        }
+        $(this).val(number)
+      });
+    };
+
   $(document).ready(function () {
 
-    // Ne permettre qu'une seule case cochée pour la civilité
-    $("#modal .civilite").on("change", function () {
-      $("input[type=checkbox]").each(function (index, checkbox) {
-        checkbox.checked = false;
-      });
+    $('.visuChamps').on('click', function(){
+      var type = $(this).data('type');
+      $('input').removeClass('visu');
+      switch (type) {
+        case 'reparation':
+          $('.reparation').addClass('visu');
+          break;
+        case 'devis':
+          $('.devis').addClass('visu');
+          break;
+        case 'facture': 
+          $('.facture').addClass('visu');
+          break;
+      }
+    })
 
-      $(this).prop("checked", true);
-    });
+    $(phoneFormatter);
 
     var tooltipTriggerList = [].slice.call(
     document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -229,7 +268,7 @@
           required: true
         },
         prenom: {
-          required: true
+            required: true
         },
         telephone: {
           require_from_group: [1, ".contact"]

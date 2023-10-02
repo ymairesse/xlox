@@ -11,17 +11,17 @@ $benevole = $User->getUser();
 $smarty->assign('benevole', $benevole);
 
 // fiche personnelle
-$idUser = isset($_POST['idUser']) ? $_POST['idUser'] : Null;
+$idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
 $numeroBon = isset($_POST['numeroBon']) ? $_POST['numeroBon'] : Null;
 
-$dataBon = ($numeroBon != Null) ? $User->getDataBon($idUser, $numeroBon) : Null;
+$dataBon = ($numeroBon != Null) ? $User->getDataBon($idClient, $numeroBon) : Null;
 
 $accessoiresBon = ($numeroBon != Null) ? $User->getAccessoires4bon($numeroBon) : Null;
 $allAccessoires = $User->getAllAccessoires();
 $allMateriel = $User->getAllMateriel();
 
 $smarty->assign('numeroBon', $numeroBon);
-$smarty->assign('idUser', $idUser);
+$smarty->assign('idClient', $idClient);
 
 $smarty->assign('dataBon', $dataBon);
 $smarty->assign('allAccessoires', $allAccessoires);

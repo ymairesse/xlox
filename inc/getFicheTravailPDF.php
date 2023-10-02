@@ -15,7 +15,7 @@ if ($User == null) {
 	exit;
 }
 
-$numeroBon = isset($_GET['numeroBon']) ? $_GET['numeroBon'] : date('Y');
+$numeroBon = isset($_GET['numeroBon']) ? $_GET['numeroBon'] : Null;
 
 $client = $User->getClient4bon($numeroBon);
 $idUser = $client['idUser'];
@@ -50,4 +50,4 @@ $html2pdf = new Html2Pdf('P','A4','fr');
 
 $html2pdf->WriteHTML($fichePDF);
 
-$html2pdf->Output("fiche_{$numeroBon}_{$idUser}.pdf", 'D');
+$html2pdf->Output("fiche	_".$numeroBon."_".$idUser.".pdf", 'D');

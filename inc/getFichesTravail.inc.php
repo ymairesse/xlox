@@ -4,12 +4,12 @@ session_start();
 
 require_once '../config.inc.php';
 
-// ressources principales toujours nécessaires: classes Application, User, Smarty, 
+// ressources principales toujours nécessaires: classes Application, User, Smarty,
 include 'entetes.inc.php';
 
-$idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
+$idClient = isset($_POST['idClient']) ? $_POST['idClient'] : null;
 // numéro du bon de travail actuellement actif
-$numeroBon = isset($_POST['numeroBon']) ? $_POST['numeroBon'] : Null;
+$numeroBon = isset($_POST['numeroBon']) ? $_POST['numeroBon'] : null;
 
 $allAccessoires = $User->getAllAccessoires();
 
@@ -23,7 +23,7 @@ foreach ($listeNumerosBons as $noBon) {
 
 $avancements4bons = $User->getNbAvancements4bons();
 
-$smarty->assign('idClient', $idClient);
+$smarty->assign('idClient', $idClient); 
 $smarty->assign('listeBons', $listeBons);
 $smarty->assign('numeroBon', $numeroBon);
 $smarty->assign('listeAccessoires', $accessoires4Bons);

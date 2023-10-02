@@ -6,27 +6,27 @@
         <div class="w-75">
           
           <ul class="nav nav-tabs nav-justified" id="tabBons" role="tablist">
-            {foreach from=$listeBons key=numeroBon item=travail name=bons}
+            {foreach from=$listeBons key=noBon item=travail name=bons}
             <li class="nav-item" role="presentation">
               <div class="btn-group w-100">
                 <button
                   class="nav-link {if $smarty.foreach.bons.index == 0}active{/if}"
-                  id="bon_{$numeroBon}-tab"
+                  id="bon_{$noBon}-tab"
                   data-bs-toggle="tab"
-                  data-bs-target="#bon_{$numeroBon}"
-                  data-numerobon="{$numeroBon}"
+                  data-bs-target="#bon_{$noBon}"
+                  data-numerobon="{$noBon}"
                   type="button"
                   role="tab"
                   aria-selected="{if $smarty.foreach.bons.index == 0}true{else}false{/if}"
                 >
-                  Bon [{$numeroBon|string_format:"%05d"}]
+                  Bon [{$noBon|string_format:"%05d"}] 
                 </button>
                 <a type="button" 
                   class="btn btn-primary btn-print{if $smarty.foreach.bons.index != 0} isDisabled{/if}"
                   {if $smarty.foreach.bons.index == 0}
-                  href="inc/getFicheTravailPDF.php?numeroBon={$numeroBon}"
+                  href="inc/getFicheTravailPDF.php?numeroBon={$noBon}"
                   {/if}
-                  data-numerobon="{$numeroBon}" 
+                  data-numerobon="{$noBon}" 
                   ><i class="fa fa-print"></i> 
               </a>
               </div>
@@ -72,14 +72,14 @@
   <script>
     
     $(document).ready(function(){
-        $('.form-check-input').click(function(){
-            return false;
-        })
 
-        $('.nav-link').click(function(){
-          $('.btn-print').attr('href', 'javascript:void(0)').addClass('isDisabled');
-          var numeroBon = $(this).data('numerobon');
-          $('.btn-print[data-numerobon="'+numeroBon+'"]').attr('href', "inc/getFicheTravailPDF.php?numeroBon={$numeroBon}").removeClass('isDisabled');
+      // sélection du bon de réparation actuellement actif
+      // au chargement de la page
+      $('.nav-link[data-numerobon="'+{$numeroBon}+'"]').trigger('click');
+
+        $('.form-check-input').click(function(){
+          // pour empêcher la prise en compte du clic
+          return false;
         })
 
     })

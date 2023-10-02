@@ -36,6 +36,8 @@ function clearAllDivs() {
 }
 
 $(document).ready(function () {
+  // login - logout ------------------------------------------------
+  //
   $("body").on("click", "#btn-login", function () {
     $.post("inc/modalLogin.inc.php", {}, function (resultat) {
       $("#modal").html(resultat);
@@ -89,22 +91,26 @@ $(document).ready(function () {
   $("body").on("click", "#ficheReparation", function (event) {
     testSession(event);
     clearUnique();
+    // le client en cours est pris par défaut
     var idClient = Cookies.get("clientEnCours");
-    var numeroBon = Cookies.get("bonEnCours");
 
     $.post(
-      "inc/getFicheClient.inc.php",
+      "inc/getSelecteurClients.inc.php",
       {
         idClient: idClient,
+        mode: "reparation",
       },
       function (resultat) {
         $("#left").html(resultat);
       }
     );
+    // le dernier bon en cours est pris par défaut
+    var numeroBon = Cookies.get("bonEnCours");
     $.post(
       "inc/getFichesTravail.inc.php",
       {
         idClient: idClient,
+        numeroBon: numeroBon,
       },
       function (resultat) {
         $("#right").html(resultat);
@@ -115,30 +121,56 @@ $(document).ready(function () {
     );
   });
 
-  $("body").on("change", "#listeClients", function (event) {
+  $("body").on("change", "#selectClients", function (event) {
     testSession(event);
     var idClient = $(this).val();
     Cookies.set("clientEnCours", idClient, { sameSite: "strict" });
-    clearForm($("#formClient"));
+    //
+    // sommes-nous dans la gestion des clients? -------------------------
+    if ($(this).hasClass("gestion")) {
+      $.post(
+        "inc/getProfilClient.inc.php",
+        {
+          idClient: idClient,
+        },
+        function (resultat) {
+          $("#ficheProfilClient").html(resultat);
+        }
+      );
+    }
+    //
+    // sommes-nous dans un bon de réparation? ------------------------
+    if ($(this).hasClass("reparation")) {
+      // le dernier bon en cours est pris par défaut
+      var numeroBon = Cookies.get("bonEnCours");
+      $.post(
+        "inc/getFichesTravail.inc.php",
+        {
+          idClient: idClient,
+          numeroBon: numeroBon,
+        },
+        function (resultat) {
+          $("#right").html(resultat);
+          $(
+            '#formTravail .nav-link[data-numerobon="' + numeroBon + '"]'
+          ).trigger("click");
+        }
+      );
+    }
 
-    $.post(
-      "inc/getFicheClient.inc.php",
-      {
-        idClient: idClient,
-      },
-      function (resultat) {
-        $("#left").html(resultat);
-      }
-    );
-    $.post(
-      "inc/getFichesTravail.inc.php",
-      {
-        idClient: idClient,
-      },
-      function (resultat) {
-        $("#right").html(resultat);
-      }
-    );
+    // //
+    // // sommes-nous dans un bon de réparation? ------------------------
+    // if ($(this).hasClass('reparation')) {
+    //   $.post(
+    //     "inc/getFichesTravail.inc.php",
+    //     {
+    //       idClient: idClient,
+    //     },
+    //     function (resultat) {
+    //       $("#right").html(resultat);
+    //     }
+    //   );
+    // }
   });
 
   $("body").on("click", "#btn-editClient", function (event) {
@@ -171,7 +203,8 @@ $(document).ready(function () {
     );
   });
 
-  // auto-enregistrement de fiche client
+  //
+  // auto-enregistrement de fiche client ---------------------
   $("body").on("click", "#ficheClientPerso", function () {
     $.post(
       "inc/autoEditClient.inc.php",
@@ -186,28 +219,36 @@ $(document).ready(function () {
     );
   });
 
-  $('body').on('click', '#btn-autoSaveClient', function(){
-    if ($('#modalFormClient').valid()){
-      var formulaire = $('#modalFormClient').serialize();
-      var nom = $('#modalFormClient')[0]['nom'].value;
-      var prenom = $('#modalFormClient')[0]['prenom'].value;
-      var quidam = prenom + ' ' + nom;
-      $.post('inc/autoSaveClient.inc.php', {
-        formulaire: formulaire
-      }, function(resultatJSON){
-        var resultat = JSON.parse(resultatJSON);
-        var nbModif = resultat['nb'];
-        var message = (nbModif != 0) ? '<b>' + quidam + '</b>' + '<br>Merci! Votre compte client a été créé' : 'L\'enregistrement a échoué';
-        bootbox.alert({
-          title: 'Création de votre compte client',
-          message: message
-        })
-        if (nbModif != 0)
-          $('#modalEditClient').modal('hide');
-      })
+  $("body").on("click", "#btn-autoSaveClient", function () {
+    if ($("#modalFormClient").valid()) {
+      var formulaire = $("#modalFormClient").serialize();
+      var nom = $("#modalFormClient")[0]["nom"].value;
+      var prenom = $("#modalFormClient")[0]["prenom"].value;
+      var quidam = prenom + " " + nom;
+      $.post(
+        "inc/autoSaveClient.inc.php",
+        {
+          formulaire: formulaire,
+        },
+        function (resultatJSON) {
+          var resultat = JSON.parse(resultatJSON);
+          var nbModif = resultat["nb"];
+          var message =
+            nbModif != 0
+              ? "<b>" +
+                quidam +
+                "</b>" +
+                "<br>Merci! Votre compte client a été créé"
+              : "L'enregistrement a échoué";
+          bootbox.alert({
+            title: "Création de votre compte client",
+            message: message,
+          });
+          if (nbModif != 0) $("#modalEditClient").modal("hide");
+        }
+      );
     }
-  })
-
+  });
 
   $("body").on("click", "#btn-saveClient", function (event) {
     if ($("#modalFormClient").valid()) {
@@ -221,33 +262,25 @@ $(document).ready(function () {
           var resultat = JSON.parse(resultatJSON);
           var idClient = resultat["idUser"];
           var nbModif = resultat["nb"];
-          // numéro du bon actuellement actif
-          var numeroBon = $("#tabBons .nav-link.active").data("numerobon");
+
           $("#modalEditClient").modal("hide");
 
           $.post(
-            "inc/getFicheClient.inc.php",
+            "inc/getClientsProfiles.inc.php",
             {
               idClient: idClient,
+              droits: "client",
             },
             function (resultat) {
-              $("#left").html(resultat);
+              clearLeftRight();
+              $("#unique").html(resultat);
+              $('#selectClients option[value="' + idClient + "']").prop(
+                "selected",
+                true
+              );
             }
           );
-          $('#listeClients option[value="' + idClient + "']").prop(
-            "selected",
-            true
-          );
-          $.post(
-            "inc/getFichesTravail.inc.php",
-            {
-              idClient: idClient,
-              numeroBon: numeroBon,
-            },
-            function (resultat) {
-              $("#right").html(resultat);
-            }
-          );
+
           var message = " fiche client ";
           if (nbModif == 2) message = "1 " + message + " modifiée";
           else if (nbModif == 1) message = "1 " + message + " enregistrée";
@@ -261,45 +294,27 @@ $(document).ready(function () {
     }
   });
 
-  $("body").on("click", "#nosex", function (event) {
-    testSession(event);
-    $(".civilite").prop("checked", false);
-  });
-
   $("body").on("click", "#btn-resetClient", function (event) {
     testSession(event);
     clearForm($("#formClient"));
   });
 
-  $("body").on("click", ".editBon", function (event) {
-    testSession(event);
-    var idUser = $("#listeClients :selected").val();
-    var numeroBon = $(this).data("numerobon");
-    $.post(
-      "inc/editBon.inc.php",
-      {
-        numeroBon: numeroBon,
-        idUser: idUser,
-      },
-      function (resultat) {
-        $("#modal").html(resultat);
-        $("#modalEditBon").modal("show");
-      }
-    );
-  });
-
-  $("body").on("click", "#formTravail .nav-link", function () {
+  //
+  // sélection d'une fiche de travail dans les onglets -----------------
+  $("body").on("click", "#ficheTravail .nav-link", function () {
     var numeroBon = $(this).data("numerobon");
     Cookies.set("bonEnCours", numeroBon, { sameSite: "strict" });
   });
 
+  //
+  // Enregistrement d'une nouvelle fiche de travail pour le client sélectionné
   $("body").on("click", "#btn-addBon", function (event) {
     testSession(event);
-    var idUser = $("#listeClients :selected").val();
+    var idClient = $("#selectClients option:selected").val();
     $.post(
       "inc/editBon.inc.php",
       {
-        idUser: idUser,
+        idClient: idClient,
       },
       function (resultat) {
         $("#modal").html(resultat);
@@ -308,34 +323,66 @@ $(document).ready(function () {
     );
   });
 
+  // Edition: raccourci par clic dans un champ de la fiche de travail
+  $("body").on(
+    "click",
+    ".formTravail input, .formTravail textarea, .formTravail .form-check-input, .editBon",
+    function (event) {
+      testSession(event);
+      var idClient = $(this)
+        .closest("form")
+        .find('input[name="idClient"]')
+        .val();
+      var numeroBon = $(this)
+        .closest("form")
+        .find('input[name="numeroBon"]')
+        .val();
+
+      $.post(
+        "inc/editBon.inc.php",
+        {
+          numeroBon: numeroBon,
+          idClient: idClient,
+        },
+        function (resultat) {
+          $("#modal").html(resultat);
+          $("#modalEditBon").modal("show");
+        }
+      );
+    }
+  );
+
   $("body").on("click", "#btn-saveBon", function (event) {
     testSession(event);
     if ($("#modalFormBon").valid()) {
-      var numeroBon = $(this).data("numerobon");
-      var idClient = $(this).data("idclient");
+      var numeroBon = $("#modalFormBon input#numeroBon").val();
+      var idClient = $("#modalFormBon input#idClient").val();
+
       var formulaire = $("#modalFormBon").serialize();
       $.post(
         "inc/saveBon.inc.php",
         {
           formulaire: formulaire,
         },
-        function (resultat1) {
-          var message =
-            resultat1 == 1
-              ? "1 enregistrement effectué"
-              : "Aucune modification effectuée";
+        function (resultat) {
+          var numeroBon = resultat;
           bootbox.alert({
             title: "Enregistrement",
-            message: message,
+            message: 'Fiche de réparation n° ' + numeroBon + ' enregistrée',
           });
+
+          Cookies.set('bonEnCours', numeroBon);
+
+          $("#modalEditBon").modal("hide");
+
           $.post(
             "inc/getFichesTravail.inc.php",
             {
               idClient: idClient,
+              numeroBon: numeroBon,
             },
             function (resultat) {
               $("#right").html(resultat);
-              $("#modalEditBon").modal("hide");
               $(
                 '#formTravail .nav-link[data-numerobon="' + numeroBon + '"]'
               ).trigger("click");
@@ -348,12 +395,12 @@ $(document).ready(function () {
 
   $("body").on("click", ".deleteBon", function (event) {
     testSession(event);
-    var idUser = $(this).data("iduser");
+    var idClient = $(this).data("idclient");
     var numeroBon = $(this).data("numerobon");
     $.post(
       "inc/deleteBon.inc.php",
       {
-        idUser: idUser,
+        idClient: idClient,
         numeroBon: numeroBon,
       },
       function (resultat) {
@@ -365,7 +412,7 @@ $(document).ready(function () {
               $.post(
                 "inc/deleteBon.inc.php",
                 {
-                  idUser: idUser,
+                  idClient: idClient,
                   numeroBon: numeroBon,
                   confirm: true,
                 },
@@ -373,10 +420,14 @@ $(document).ready(function () {
                   $.post(
                     "inc/getFichesTravail.inc.php",
                     {
-                      idUser: idUser,
+                      idClient: idClient,
+                      numeroBon: numeroBon,
                     },
                     function (resultat) {
                       $("#right").html(resultat);
+                      $(
+                        '#formTravail .nav-link[data-numerobon="' + numeroBon + '"]'
+                      ).trigger("click");
                     }
                   );
                 }
@@ -385,6 +436,15 @@ $(document).ready(function () {
         });
       }
     );
+  });
+
+  // sélection par click d'un onglet de la liste des réparations
+  $("body").on("click", ".nav-link", function () {
+    $(".btn-print").attr("href", "javascript:void(0)").addClass("isDisabled");
+    var numeroBon = $(this).data("numerobon");
+    $('.btn-print[data-numerobon="' + numeroBon + '"]')
+      .attr("href", "inc/getFicheTravailPDF.php?numeroBon=" + numeroBon)
+      .removeClass("isDisabled");
   });
 
   // Gestion des types de matériel
@@ -584,38 +644,18 @@ $(document).ready(function () {
   });
 
   // --------------------------------------------------------------------
-
-  $("body").on(
-    "click",
-    ".formTravail input, .formTravail textarea, .formTravail .form-check-input",
-    function (event) {
-      testSession(event);
-      var idUser = $("#listeClients :selected").val();
-      var numeroBon = $(this).closest(".tab-pane").data("numerobon");
-      $.post(
-        "inc/editBon.inc.php",
-        {
-          numeroBon: numeroBon,
-          idUser: idUser,
-        },
-        function (resultat) {
-          $("#modal").html(resultat);
-          $("#modalEditBon").modal("show");
-        }
-      );
-    }
-  );
-
   // Gestion de la fiche client ---------------------------------------
 
   $("body").on("click", "#delClient", function (event) {
     testSession(event);
     var title = "Suppression d'un client";
-    var idUser = $("#listeClients").val();
+    var idClient = $("#selectClients").val();
+    var nomClient = $("#selectClients option:selected").text();
+
     $.post(
       "inc/getDependances.inc.php",
       {
-        idUser: idUser,
+        idClient: idClient,
       },
       function (resultatJSON) {
         var resultat = JSON.parse(resultatJSON);
@@ -629,16 +669,18 @@ $(document).ready(function () {
           bootbox.confirm({
             title: title,
             message:
-              "Veuillez confirmer la suppression définitive de ce client",
+              "Veuillez confirmer la suppression définitive<br>du client <strong>" +
+              nomClient +
+              "</strong>",
             callback: function (result) {
               if (result == true)
                 $.post(
                   "inc/deleteClient.inc.php",
                   {
-                    idUser: idUser,
+                    idClient: idClient,
                   },
                   function () {
-                    $("#listeClients option:selected").remove();
+                    $("#selectClients option:selected").remove();
                     clearForm($("#formClient"));
                     Cookies.set("clientEnCours", "", { sameSite: "strict" });
                   }
@@ -649,9 +691,28 @@ $(document).ready(function () {
     );
   });
 
-  $("body").on("click", "#formClient input", function (event) {
+  $("body").on(
+    "click",
+    "#formClient input, #formClient select",
+    function (event) {
+      testSession(event);
+      var idClient = $("#selectClients").val();
+      $.post(
+        "inc/editClient.inc.php",
+        {
+          idClient: idClient,
+        },
+        function (resultat) {
+          $("#modal").html(resultat);
+          $("#modalEditClient").modal("show");
+        }
+      );
+    }
+  );
+
+  $("body").on("click", "#nouveauClient", function (event) {
     testSession(event);
-    var idClient = $("#listeClients").val();
+    var idClient = null;
     $.post(
       "inc/editClient.inc.php",
       {
@@ -662,80 +723,6 @@ $(document).ready(function () {
         $("#modalEditClient").modal("show");
       }
     );
-  });
-
-  // Interactions client
-  // ------------------------------------------------------------
-
-  $("body").on("click", ".btn-interaction", function (event) {
-    testSession(event);
-    var numeroBon = $(this).data("numerobon");
-    var idUser = $(this).data("iduser");
-
-    $.post(
-      "inc/getModalInteractions.inc.php",
-      {
-        numeroBon: numeroBon,
-        idUser: idUser,
-      },
-      function (resultat) {
-        $("#modal").html(resultat);
-        $("#modalInteractions").modal("show");
-      }
-    );
-  });
-
-  $("body").on("click", "#btn-saveInteraction", function (event) {
-    testSession(event);
-    if ($("#form-interactions").valid()) {
-      var formulaire = $("#form-interactions").serialize();
-      var numeroBon = $(this).data("numerobon");
-      $.post(
-        "inc/saveInteraction.inc.php",
-        {
-          formulaire: formulaire,
-        },
-        function (resultat) {
-          $("#tableauInteractions").html(resultat);
-          // rétablir le nombre d'interactions dans le bouton de la fiche de réparation
-          var nInt = $("#tableauInteractions table tr").length;
-          $('.btn-interaction[data-numerobon="' + numeroBon + '"] .idInt').text(
-            nInt
-          );
-        }
-      );
-    }
-  });
-
-  $("body").on("click", ".btn-delInteraction", function (event) {
-    testSession(event);
-    var ceci = $(this);
-    var idInteraction = $(this).data("idinteraction");
-    var numeroBon = $(this).data("numerobon");
-    bootbox.confirm({
-      title: "Effacer cette interaction",
-      message: "Veuillez confirmer l'effacement définitif de cette interaction",
-      callback: function (result) {
-        if (result == true) {
-          $.post(
-            "inc/delInteraction.inc.php",
-            {
-              idInteraction: idInteraction,
-            },
-            function (resultat) {
-              if (resultat == 1) {
-                ceci.closest("tr").remove();
-                // rétablir le nombre d'interactions dans le bouton de la fiche de réparation
-                var nInt = $("#tableauInteractions table tr").length;
-                $(
-                  '.btn-interaction[data-numerobon="' + numeroBon + '"] .idInt'
-                ).text(nInt);
-              }
-            }
-          );
-        }
-      },
-    });
   });
 
   // Avancement du travail
@@ -829,8 +816,8 @@ $(document).ready(function () {
 
   // profil et gestion de l'utilisateur actif
 
-  $("body").on("click", "#profil", function () {
-    testSession();
+  $("body").on("click", "#profil", function (event) {
+    testSession(event);
     $.post("inc/getOwnUserProfile.inc.php", {}, function (resultat) {
       clearLeftRight();
       $("#unique").html(resultat);
@@ -839,8 +826,8 @@ $(document).ready(function () {
 
   // profil utilisateur
 
-  $("body").on("click", "#btn-saveProfil", function () {
-    testSession();
+  $("body").on("click", "#btn-saveProfil", function (event) {
+    testSession(event);
     if ($("#formUser").valid()) {
       var formulaire = $("#formUser").serialize();
       var idUser = $("#listeUsers option:selected").val();
@@ -873,10 +860,27 @@ $(document).ready(function () {
     }
   });
 
-  // gestion des utilisateurs
+  // gestion des clients
+  $("body").on("click", "#gestionClients", function (event) {
+    testSession(event);
+    var idClient = Cookies.get("clientEnCours");
+    $.post(
+      "inc/getClientsProfiles.inc.php",
+      {
+        idClient: idClient,
+        droits: "client",
+        mode: "gestion",
+      },
+      function (resultat) {
+        clearLeftRight();
+        $("#unique").html(resultat);
+      }
+    );
+  });
 
-  $("body").on("click", "#gestUsers", function () {
-    testSession();
+  // gestion des utilisateurs
+  $("body").on("click", "#gestUsers", function (event) {
+    testSession(event);
     var idUser = Cookies.get("UserEnCours");
     $.post(
       "inc/getUsersProfiles.inc.php",
@@ -905,12 +909,14 @@ $(document).ready(function () {
     );
   });
 
+  // visualisation du mot de passe dans un champ "password"
   $("body").on("click", ".addonMdp", function () {
     if ($(this).next().prop("type") == "password")
       $(this).next().prop("type", "text");
     else $(this).next().prop("type", "password");
   });
 
+  // étendre ou restreindre l'affichage de la fiche "client"
   $("body").on("click", ".btn-extended", function () {
     var zone = $(this).data("zone");
     $('.extended[data-zone="' + zone + '"]').toggleClass("d-none");
@@ -920,10 +926,30 @@ $(document).ready(function () {
     } else Cookies.remove(zone);
   });
 
-  $("body").on("click", "#token", function () {
-    $.post("inc/getModalToken.inc.php", {}, function (resultat) {
-      $("#modal").html(resultat);
-      $("#modalToken").modal("show");
+  $("body").on("click", "#clientParDate", function () {
+    Cookies.set("sortClient", "parDate", { sameSite: "strict" });
+    $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
+    $("#clientParDate").addClass("btn-primary");
+    $.post("inc/getSelecteurClients.inc.php", {}, function (resultat) {
+      $("#selecteurClients").html(resultat);
+    });
+  });
+
+  $("body").on("click", "#clientAlphaAsc", function () {
+    Cookies.set("sortClient", "alphaAsc", { sameSite: "strict" });
+    $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
+    $("#clientAlphaAsc").addClass("btn-primary");
+    $.post("inc/getSelecteurClients.inc.php", {}, function (resultat) {
+      $("#selecteurClients").html(resultat);
+    });
+  });
+
+  $("body").on("click", "#clientAlphaDesc", function () {
+    Cookies.set("sortClient", "alphaDesc", { sameSite: "strict" });
+    $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
+    $("#clientAlphaDesc").addClass("btn-primary");
+    $.post("inc/getSelecteurClients.inc.php", {}, function (resultat) {
+      $("#selecteurClients").html(resultat);
     });
   });
 });

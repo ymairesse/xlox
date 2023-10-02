@@ -9,17 +9,14 @@ require_once '../config.inc.php';
 // ressources principales toujours nécessaires: classes Application, User, Smarty, 
 include 'entetes.inc.php';
 
-$benevole = $User->getUser();
-if ($benevole['droits'] != 'root')
-    die('get out of here');
+$idUser = isset($_POST['idUser']) ? $_POST['idUser'] : Null;
+$droits = isset($_POST['droits']) ? $_POST['droits'] : Null;
 
-$smarty->assign('benevole', $benevole);
-
-$listeUsers = $User->getListeUsers();
+$listeUsers = $User->getListeUsers($droits);
 $smarty->assign('listeUsers', $listeUsers);
 
 // fiche personnelle
-$idUser = isset($_POST['idUser']) ? $_POST['idUser'] : Null;
+
 $profil = $idUser != Null ? $User->getDataUser($idUser) : Null;
 
 $smarty->assign('idUser', $idUser);

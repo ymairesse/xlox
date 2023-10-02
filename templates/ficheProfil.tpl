@@ -175,6 +175,7 @@
           />
         </div>
       </div>
+
 {if isset($idUser)}
       <div class="form-group pb-3 col-4">
         <label for="droits">Droits</label>
@@ -184,6 +185,8 @@
           <option value="root" {if $profil.droits =="root"}selected{/if}>Administrateur</option>
         </select>
       </div>
+      {else} 
+      <input type="hidden" name="droits" value="{$profil.droits}">
 {/if}
       <button type="button" class="btn btn-warning w-100" id="btn-saveProfil"><i class="fa fa-floppy-o" aria-hidden="true"></i> Enregistrer</button>
 

@@ -99,6 +99,7 @@ class User
      */
     public function getListeUsers($droits = null, $sort = 'alphaAsc')
     {
+
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT idUser, nom, prenom, dateAcces ';
         $sql .= 'FROM '.PFX.'users ';
@@ -371,7 +372,7 @@ class User
      */
     public function saveDataBon($form)
     {
-        $idUser = isset($form['idUser']) ? $form['idUser'] : null;
+        $idUser = isset($form['idClient']) ? $form['idClient'] : null;
         $numeroBon = isset($form['numeroBon']) ? $form['numeroBon'] : null;
 
         $typeMateriel = isset($form['typeMateriel']) ? $form['typeMateriel'] : null;
@@ -463,7 +464,7 @@ class User
 
         Application::DeconnexionPDO($connexion);
 
-        return $nb;
+        return $numeroBon;
     }
 
     /**

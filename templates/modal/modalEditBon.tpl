@@ -23,11 +23,17 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form id="modalFormBon">
-          <input type="hidden" name="idUser" value="{$idUser}" />
+        <form id="modalFormBon" autocomplete="off">
+          <input 
+            type="hidden" 
+            id="idClient" 
+            name="idClient" 
+            value="{$idClient}"
+          />
           <input
             type="hidden"
             name="numeroBon"
+            id="numeroBon"
             value="{$dataBon.numeroBon|default:''}"
           />
           <input
@@ -94,26 +100,29 @@
 
             <div class="col-md-3 form-group pb-3 col-6">
               <label for="dateEntree">Date de réception</label>
-              <input type="date" class="form-control" name="dateEntree"
-              id="dateEntree" value="{if
-              isset($dataBon.dateEntree)}{$dataBon.dateEntree}{else}{$smarty.now|date_format:"%Y-%m-%d"}{/if}"
-              required>
+              <input 
+                type="date" 
+                class="form-control" 
+                name="dateEntree"
+                id="dateEntree" 
+                value="{if isset($dataBon.dateEntree)}{$dataBon.dateEntree}{else}{$smarty.now|date_format:"%Y-%m-%d"}{/if}"
+                required
+              />
             </div>
 
             <div class="col-md-3 col-6 form-group pb-3">
               <label for="ox">Numero OX</label>
               <div class="input-group mb-3">
-                <span class="input-group-text" id="addonOX">OX</span>
+                <span class="input-group-text">OX</span>
                 <input
                   type="text"
                   class="form-control"
                   name="ox"
                   id="ox"
-                  value="{$dataBon.ox|default:''}"
+                  value="{$dataBon.ox|default:' '}"
                   maxlength="6"
                   placeholder="Num OX"
-                  aria-label="numOX"
-                  aria-describedby="addonOX"
+                  autocomplete="off"
                 />
               </div>
             </div>
@@ -121,7 +130,7 @@
             <div class="col-md-3 col-6 form-group pb-3">
               <label for="mdp">Mot de passe</label>
               <div class="input-group mb-3">
-                <span class="input-group-text addonMdp"
+                <span class="input-group-text"
                   ><i class="fa fa-eye"></i
                 ></span>
                 <input
@@ -129,6 +138,7 @@
                   class="form-control"
                   name="mdp"
                   id="mdp"
+                  autocomplete="off"
                   value="{$dataBon.mdp|default:''}"
                   placeholder="Mot de passe"
                   aria-describedby="addonMdp"
@@ -381,7 +391,7 @@
           class="btn btn-primary"
           id="btn-saveBon"
           data-numerobon="{$dataBon.numeroBon|default:''}"
-          data-idClient="{$idUser}"
+          data-idClient="{$idClient}"
         >
           Enregistrer
         </button>

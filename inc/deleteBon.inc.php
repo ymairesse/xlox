@@ -11,15 +11,15 @@ $benevole = $User->getUser();
 $smarty->assign('benevole', $benevole);
 
 // fiche personnelle
-$idUser = isset($_POST['idUser']) ? $_POST['idUser'] : null;
+$idClient = isset($_POST['idClient']) ? $_POST['idClient'] : null;
 $numeroBon = isset($_POST['numeroBon']) ? $_POST['numeroBon'] : null;
 $confirm = isset($_POST['confirm']) ? $_POST['confirm'] : null;
 
 if ($confirm == true) {
-    $User->deleteBon($idUser, $numeroBon);
+    $User->deleteBon($idClient, $numeroBon);
     }
     else {
-        $user = $User->getDataUser($idUser);
+        $user = $User->getDataUser($idClient);
         $civilites = array('Madame' => 'F', 'Monsieur' => 'M', '' => 'X');
         $civ = array_search($user['civilite'], $civilites); 
         $nom = $user['nom'];

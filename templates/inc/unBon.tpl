@@ -10,6 +10,8 @@
     id="formTravail_{$numeroBon}"
     data-numerobon="{$numeroBon}"
   >
+  <input type="hidden" name="numeroBon" id="numeroBon" value="{$travail.numeroBon}">
+  <input type="hidden" name="idClient" id="idClient" value="{$idClient}">
     <div class="row">
       <div class="form-group pb-3 col-md-3 col-sm-3 col-4">
         <label for="type_{$numeroBon}">Type</label>
@@ -295,7 +297,7 @@
         type="button"
         class="btn btn-danger deleteBon w-25 mt-4 text-truncate"
         data-numerobon="{$numeroBon}"
-        data-iduser="{$idClient}"
+        data-idclient="{$idClient}"
         title="Supprimer ce bon de réparation"
       >
         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Supprimer

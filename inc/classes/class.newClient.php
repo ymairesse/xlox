@@ -51,7 +51,7 @@ class NewClient
             $requete = $connexion->prepare($sql);
 
             $requete->bindParam(':idUser', $idUser, PDO::PARAM_INT);
-            $requete->bindParam(':civilite', $civilite, PDO::PARAM_STR, 1);
+            $requete->bindParam(':civilite', $civilite, PDO::PARAM_STR);
             $requete->bindParam(':nom', $nom, PDO::PARAM_STR, 60);
             $requete->bindParam(':prenom', $prenom, PDO::PARAM_STR, 60);
             $requete->bindParam(':telephone', $telephone, PDO::PARAM_STR, 15);
