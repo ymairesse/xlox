@@ -916,21 +916,15 @@ $(document).ready(function () {
     else $(this).next().prop("type", "password");
   });
 
-  // étendre ou restreindre l'affichage de la fiche "client"
-  $("body").on("click", ".btn-extended", function () {
-    var zone = $(this).data("zone");
-    $('.extended[data-zone="' + zone + '"]').toggleClass("d-none");
-    $(this).find("i").toggleClass("fa-plus fa-minus");
-    if ($('.extended[data-zone="' + zone + '"]').is(":hidden")) {
-      Cookies.set(zone, "hidden", { sameSite: "strict" });
-    } else Cookies.remove(zone);
-  });
-
   $("body").on("click", "#clientParDate", function () {
     Cookies.set("sortClient", "parDate", { sameSite: "strict" });
     $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
     $("#clientParDate").addClass("btn-primary");
-    $.post("inc/getSelecteurClients.inc.php", {}, function (resultat) {
+    var selectHeight = $(this).data('height');
+    $.post("inc/getSelecteurClients.inc.php", {
+      sortClient: 'parDate',
+      selectHeight: selectHeight
+    }, function (resultat) {
       $("#selecteurClients").html(resultat);
     });
   });
@@ -939,7 +933,11 @@ $(document).ready(function () {
     Cookies.set("sortClient", "alphaAsc", { sameSite: "strict" });
     $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
     $("#clientAlphaAsc").addClass("btn-primary");
-    $.post("inc/getSelecteurClients.inc.php", {}, function (resultat) {
+    var selectHeight = $(this).data('height');
+    $.post("inc/getSelecteurClients.inc.php", {
+      sortClient: 'alphaAsc',
+      selectHeight: selectHeight
+    }, function (resultat) {
       $("#selecteurClients").html(resultat);
     });
   });
@@ -948,7 +946,11 @@ $(document).ready(function () {
     Cookies.set("sortClient", "alphaDesc", { sameSite: "strict" });
     $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
     $("#clientAlphaDesc").addClass("btn-primary");
-    $.post("inc/getSelecteurClients.inc.php", {}, function (resultat) {
+    var selectHeight = $(this).data('height');
+    $.post("inc/getSelecteurClients.inc.php", {
+      sortClient: 'alphaDesc',
+      selectHeight: selectHeight
+    }, function (resultat) {
       $("#selecteurClients").html(resultat);
     });
   });
