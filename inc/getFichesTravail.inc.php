@@ -14,6 +14,7 @@ $numeroBon = isset($_POST['numeroBon']) ? $_POST['numeroBon'] : null;
 $allAccessoires = $User->getAllAccessoires();
 
 $listeBons = $User->getListeBonsReparation($idClient);
+
 $listeNumerosBons = array_keys($listeBons);
 
 $accessoires4Bons = array();

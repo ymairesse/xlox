@@ -1,5 +1,7 @@
 <?php
 
+// Édition du profil personnel de l'utilisateur
+
 session_start();
 
 require_once '../config.inc.php';
@@ -7,21 +9,22 @@ require_once '../config.inc.php';
 // ressources principales toujours nécessaires: classes Application, User, Smarty,
 include 'entetes.inc.php';
 
-$sortClient = isset($_POST['sortClient']) ? $_POST['sortClient'] : 'alphaAsc';
-$selectHeight = isset($_POST['selectHeight']) ? $_POST['selectHeight'] : null;
 $idClient = isset($_POST['idClient']) ? $_POST['idClient'] : null;
+$numeroBon = isset($_POST['numeroBon']) ? $_POST['numeroBon'] : null;
 $mode = isset($_POST['mode']) ? $_POST['mode'] : null;
+$sortClient = isset($_POST['sortClient']) ? $_POST['sortClient'] : 'alphaAsc';
 
 $listeClients = $User->getListeUsers('client', $sortClient);
 
-$smarty->assign('idClient', $idClient);
+$listeBons = $User->getListeBonsReparation($idClient);
+
 $smarty->assign('listeClients', $listeClients);
-$smarty->assign('selectHeight', $selectHeight);
+$smarty->assign('idClient', $idClient);
+
+$smarty->assign('listeBons', $listeBons);
+$smarty->assign('numeroBon', $numeroBon);
+
 $smarty->assign('sortClient', $sortClient);
 $smarty->assign('mode', $mode);
 
-if ($mode == 'reparation') {
-    $smarty->display('inc/selecteurClients.tpl');
-} else {
-    $smarty->display('inc/listeClients.tpl');
-}
+$smarty->display('fichesReparation4clients.tpl');

@@ -42,17 +42,12 @@
 
       <div class="row">
 
-        <div id="left">
-          {include file="start.tpl"}
-        </div>
-
-        <div id="right">
-
-        </div>
-
         <div class="col-12" id="unique">
-          
+
+          {include file="start.tpl"}
+
         </div>
+        
       </div>
 
     </div>

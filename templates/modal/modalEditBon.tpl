@@ -130,7 +130,7 @@
             <div class="col-md-3 col-6 form-group pb-3">
               <label for="mdp">Mot de passe</label>
               <div class="input-group mb-3">
-                <span class="input-group-text"
+                <span class="input-group-text addonMdp"
                   ><i class="fa fa-eye"></i
                 ></span>
                 <input

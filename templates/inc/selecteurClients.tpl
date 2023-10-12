@@ -1,4 +1,4 @@
-<label for="selectClients" class="w-100">Liste des clients
+<label for="selectClients {$mode|default:'gestion'}" class="w-100">Liste des clients
      <div class="btn-group float-end">
       <button 
         class="btn btn-sm btn-sort py-0 
@@ -31,7 +31,7 @@
   </label>
 
 <!-- sélecteur des utilisateurs -->
-<select class="form-select mb-3 {$mode}" name="selectClients" id="selectClients" size="{$selectHeight|default:1}">
+<select class="form-select mb-3" data-mode="{$mode}" name="selectClients" id="selectClients" size="15">
     {foreach from=$listeClients key=idOneClient item=client}
     <option value="{$idOneClient}" {if $idOneClient == $idClient}selected{/if}>{$client.nom} {$client.prenom}</option>
     {/foreach}

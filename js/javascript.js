@@ -20,21 +20,6 @@ function clearForm($form) {
   $form.find(":checkbox, :radio").prop("checked", false);
 }
 
-function clearLeftRight() {
-  $("#left").html("");
-  $("#right").html("");
-}
-
-function clearUnique() {
-  $("#unique").html("");
-}
-
-function clearAllDivs() {
-  $("#left").html("");
-  $("#right").html("");
-  $("#unique").html("");
-}
-
 $(document).ready(function () {
   // login - logout ------------------------------------------------
   //
@@ -90,33 +75,23 @@ $(document).ready(function () {
   //
   $("body").on("click", "#ficheReparation", function (event) {
     testSession(event);
-    clearUnique();
+
     // le client en cours est pris par défaut
     var idClient = Cookies.get("clientEnCours");
-
-    $.post(
-      "inc/getSelecteurClients.inc.php",
-      {
-        idClient: idClient,
-        mode: "reparation",
-      },
-      function (resultat) {
-        $("#left").html(resultat);
-      }
-    );
     // le dernier bon en cours est pris par défaut
     var numeroBon = Cookies.get("bonEnCours");
+    var sortClient = Cookies.get("sortClient");
+
     $.post(
-      "inc/getFichesTravail.inc.php",
+      "inc/getFichesReparation4client.inc.php",
       {
         idClient: idClient,
         numeroBon: numeroBon,
+        mode: "reparation",
+        sortClient: sortClient,
       },
       function (resultat) {
-        $("#right").html(resultat);
-        $('#formTravail .nav-link[data-numerobon="' + numeroBon + '"]').trigger(
-          "click"
-        );
+        $("#unique").html(resultat);
       }
     );
   });
@@ -127,7 +102,7 @@ $(document).ready(function () {
     Cookies.set("clientEnCours", idClient, { sameSite: "strict" });
     //
     // sommes-nous dans la gestion des clients? -------------------------
-    if ($(this).hasClass("gestion")) {
+    if ($(this).data("mode") == "gestion") {
       $.post(
         "inc/getProfilClient.inc.php",
         {
@@ -140,7 +115,7 @@ $(document).ready(function () {
     }
     //
     // sommes-nous dans un bon de réparation? ------------------------
-    if ($(this).hasClass("reparation")) {
+    if ($(this).data("mode") == "reparation") {
       // le dernier bon en cours est pris par défaut
       var numeroBon = Cookies.get("bonEnCours");
       $.post(
@@ -150,27 +125,13 @@ $(document).ready(function () {
           numeroBon: numeroBon,
         },
         function (resultat) {
-          $("#right").html(resultat);
+          $("#fichesReparation").html(resultat);
           $(
             '#formTravail .nav-link[data-numerobon="' + numeroBon + '"]'
           ).trigger("click");
         }
       );
     }
-
-    // //
-    // // sommes-nous dans un bon de réparation? ------------------------
-    // if ($(this).hasClass('reparation')) {
-    //   $.post(
-    //     "inc/getFichesTravail.inc.php",
-    //     {
-    //       idClient: idClient,
-    //     },
-    //     function (resultat) {
-    //       $("#right").html(resultat);
-    //     }
-    //   );
-    // }
   });
 
   $("body").on("click", "#btn-editClient", function (event) {
@@ -262,6 +223,7 @@ $(document).ready(function () {
           var resultat = JSON.parse(resultatJSON);
           var idClient = resultat["idUser"];
           var nbModif = resultat["nb"];
+          var sortClient = Cookies.get("sortClient");
 
           $("#modalEditClient").modal("hide");
 
@@ -270,9 +232,10 @@ $(document).ready(function () {
             {
               idClient: idClient,
               droits: "client",
+              mode: "gestion",
+              sortClient: sortClient
             },
             function (resultat) {
-              clearLeftRight();
               $("#unique").html(resultat);
               $('#selectClients option[value="' + idClient + "']").prop(
                 "selected",
@@ -368,10 +331,10 @@ $(document).ready(function () {
           var numeroBon = resultat;
           bootbox.alert({
             title: "Enregistrement",
-            message: 'Fiche de réparation n° ' + numeroBon + ' enregistrée',
+            message: "Fiche de réparation n° " + numeroBon + " enregistrée",
           });
 
-          Cookies.set('bonEnCours', numeroBon);
+          Cookies.set("bonEnCours", numeroBon);
 
           $("#modalEditBon").modal("hide");
 
@@ -382,7 +345,7 @@ $(document).ready(function () {
               numeroBon: numeroBon,
             },
             function (resultat) {
-              $("#right").html(resultat);
+              $("#fichesReparation").html(resultat);
               $(
                 '#formTravail .nav-link[data-numerobon="' + numeroBon + '"]'
               ).trigger("click");
@@ -424,9 +387,11 @@ $(document).ready(function () {
                       numeroBon: numeroBon,
                     },
                     function (resultat) {
-                      $("#right").html(resultat);
+                      $("#fichesReparation").html(resultat);
                       $(
-                        '#formTravail .nav-link[data-numerobon="' + numeroBon + '"]'
+                        '#formTravail .nav-link[data-numerobon="' +
+                          numeroBon +
+                          '"]'
                       ).trigger("click");
                     }
                   );
@@ -819,7 +784,6 @@ $(document).ready(function () {
   $("body").on("click", "#profil", function (event) {
     testSession(event);
     $.post("inc/getOwnUserProfile.inc.php", {}, function (resultat) {
-      clearLeftRight();
       $("#unique").html(resultat);
     });
   });
@@ -864,15 +828,17 @@ $(document).ready(function () {
   $("body").on("click", "#gestionClients", function (event) {
     testSession(event);
     var idClient = Cookies.get("clientEnCours");
+    var sortClient = Cookies.get("sortClient");
+
     $.post(
       "inc/getClientsProfiles.inc.php",
       {
         idClient: idClient,
         droits: "client",
         mode: "gestion",
+        sortClient: sortClient
       },
       function (resultat) {
-        clearLeftRight();
         $("#unique").html(resultat);
       }
     );
@@ -888,7 +854,6 @@ $(document).ready(function () {
         idUser: idUser,
       },
       function (resultat) {
-        clearLeftRight();
         $("#unique").html(resultat);
       }
     );
@@ -918,40 +883,64 @@ $(document).ready(function () {
 
   $("body").on("click", "#clientParDate", function () {
     Cookies.set("sortClient", "parDate", { sameSite: "strict" });
+    var idClient = $("#selectClients").val();
+    var mode = $("#selectClients").data("mode");
     $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
     $("#clientParDate").addClass("btn-primary");
-    var selectHeight = $(this).data('height');
-    $.post("inc/getSelecteurClients.inc.php", {
-      sortClient: 'parDate',
-      selectHeight: selectHeight
-    }, function (resultat) {
-      $("#selecteurClients").html(resultat);
-    });
+    var selectHeight = $(this).data("height");
+    $.post(
+      "inc/getSelecteurClients.inc.php",
+      {
+        idClient: idClient,
+        sortClient: "parDate",
+        selectHeight: selectHeight,
+        mode: mode,
+      },
+      function (resultat) {
+        $("#selectUsers").html(resultat);
+      }
+    );
   });
 
   $("body").on("click", "#clientAlphaAsc", function () {
     Cookies.set("sortClient", "alphaAsc", { sameSite: "strict" });
+    var idClient = $("#selectClients").val();
+    var mode = $("#selectClients").data("mode");
     $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
     $("#clientAlphaAsc").addClass("btn-primary");
-    var selectHeight = $(this).data('height');
-    $.post("inc/getSelecteurClients.inc.php", {
-      sortClient: 'alphaAsc',
-      selectHeight: selectHeight
-    }, function (resultat) {
-      $("#selecteurClients").html(resultat);
-    });
+    var selectHeight = $(this).data("height");
+    $.post(
+      "inc/getSelecteurClients.inc.php",
+      {
+        idClient: idClient,
+        sortClient: "alphaAsc",
+        selectHeight: selectHeight,
+        mode: mode,
+      },
+      function (resultat) {
+        $("#selectUsers").html(resultat);
+      }
+    );
   });
 
   $("body").on("click", "#clientAlphaDesc", function () {
     Cookies.set("sortClient", "alphaDesc", { sameSite: "strict" });
+    var idClient = $("#selectClients").val();
+    var mode = $("#selectClients").data("mode");
     $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
     $("#clientAlphaDesc").addClass("btn-primary");
-    var selectHeight = $(this).data('height');
-    $.post("inc/getSelecteurClients.inc.php", {
-      sortClient: 'alphaDesc',
-      selectHeight: selectHeight
-    }, function (resultat) {
-      $("#selecteurClients").html(resultat);
-    });
+    var selectHeight = $(this).data("height");
+    $.post(
+      "inc/getSelecteurClients.inc.php",
+      {
+        idClient: idClient,
+        sortClient: "alphaDesc",
+        selectHeight: selectHeight,
+        mode: mode,
+      },
+      function (resultat) {
+        $("#selectUsers").html(resultat);
+      }
+    );
   });
 });

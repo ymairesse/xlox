@@ -12,8 +12,9 @@ include 'entetes.inc.php';
 $idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
 $droits = isset($_POST['droits']) ? $_POST['droits'] : Null;
 $mode = isset($_POST['mode']) ? $_POST['mode'] : Null;
+$sortClient = isset($_POST['sortClient']) ? $_POST['sortClient'] : 'alphaAsc';
 
-$listeClients = $User->getListeUsers($droits);
+$listeClients = $User->getListeUsers($droits, $sortClient);
 
 // fiche personnelle
 $profil = $idClient != Null ? $User->getDataUser($idClient) : Null;
@@ -21,6 +22,7 @@ $profil = $idClient != Null ? $User->getDataUser($idClient) : Null;
 $smarty->assign('listeClients', $listeClients);
 $smarty->assign('idClient', $idClient);
 $smarty->assign('profil', $profil);
+$smarty->assign('sortClient', $sortClient);
 
 $smarty->assign('mode', $mode);
 $smarty->assign('selectHeight', 15); // hauteur du sélecteur de clients
