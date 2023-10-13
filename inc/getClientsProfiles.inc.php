@@ -10,11 +10,11 @@ require_once '../config.inc.php';
 include 'entetes.inc.php';
 
 $idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
-$droits = isset($_POST['droits']) ? $_POST['droits'] : Null;
+
 $mode = isset($_POST['mode']) ? $_POST['mode'] : Null;
 $sortClient = isset($_POST['sortClient']) ? $_POST['sortClient'] : 'alphaAsc';
 
-$listeClients = $User->getListeUsers($droits, $sortClient);
+$listeClients = $User->getListeUsers(array('client'), $sortClient);
 
 // fiche personnelle
 $profil = $idClient != Null ? $User->getDataUser($idClient) : Null;

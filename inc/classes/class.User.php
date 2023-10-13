@@ -97,15 +97,15 @@ class User
      *
      * @return array
      */
-    public function getListeUsers($droits = null, $sort = 'alphaAsc')
+    public function getListeUsers($droits, $sort = 'alphaAsc')
     {
-
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT idUser, nom, prenom, dateAcces ';
         $sql .= 'FROM '.PFX.'users ';
-        if ($droits != null) {
-            $sql .= 'WHERE droits = :droits ';
-        }
+        // ? à la place des différentes options
+        $lesDroits = join(',', array_fill(0, count($droits), '?'));
+        $sql .= 'WHERE droits IN ('.$lesDroits.') ';
+
         switch ($sort) {
             case 'alphaAsc':
                 $sql .= 'ORDER BY nom ASC, prenom, mail ';
@@ -119,11 +119,7 @@ class User
         }
         $requete = $connexion->prepare($sql);
 
-        if ($droits != null) {
-            $requete->bindParam(':droits', $droits, PDO::PARAM_STR, 6);
-        }
-
-        $resultat = $requete->execute();
+        $resultat = $requete->execute($droits);
         $liste = array();
         if ($resultat) {
             $requete->setFetchMode(PDO::FETCH_ASSOC);

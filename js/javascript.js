@@ -20,6 +20,20 @@ function clearForm($form) {
   $form.find(":checkbox, :radio").prop("checked", false);
 }
 
+function isDoubleClicked(element) {
+  //if already clicked return TRUE to indicate this click is not allowed
+  if (element.data("isclicked")) return true;
+
+  //mark as clicked for 1 second
+  element.data("isclicked", true);
+  setTimeout(function () {
+      element.removeData("isclicked");
+  }, 1000);
+
+  //return FALSE to indicate this click was allowed
+  return false;
+}
+
 $(document).ready(function () {
   // login - logout ------------------------------------------------
   //
@@ -224,6 +238,7 @@ $(document).ready(function () {
           var idClient = resultat["idUser"];
           var nbModif = resultat["nb"];
           var sortClient = Cookies.get("sortClient");
+          Cookies.set("clientEnCours", idClient, { sameSite: "strict" });
 
           $("#modalEditClient").modal("hide");
 
@@ -231,9 +246,8 @@ $(document).ready(function () {
             "inc/getClientsProfiles.inc.php",
             {
               idClient: idClient,
-              droits: "client",
               mode: "gestion",
-              sortClient: sortClient
+              sortClient: sortClient,
             },
             function (resultat) {
               $("#unique").html(resultat);
@@ -289,9 +303,10 @@ $(document).ready(function () {
   // Edition: raccourci par clic dans un champ de la fiche de travail
   $("body").on(
     "click",
-    ".formTravail input, .formTravail textarea, .formTravail .form-check-input, .editBon",
+    ".formTravail",
     function (event) {
       testSession(event);
+      if (isDoubleClicked($(this))) return;
       var idClient = $(this)
         .closest("form")
         .find('input[name="idClient"]')
@@ -658,8 +673,9 @@ $(document).ready(function () {
 
   $("body").on(
     "click",
-    "#formClient input, #formClient select",
+    "#formClient",
     function (event) {
+      if (isDoubleClicked($(this))) return;
       testSession(event);
       var idClient = $("#selectClients").val();
       $.post(
@@ -836,7 +852,7 @@ $(document).ready(function () {
         idClient: idClient,
         droits: "client",
         mode: "gestion",
-        sortClient: sortClient
+        sortClient: sortClient,
       },
       function (resultat) {
         $("#unique").html(resultat);

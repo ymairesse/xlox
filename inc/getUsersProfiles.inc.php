@@ -10,9 +10,8 @@ require_once '../config.inc.php';
 include 'entetes.inc.php';
 
 $idUser = isset($_POST['idUser']) ? $_POST['idUser'] : Null;
-$droits = isset($_POST['droits']) ? $_POST['droits'] : Null;
 
-$listeUsers = $User->getListeUsers($droits);
+$listeUsers = $User->getListeUsers(array('oxfam', 'root'));
 $smarty->assign('listeUsers', $listeUsers);
 
 // fiche personnelle

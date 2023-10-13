@@ -14,7 +14,7 @@ $numeroBon = isset($_POST['numeroBon']) ? $_POST['numeroBon'] : null;
 $mode = isset($_POST['mode']) ? $_POST['mode'] : null;
 $sortClient = isset($_POST['sortClient']) ? $_POST['sortClient'] : 'alphaAsc';
 
-$listeClients = $User->getListeUsers('client', $sortClient);
+$listeClients = $User->getListeUsers(array('client'), $sortClient);
 
 $listeBons = $User->getListeBonsReparation($idClient);
 

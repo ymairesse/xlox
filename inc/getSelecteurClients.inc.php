@@ -12,7 +12,7 @@ $selectHeight = isset($_POST['selectHeight']) ? $_POST['selectHeight'] : null;
 $idClient = isset($_POST['idClient']) ? $_POST['idClient'] : null;
 $mode = isset($_POST['mode']) ? $_POST['mode'] : null;
 
-$listeClients = $User->getListeUsers('client', $sortClient);
+$listeClients = $User->getListeUsers(array('client'), $sortClient);
 
 $smarty->assign('idClient', $idClient);
 $smarty->assign('listeClients', $listeClients);
