@@ -10,8 +10,8 @@
     id="formTravail_{$numeroBon}"
     data-numerobon="{$numeroBon}"
   >
-  <input type="hidden" name="numeroBon" id="numeroBon" value="{$travail.numeroBon}">
-  <input type="hidden" name="idClient" id="idClient" value="{$idClient}">
+  <input type="hidden" name="numeroBon" value="{$travail.numeroBon}">
+  <input type="hidden" name="idClient" value="{$idClient}">
     <div class="row">
       <div class="form-group pb-3 col-md-3 col-sm-3 col-4">
         <label for="type_{$numeroBon}">Type</label>
@@ -69,6 +69,7 @@
           type="text"
           class="form-control"
           name="benevole_{$numeroBon}"
+          id="benevole_{$numeroBon}"
           readonly
           value="{$travail.benevole|default:$benevole.prenom}"
           placeholder="Reçu par"
@@ -96,7 +97,7 @@
       </div>
 
       <div class="form-group pb-3 col-4">
-        <label for="mdp">Mot de passe</label>
+        <label for="mdp_{$numeroBon}">Mot de passe</label>
         <div class="input-group mb-3">
           <span class="input-group-text addonMdp"
             ><i class="fa fa-eye"></i
@@ -109,18 +110,20 @@
             value="{$travail.mdp|default:''}"
             placeholder="Mot de passe"
             aria-describedby="addonMdp"
+            autocomplete="off"
             readonly
           />
         </div>
       </div>
 
       <div class="col-md-4 form-group pb-3 col-4">
-        <label for="data">Données</label>
+        <label for="data_{$numeroBon}">Données</label>
         {if $travail.data == 1}
         <button
           type="button"
           title="Données à conserver"
           class="btn btn-danger w-100 text-truncate"
+          id="data_{$numeroBon}"
         >
           <i class="fa fa-warning" aria-hidden="true"></i> Données
           <i class="fa fa-warning" aria-hidden="true"></i>
@@ -130,6 +133,7 @@
           type="button"
           title="Pas de données"
           class="btn btn-default w-100 text-truncate"
+          id="data_{$numeroBon}"
         >
           No Data
         </button>
@@ -222,8 +226,8 @@
       </div>
 
       <div class="pb-3 col-6 col-sm-6 col-md-2">
-        <label for="garantie">Garantie</label>
-        <button type="button" class="btn btn-garantie w-100 {if $travail.garantie == 1}btn-warning{else}btn-default{/if}">
+        <label for="garantie_{$numeroBon}">Garantie</label>
+        <button type="button" id="garantie_{$numeroBon}" class="btn btn-garantie w-100 {if $travail.garantie == 1}btn-warning{else}btn-default{/if}">
           Garantie
         </button>
       </div>
@@ -247,12 +251,12 @@
       </div>
 
       <div class="pb-3 col-6 col-sm-6 col-md-2">
-        <label for="avancement">Avancement</label>
+        <label for="avancement_{$numeroBon}">Avancement</label>
         <button
           type="button"
           class="btn btn-success btn-avancement w-100"
+          id="avancement_{$numeroBon}"
           data-numerobon="{$numeroBon}"
-          id="avancement"
           title="Avancement du travail"
         >
           <i class="fa fa-hand-o-right" aria-hidden="true"></i>
@@ -263,7 +267,7 @@
       </div>
 
       <div class="pb-3 col-6 col-sm-6 col-md-2 w100">
-        <label for="termine"
+        <label for="termine_{$numeroBon}"
           >{if $travail.termine == 1}Terminé{else}En cours{/if}</label
         >
 
@@ -272,6 +276,7 @@
           type="button"
           title="Travail terminé"
           class="btn btn-success w-100 text-truncate"
+          id="termine_{$numeroBon}"
         >
           Terminé <i class="fa fa-smile-o" aria-hidden="true"></i>
         </button>
@@ -280,6 +285,7 @@
           type="button"
           title="Travail en cours"
           class="btn btn-danger w-100 text-truncate"
+          id="termine_{$numeroBon}"
         >
           En cours <i class="fa fa-meh-o" aria-hidden="true"></i>
         </button>
@@ -295,7 +301,7 @@
     >
       <button
         type="button"
-        class="btn btn-danger deleteBon w-25 mt-4 text-truncate"
+        class="btn btn-danger deleteBon w-100 mt-4 text-truncate"
         data-numerobon="{$numeroBon}"
         data-idclient="{$idClient}"
         title="Supprimer ce bon de réparation"
@@ -304,14 +310,7 @@
         ce bon <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
       </button>
 
-      <button
-        type="button"
-        data-numerobon="{$numeroBon}"
-        class="btn btn-warning editBon w-75 mt-4 text-truncate"
-        title="Modifier ce bon de réparation"
-      >
-        Modifier ce bon
-      </button>
+
     </div>
   </form>
 </div>
