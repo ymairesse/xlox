@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-3 col-12" id="selectUsers">
+    <div class="col-md-3 col-12" id="selectClients">
         
         {include file='inc/selecteurClients.tpl'}
 

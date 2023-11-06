@@ -1,5 +1,5 @@
 {if $avancements != Null}
-<table class="table table-condensed">
+<table class="table table-sm">
   {foreach from=$avancements key=idAvancement item=data}
   <tr 
     {if $data.barre == 1} class="barre" data-bs-toggle="tooltip" data-bs-title="Barré par {$data.barrePar}"{/if}>

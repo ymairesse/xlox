@@ -13,7 +13,6 @@
       media="screen, print"
     />
 
-    
     <script src="bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="js/jquery-3.7.0.min.js"></script>
@@ -24,37 +23,31 @@
     <script src="js/jqvalidate/dist/additional-methods.min.js"></script>
     <script src="js/jqvalidate/dist/localization/messages_fr.js"></script>
     <script src="js/bootbox.min.js"></script>
-    <script>
-      bootbox.setDefaults({
-        locale: "fr",
-        backdrop: false,
-      });
-    </script>
+
   </head>
   <body>
-    <div class="container-fluid" id="menu">
-      
-      {include file="navbar.tpl"}
-    
-    </div>
+    <div class="container-fluid" id="menu">{include file="navbar.tpl"}</div>
 
     <div class="container-fluid" id="corpsPage">
-
       <div class="row">
-
-        <div class="col-12" id="unique">
-
-          {include file="start.tpl"}
-
-        </div>
-        
+        <div class="col-12" id="unique">{include file="start.tpl"}</div>
       </div>
-
     </div>
 
-      <div id="modal"></div>
+    <div id="modal"></div>
 
     {include file="footer.tpl"}
-
   </body>
+
+  <script>
+
+    $(document).ready(function () {
+      var tooltipTriggerList = [].slice.call(
+        document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      );
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+      });
+    });
+  </script>
 </html>

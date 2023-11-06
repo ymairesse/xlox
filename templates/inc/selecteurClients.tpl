@@ -1,57 +1,59 @@
-<label for="selectClients {$mode|default:'gestion'}" class="w-100">Liste des clients
-     <div class="btn-group float-end">
-      <button 
-        class="btn btn-sm btn-sort py-0 
-        {if isset($sortClient) && ($sortClient == 'parDate')}btn-primary{else}btn-default{/if}" 
-        id="clientParDate" 
-        data-bs-toggle="tooltip" 
-        data-bs-title="Par date"
-        data-height = {$selectHeight}>
+<div style="max-height: 25em; overflow: auto">
+  <h5 for="listeClients" class="w-100">
+    Liste des clients
+    <div class="btn-group float-end">
+      <button
+        class="btn btn-sm btn-sort py-0 {if isset($sortClient) && ($sortClient == 'parDate')}btn-primary{else}btn-default{/if}"
+        id="clientParDate"
+        title="Par date"
+      >
         <i class="fa fa-calendar" aria-hidden="true"></i>
       </button>
-      <button 
-        class="btn btn-sm btn-sort py-0 
-        {if isset($sortClient) && ($sortClient == 'alphaAsc')}btn-primary{else}btn-default{/if}" 
-        id="clientAlphaAsc" 
-        data-bs-toggle="tooltip" 
-        data-bs-title="Par ordre alphabétique ASC"
-        data-height = {$selectHeight}>
+      <button
+        class="btn btn-sm btn-sort py-0 {if isset($sortClient) && ($sortClient == 'alphaAsc')}btn-primary{else}btn-default{/if}"
+        id="clientAlphaAsc"
+        title="Par ordre alphabétique ASC"
+      >
         <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
       </button>
-      <button 
-        class="btn btn-sm btn-sort py-0 
-        {if isset($sortClient) && ($sortClient == 'alphaDesc')}btn-primary{else}btn-default{/if}" 
-        id="clientAlphaDesc" 
-        data-bs-toggle="tooltip" 
+      <button
+        class="btn btn-sm btn-sort py-0 {if isset($sortClient) && ($sortClient == 'alphaDesc')}btn-primary{else}btn-default{/if}"
+        id="clientAlphaDesc"
         data-bs-title="Par ordre alphabétique DESC"
-        data-height = {$selectHeight}>
+      >
         <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
       </button>
     </div>
-  </label>
+  </h5>
 
-<!-- sélecteur des utilisateurs -->
-<select class="form-select mb-3" data-mode="{$mode}" name="selectClients" id="selectClients" size="15">
+  <table
+    class="table table-sm w-100"
+    id="listeClients"
+    data-mode="{$mode|default:'gestion'}"
+  >
+    <tr>
+      <th class="w-75">Nom</th>
+      <th
+        class="w-25"
+        data-bs-toggle="tooltip"
+        data-bs-title="Date du dernier accès"
+      >
+        Date
+      </th>
+    </tr>
     {foreach from=$listeClients key=idOneClient item=client}
-    <option value="{$idOneClient}" {if $idOneClient == $idClient}selected{/if}>{$client.nom} {$client.prenom}</option>
+    <tr
+      class="{if $idOneClient == $idClient}choosen{/if}"
+      data-idclient="{$idOneClient}"
+    >
+      <td>{$client.nom} {$client.prenom}</td>
+      <td
+        data-bs-toggle="tooltip"
+        data-bs-title="{$client.date} {$client.heure}"
+      >
+        {$client.date|substr:0:5}
+      </td>
+    </tr>
     {/foreach}
-</select>
-
-
-<script>
-
-  $(document).ready(function(){
-
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-
-
-    $(document).on('shown.bs.tooltip', function (e) {
-      setTimeout(function () {
-        $(e.target).tooltip('hide');
-      }, 10000);
-   });  
-
-  })
-
-</script>
+  </table>
+</div>

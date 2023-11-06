@@ -1,8 +1,8 @@
 <div class="row">
 
-    <div class="col-md-3 col-12" id="selectUsers">
+    <div class="col-md-3 col-12" id="selectClients">
 
-        {* select/options des clients entre les deux boutons "Ajouter" et "Supprimer" le client *}
+        {* tableau des clients entre les deux boutons "Ajouter" et "Supprimer" le client *}
         
         {include file='inc/listeClients.tpl'}  
 

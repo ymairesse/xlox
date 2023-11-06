@@ -1,5 +1,5 @@
 {if $interactions != Null}
-<table class="table table-condensed">
+<table class="table table-sm">
     {foreach from=$interactions key=idInteraction item=data}
     <tr>
       <td>{$data.date|substr:0:5}  {$data.heure}</td>

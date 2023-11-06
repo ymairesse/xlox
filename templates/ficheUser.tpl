@@ -6,7 +6,8 @@
     </div>
 
     <div class="col-md-9 col-12" id="ficheProfil">
-        {include file='ficheProfil.tpl'}
+
+        {include file='ficheProfilUser.tpl'}
     </div>
 
 </div>

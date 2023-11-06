@@ -1,3 +1,14 @@
+var n = 1;
+
+// provoque un session_start() toutes les "Intervalle" ms
+function live4ever() {
+  var neverDie = Cookies.get("neverDie");
+  if (neverDie == 1)
+    $.post("inc/live4ever.inc.php", {}, function () {
+      console.log("live");
+    });
+}
+
 function testSession() {
   $.post("inc/testSession.inc.php", {}, function (resultat) {
     if (resultat == "") {
@@ -12,29 +23,76 @@ function testSession() {
   });
 }
 
-function clearForm($form) {
-  $form
+function clearForm(form) {
+  form
     .find(":input")
     .not(":button, :submit, :reset, :hidden, :checkbox, :radio")
     .val("");
-  $form.find(":checkbox, :radio").prop("checked", false);
+  form.find(":checkbox, :radio").prop("checked", false);
 }
 
 function isDoubleClicked(element) {
   //if already clicked return TRUE to indicate this click is not allowed
   if (element.data("isclicked")) return true;
-
   //mark as clicked for 1 second
   element.data("isclicked", true);
   setTimeout(function () {
-      element.removeData("isclicked");
+    element.removeData("isclicked");
   }, 1000);
 
   //return FALSE to indicate this click was allowed
   return false;
 }
 
+// variables de service pour la session infinie
+var timeOutLive4ever;
+var intervalle = 12000; // toutes les 12 secondes
+
+function liveOnOff(onOff) {
+  if (onOff == 1) {
+    timeOutLive4ever = setInterval(live4ever, intervalle);
+    $('#neverDie i').addClass('fa-spin');
+    $('#never').html('<i class="fa fa-spinner fa-spin"></i>');
+    }
+  else 
+    {
+      clearTimeout(timeOutLive4ever);
+      $('#neverDie i').removeClass('fa-spin');
+      $('#never').html('');
+    }
+}
+
 $(document).ready(function () {
+
+  bootbox.setDefaults({
+    locale: "fr",
+    backdrop: false,
+  });
+
+  var live = Cookies.get('neverDie')
+
+  liveOnOff(live);
+
+  // le bouton #neverDie est une bascule on/off
+  $("body").on("click", "#neverDie", function () {
+    if (Cookies.get("neverDie") == 1) {
+      Cookies.remove("neverDie", { sameSite: "strict" });
+      liveOnOff(0);
+    } else {
+      bootbox.confirm({
+        title: 'Never Die',
+        message: "Je sais que je prends un risque en utilisant cette fonctionnalité",
+        callback: function(result){
+          if (result == true) {
+            Cookies.set("neverDie", 1, { sameSite: "strict" });
+            liveOnOff(1);
+          }
+        }
+      })
+      
+    }
+  });
+
   // login - logout ------------------------------------------------
   //
   $("body").on("click", "#btn-login", function () {
@@ -59,8 +117,10 @@ $(document).ready(function () {
           $("#modalLogin").modal("hide");
           var loggedUser = $("#loggedUser").text();
           var title = "Connexion";
-          if (loggedUser != "") message = "Bienvenue " + loggedUser;
-          else message = "Adresse mail, pseudo et/ou mot de passe incorrect";
+          if (loggedUser != "") {
+            live4ever();
+            message = "Bienvenue " + loggedUser;
+          } else message = "Adresse mail, pseudo et/ou mot de passe incorrect";
 
           bootbox.alert({
             title: title,
@@ -83,99 +143,6 @@ $(document).ready(function () {
         }
       },
     });
-  });
-
-  // clic dans la navbar pour la fiche de réparation
-  //
-  $("body").on("click", "#ficheReparation", function (event) {
-    testSession(event);
-
-    // le client en cours est pris par défaut
-    var idClient = Cookies.get("clientEnCours");
-    // le dernier bon en cours est pris par défaut
-    var numeroBon = Cookies.get("bonEnCours");
-    var sortClient = Cookies.get("sortClient");
-
-    $.post(
-      "inc/getFichesReparation4client.inc.php",
-      {
-        idClient: idClient,
-        numeroBon: numeroBon,
-        mode: "reparation",
-        sortClient: sortClient,
-      },
-      function (resultat) {
-        $("#unique").html(resultat);
-      }
-    );
-  });
-
-  $("body").on("change", "#selectClients", function (event) {
-    testSession(event);
-    var idClient = $(this).val();
-    Cookies.set("clientEnCours", idClient, { sameSite: "strict" });
-    //
-    // sommes-nous dans la gestion des clients? -------------------------
-    if ($(this).data("mode") == "gestion") {
-      $.post(
-        "inc/getProfilClient.inc.php",
-        {
-          idClient: idClient,
-        },
-        function (resultat) {
-          $("#ficheProfilClient").html(resultat);
-        }
-      );
-    }
-    //
-    // sommes-nous dans un bon de réparation? ------------------------
-    if ($(this).data("mode") == "reparation") {
-      // le dernier bon en cours est pris par défaut
-      var numeroBon = Cookies.get("bonEnCours");
-      $.post(
-        "inc/getFichesTravail.inc.php",
-        {
-          idClient: idClient,
-          numeroBon: numeroBon,
-        },
-        function (resultat) {
-          $("#fichesReparation").html(resultat);
-          $(
-            '#formTravail .nav-link[data-numerobon="' + numeroBon + '"]'
-          ).trigger("click");
-        }
-      );
-    }
-  });
-
-  $("body").on("click", "#btn-editClient", function (event) {
-    testSession(event);
-    var idClient = $("#listeClients").val();
-    $.post(
-      "inc/editClient.inc.php",
-      {
-        idClient: idClient,
-      },
-      function (resultat) {
-        $("#modal").html(resultat);
-        $("#modalEditClient").modal("show");
-      }
-    );
-  });
-
-  $("body").on("click", "#btn-newClient", function (event) {
-    testSession();
-    var idUser = -1;
-    $.post(
-      "inc/editClient.inc.php",
-      {
-        idUser: idUser,
-      },
-      function (resultat) {
-        $("#modal").html(resultat);
-        $("#modalEditClient").modal("show");
-      }
-    );
   });
 
   //
@@ -225,65 +192,41 @@ $(document).ready(function () {
     }
   });
 
-  $("body").on("click", "#btn-saveClient", function (event) {
-    if ($("#modalFormClient").valid()) {
-      var formulaire = $("#modalFormClient").serialize();
-      $.post(
-        "inc/saveUser.inc.php",
-        {
-          formulaire: formulaire,
-        },
-        function (resultatJSON) {
-          var resultat = JSON.parse(resultatJSON);
-          var idClient = resultat["idUser"];
-          var nbModif = resultat["nb"];
-          var sortClient = Cookies.get("sortClient");
-          Cookies.set("clientEnCours", idClient, { sameSite: "strict" });
+  // Actions sur les fiches de travail ---------------------------------
+  // -------------------------------------------------------------------
 
-          $("#modalEditClient").modal("hide");
-
-          $.post(
-            "inc/getClientsProfiles.inc.php",
-            {
-              idClient: idClient,
-              mode: "gestion",
-              sortClient: sortClient,
-            },
-            function (resultat) {
-              $("#unique").html(resultat);
-              $('#selectClients option[value="' + idClient + "']").prop(
-                "selected",
-                true
-              );
-            }
-          );
-
-          var message = " fiche client ";
-          if (nbModif == 2) message = "1 " + message + " modifiée";
-          else if (nbModif == 1) message = "1 " + message + " enregistrée";
-          else message = "Aucune modification";
-          bootbox.alert({
-            title: "Enregistrement",
-            message: message,
-          });
-        }
-      );
-    }
-  });
-
-  $("body").on("click", "#btn-resetClient", function (event) {
-    testSession(event);
-    clearForm($("#formClient"));
-  });
-
+  // clic dans la navbar pour la fiche de réparation
   //
+  $("body").on("click", "#ficheReparation", function (event) {
+    testSession(event);
+
+    // le client en cours est pris par défaut
+    var idClient = Cookies.get("clientEnCours");
+    // le dernier bon en cours est pris par défaut
+    var numeroBon = Cookies.get("bonEnCours");
+    var sortClient = Cookies.get("sortClient");
+
+    $.post(
+      "inc/getFichesReparation4client.inc.php",
+      {
+        idClient: idClient,
+        numeroBon: numeroBon,
+        mode: "reparation",
+        sortClient: sortClient,
+      },
+      function (resultat) {
+        $("#unique").html(resultat);
+      }
+    );
+  });
+
   // sélection d'une fiche de travail dans les onglets -----------------
-  $("body").on("click", "#ficheTravail .nav-link", function () {
+  $("body").on("click", "#ficheTravail .nav-link", function (event) {
+    testSession(event);
     var numeroBon = $(this).data("numerobon");
     Cookies.set("bonEnCours", numeroBon, { sameSite: "strict" });
   });
 
-  //
   // Enregistrement d'une nouvelle fiche de travail pour le client sélectionné
   $("body").on("click", "#btn-addBon", function (event) {
     testSession(event);
@@ -303,7 +246,7 @@ $(document).ready(function () {
   // Edition: raccourci par clic dans un champ de la fiche de travail
   $("body").on(
     "click",
-    ".formTravail",
+    ".formTravail input, .formTravail textarea",
     function (event) {
       testSession(event);
       if (isDoubleClicked($(this))) return;
@@ -419,7 +362,8 @@ $(document).ready(function () {
   });
 
   // sélection par click d'un onglet de la liste des réparations
-  $("body").on("click", ".nav-link", function () {
+  $("body").on("click", ".nav-link", function (event) {
+    testSession(event);
     $(".btn-print").attr("href", "javascript:void(0)").addClass("isDisabled");
     var numeroBon = $(this).data("numerobon");
     $('.btn-print[data-numerobon="' + numeroBon + '"]')
@@ -476,7 +420,8 @@ $(document).ready(function () {
 
   // Gestion des accessoires supplémentaires déposés
 
-  $("body").on("click", "#btn-newAccessoire", function () {
+  $("body").on("click", "#btn-newAccessoire", function (event) {
+    testSession(event);
     var numeroBon = $(this).data("numerobon");
     bootbox.prompt({
       title: "Ajout d'accessoires",
@@ -623,14 +568,99 @@ $(document).ready(function () {
     }
   });
 
+  //----------------------------------------------------------------
+  // gestion des clients
+  //----------------------------------------------------------------
+
+  function restoreSelecteurClients(idClient, sortClient, mode) {
+    $.post(
+      "inc/getSelecteurClients.inc.php",
+      {
+        idClient: idClient,
+        sortClient: sortClient,
+        mode: mode,
+      },
+      function (resultat) {
+        $("#selectClients").html(resultat);
+        clearForm($("#formClient"));
+        // cas où le client idClient a été supprimé
+        $("#listeClients tr.choosen").trigger("click");
+      }
+    );
+  }
+
+  // gestion des clients: page principale
+  $("body").on("click", "#gestionClients", function (event) {
+    testSession(event);
+    var idClient = Cookies.get("clientEnCours");
+    var sortClient = Cookies.get("sortClient");
+
+    $.post(
+      "inc/getClientsProfiles.inc.php",
+      {
+        idClient: idClient,
+        mode: "gestion",
+        sortClient: sortClient,
+      },
+      function (resultat) {
+        $("#unique").html(resultat);
+      }
+    );
+  });
+
+  // ------------------------------------------------------
+  // sélection d'un client
+  $("body").on("click", "#listeClients tr", function (event) {
+    testSession(event);
+    var idClient = $(this).data("idclient");
+    $("#listeClients tr").removeClass("choosen");
+    $(this).addClass("choosen");
+    Cookies.set("clientEnCours", idClient, { sameSite: "strict" });
+    // sommes-nous dans la gestion des clients? -------------------------
+    if ($(this).closest("table").data("mode") == "gestion") {
+      $.post(
+        "inc/getProfilClient.inc.php",
+        {
+          idClient: idClient,
+        },
+        function (resultat) {
+          $("#ficheProfilClient").html(resultat);
+        }
+      );
+    }
+    // sommes-nous dans un bon de réparation? ------------------------
+    if ($(this).closest("table").data("mode") == "reparation") {
+      // le dernier bon en cours est pris par défaut
+      var numeroBon = Cookies.get("bonEnCours");
+      $.post(
+        "inc/getFichesTravail.inc.php",
+        {
+          idClient: idClient,
+          numeroBon: numeroBon,
+        },
+        function (resultat) {
+          $("#fichesReparation").html(resultat);
+          $(
+            '#formTravail .nav-link[data-numerobon="' + numeroBon + '"]'
+          ).trigger("click");
+        }
+      );
+    }
+  });
+
   // --------------------------------------------------------------------
-  // Gestion de la fiche client ---------------------------------------
+  // Suppression d'un client ---------------------------------------
 
   $("body").on("click", "#delClient", function (event) {
     testSession(event);
     var title = "Suppression d'un client";
-    var idClient = $("#selectClients").val();
-    var nomClient = $("#selectClients option:selected").text();
+    var mode = "gestion";
+    var idClient = $("#listeClients tr.choosen").data("idclient");
+    var nomClient = $("#listeClients tr.choosen td").eq(0).text();
+    var sortClient =
+      Cookies.get("sortClient") != undefined
+        ? Cookies.get("sortClient")
+        : "alphaAsc";
 
     $.post(
       "inc/getDependances.inc.php",
@@ -660,9 +690,7 @@ $(document).ready(function () {
                     idClient: idClient,
                   },
                   function () {
-                    $("#selectClients option:selected").remove();
-                    clearForm($("#formClient"));
-                    Cookies.set("clientEnCours", "", { sameSite: "strict" });
+                    restoreSelecteurClients(null, sortClient, mode);
                   }
                 );
             },
@@ -671,25 +699,24 @@ $(document).ready(function () {
     );
   });
 
-  $("body").on(
-    "click",
-    "#formClient",
-    function (event) {
-      if (isDoubleClicked($(this))) return;
-      testSession(event);
-      var idClient = $("#selectClients").val();
-      $.post(
-        "inc/editClient.inc.php",
-        {
-          idClient: idClient,
-        },
-        function (resultat) {
-          $("#modal").html(resultat);
-          $("#modalEditClient").modal("show");
-        }
-      );
-    }
-  );
+  // Édition d'un client
+
+  $("body").on("click", "#formClient", function (event) {
+    testSession(event);
+    var idClient = $("input#idClient").val();
+    $.post(
+      "inc/editClient.inc.php",
+      {
+        idClient: idClient,
+      },
+      function (resultat) {
+        $("#modal").html(resultat);
+        $("#modalEditClient").modal("show");
+      }
+    );
+  });
+
+  // nouveau client
 
   $("body").on("click", "#nouveauClient", function (event) {
     testSession(event);
@@ -706,6 +733,128 @@ $(document).ready(function () {
     );
   });
 
+  $("body").on("click", "#btn-editClient", function (event) {
+    testSession(event);
+    var idClient = $("#listeClients").val();
+    $.post(
+      "inc/editClient.inc.php",
+      {
+        idClient: idClient,
+      },
+      function (resultat) {
+        $("#modal").html(resultat);
+        $("#modalEditClient").modal("show");
+      }
+    );
+  });
+
+  $("body").on("click", "#btn-newClient", function (event) {
+    testSession();
+    var idUser = -1;
+    $.post(
+      "inc/editClient.inc.php",
+      {
+        idUser: idUser,
+      },
+      function (resultat) {
+        $("#modal").html(resultat);
+        $("#modalEditClient").modal("show");
+      }
+    );
+  });
+
+  // -----------------------------------------------------------
+  // Enregistrement d'une fiche client depuis la boîte modale
+
+  $("body").on("click", "#btn-saveClient", function (event) {
+    testSession(event);
+    if ($("#modalFormClient").valid()) {
+      var formulaire = $("#modalFormClient").serialize();
+      $.post(
+        "inc/saveUser.inc.php",
+        {
+          formulaire: formulaire,
+        },
+        function (resultatJSON) {
+          var resultat = JSON.parse(resultatJSON);
+          var idClient = resultat["idUser"];
+          var nbModif = resultat["nb"];
+          var sortClient = Cookies.get("sortClient");
+          Cookies.set("clientEnCours", idClient, { sameSite: "strict" });
+
+          $("#modalEditClient").modal("hide");
+
+          $.post(
+            "inc/getClientsProfiles.inc.php",
+            {
+              idClient: idClient,
+              mode: "gestion",
+              sortClient: sortClient,
+            },
+            function (resultat) {
+              $("#unique").html(resultat);
+            }
+          );
+
+          var message = " fiche client ";
+          if (nbModif == 2) message = "1 " + message + " modifiée";
+          else if (nbModif == 1) message = "1 " + message + " enregistrée";
+          else message = "Aucune modification";
+          bootbox.alert({
+            title: "Enregistrement",
+            message: message,
+          });
+        }
+      );
+    }
+  });
+
+  $("body").on("click", "#btn-resetClient", function (event) {
+    testSession(event);
+    clearForm($("#formClient"));
+  });
+
+  // ---------------------------------------------------------
+  // présentation tri par date
+
+  $("body").on("click", "#clientParDate", function (event) {
+    testSession(event);
+    var sortClient = "parDate";
+    Cookies.set("sortClient", "parDate", { sameSite: "strict" });
+    var idClient = $("#listeClients tr.choosen").data("idclient");
+    var mode = $("#listeClients").data("mode");
+
+    $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
+    $("#clientParDate").addClass("btn-primary");
+    restoreSelecteurClients(idClient, sortClient, mode);
+  });
+
+  // présentation tri alphaAsc
+  $("body").on("click", "#clientAlphaAsc", function (event) {
+    testSession(event);
+    var sortClient = "alphaAsc";
+    Cookies.set("sortClient", "alphaAsc", { sameSite: "strict" });
+    var idClient = $("#listeClients tr.choosen").data("idclient");
+    var mode = $("#listeClients").data("mode");
+
+    $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
+    $("#clientAlphaAsc").addClass("btn-primary");
+    restoreSelecteurClients(idClient, sortClient, mode);
+  });
+
+  // présentation tri alphaDesc
+  $("body").on("click", "#clientAlphaDesc", function (event) {
+    testSession(event);
+    var sortClient = "alphaDesc";
+    Cookies.set("sortClient", "alphaDesc", { sameSite: "strict" });
+    var idClient = $("#listeClients tr.choosen").data("idclient");
+    var mode = $("#listeClients").data("mode");
+
+    $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
+    $("#clientAlphaDesc").addClass("btn-primary");
+    restoreSelecteurClients(idClient, sortClient, mode);
+  });
+
   // Avancement du travail
   // ------------------------------------------------
 
@@ -720,6 +869,7 @@ $(document).ready(function () {
       function (resultat) {
         $("#modal").html(resultat);
         $("#modalAvancement").modal("show");
+        event.stopPropagation();
       }
     );
   });
@@ -810,7 +960,7 @@ $(document).ready(function () {
     testSession(event);
     if ($("#formUser").valid()) {
       var formulaire = $("#formUser").serialize();
-      var idUser = $("#listeUsers option:selected").val();
+      var idUser = $("table#listeUsers tr.choosen").data("iduser");
       $.post(
         "inc/saveUserOxfam.inc.php",
         {
@@ -826,13 +976,16 @@ $(document).ready(function () {
                 ? "Modification enregistrée"
                 : "Aucune modification effectuée",
             callback: function () {
-              $.post("inc/refreshSelectUsers.inc.php", {}, function (resultat) {
-                $("#selectUsers").html(resultat);
-                $('#selectUsers option[value="' + idUser + '"]').prop(
-                  "selected",
-                  true
+              if (nb > 0)
+                $.post(
+                  "inc/refreshUsersOxfam.inc.php",
+                  {
+                    idUser: idUser,
+                  },
+                  function (resultat) {
+                    $("#selectUsers").html(resultat);
+                  }
                 );
-              });
             },
           });
         }
@@ -840,30 +993,15 @@ $(document).ready(function () {
     }
   });
 
-  // gestion des clients
-  $("body").on("click", "#gestionClients", function (event) {
-    testSession(event);
-    var idClient = Cookies.get("clientEnCours");
-    var sortClient = Cookies.get("sortClient");
+  //----------------------------------------------------------------
+  // gestion des utilisateurs OXFAM
+  //----------------------------------------------------------------
 
-    $.post(
-      "inc/getClientsProfiles.inc.php",
-      {
-        idClient: idClient,
-        droits: "client",
-        mode: "gestion",
-        sortClient: sortClient,
-      },
-      function (resultat) {
-        $("#unique").html(resultat);
-      }
-    );
-  });
-
-  // gestion des utilisateurs
+  // gestion des utilisateurs OXFAM: visualisation de la liste
   $("body").on("click", "#gestUsers", function (event) {
     testSession(event);
     var idUser = Cookies.get("UserEnCours");
+
     $.post(
       "inc/getUsersProfiles.inc.php",
       {
@@ -875,10 +1013,97 @@ $(document).ready(function () {
     );
   });
 
-  $("body").on("change", "#listeUsers", function () {
+  // --------------------------------------------------------
+  // création d'un nouvel utilisateur
+  //
+  $("body").on("click", "#btn-newUser", function (event) {
     testSession();
-    var idUser = $(this).val();
+    $.post(
+      "inc/editUser.inc.php",
+      {
+        idUser: null,
+      },
+      function (resultat) {
+        $("#modal").html(resultat);
+        $("#modalEditUser").modal("show");
+      }
+    );
+  });
+
+  // Édition d'un profil utilisateur par un clic dans le formulaire
+  //
+  $("body").on("click", "#formUser input", function (event) {
+    testSession(event);
+    var idUser = $("#idUser").val();
+    // la liste de sélection est présente à gauche?
+    var selfEdit = $("table#listeUsers").length == 0;
+    $.post(
+      "inc/editUser.inc.php",
+      {
+        idUser: idUser,
+        selfEdit: selfEdit,
+      },
+      function (resultat) {
+        $("#modal").html(resultat);
+        $("#modalEditUser").modal("show");
+      }
+    );
+  });
+
+  // Enregistrement d'un utilisateur OXFAM
+  //
+  $("body").on("click", "#btn-modalSaveUser", function (event) {
+    testSession(event);
+    if ($("#modalFormUser").valid()) {
+      var formulaire = $("#modalFormUser").serialize();
+      $.post(
+        "inc/saveUserOxfam.inc.php",
+        {
+          formulaire: formulaire,
+        },
+        function (resultatJSON) {
+          var resultat = JSON.parse(resultatJSON);
+          var nbModif = resultat["nb"];
+          if (nbModif > 0)
+            var message =
+              nbModif > 0 ? "Modification enregistrée" : "Aucun changement";
+          var idUser = resultat["idUser"];
+          $.post(
+            "inc/getRandomUserProfile.inc.php",
+            {
+              idUser: idUser,
+            },
+            function (resultat) {
+              $("#ficheProfil").html(resultat);
+              $.post(
+                "inc/refreshUsersOxfam.inc.php",
+                {
+                  idUser: idUser,
+                },
+                function (resultat) {
+                  $("#selectUsers").html(resultat);
+                }
+              );
+            }
+          );
+          bootbox.alert({
+            title: "Enregistrement",
+            message: message,
+          });
+          $("#modalEditUser").modal("hide");
+        }
+      );
+    }
+  });
+
+  // gestion des utilisateurs OXFAM: sélection d'un utilisateur dans la liste
+  //
+  $("body").on("click", "table#listeUsers tr", function (event) {
+    testSession(event);
+    var idUser = $(this).data("iduser");
     Cookies.set("UserEnCours", idUser, { sameSite: "strict" });
+    $("#listeUsers tr.choosen").removeClass("choosen");
+    $(this).addClass("choosen");
     $.post(
       "inc/getRandomUserProfile.inc.php",
       {
@@ -890,73 +1115,47 @@ $(document).ready(function () {
     );
   });
 
+  // Suppression d'un utilisateur
+  //
+  $("body").on("click", "#btn-delUser", function (event) {
+    testSession(event);
+    var idUser = $("table#listeUsers tr.choosen").data("iduser");
+    var nom = $('#listeUsers tr[data-iduser="' + idUser + '"] td').html();
+    console.log(nom);
+    bootbox.confirm({
+      title: "Suppression d'un utilisateur",
+      message:
+        "Veuillez confirmer la suppression définitive de<br><b>" + nom + "</b>",
+      callback: function (result) {
+        if (result == true) {
+          $.post(
+            "inc/deleteUser.inc.php",
+            {
+              idUser: idUser,
+            },
+            function (resultat) {
+              $.post(
+                "inc/refreshUsersOxfam.inc.php",
+                {
+                  idUser: null,
+                },
+                function (resultat) {
+                  $("#selectUsers").html(resultat);
+                  $("#formUser").find("input").val("");
+                }
+              );
+            }
+          );
+        }
+      },
+    });
+  });
+
   // visualisation du mot de passe dans un champ "password"
-  $("body").on("click", ".addonMdp", function () {
+  $("body").on("click", ".addonMdp", function (event) {
+    testSession(event);
     if ($(this).next().prop("type") == "password")
       $(this).next().prop("type", "text");
     else $(this).next().prop("type", "password");
-  });
-
-  $("body").on("click", "#clientParDate", function () {
-    Cookies.set("sortClient", "parDate", { sameSite: "strict" });
-    var idClient = $("#selectClients").val();
-    var mode = $("#selectClients").data("mode");
-    $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
-    $("#clientParDate").addClass("btn-primary");
-    var selectHeight = $(this).data("height");
-    $.post(
-      "inc/getSelecteurClients.inc.php",
-      {
-        idClient: idClient,
-        sortClient: "parDate",
-        selectHeight: selectHeight,
-        mode: mode,
-      },
-      function (resultat) {
-        $("#selectUsers").html(resultat);
-      }
-    );
-  });
-
-  $("body").on("click", "#clientAlphaAsc", function () {
-    Cookies.set("sortClient", "alphaAsc", { sameSite: "strict" });
-    var idClient = $("#selectClients").val();
-    var mode = $("#selectClients").data("mode");
-    $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
-    $("#clientAlphaAsc").addClass("btn-primary");
-    var selectHeight = $(this).data("height");
-    $.post(
-      "inc/getSelecteurClients.inc.php",
-      {
-        idClient: idClient,
-        sortClient: "alphaAsc",
-        selectHeight: selectHeight,
-        mode: mode,
-      },
-      function (resultat) {
-        $("#selectUsers").html(resultat);
-      }
-    );
-  });
-
-  $("body").on("click", "#clientAlphaDesc", function () {
-    Cookies.set("sortClient", "alphaDesc", { sameSite: "strict" });
-    var idClient = $("#selectClients").val();
-    var mode = $("#selectClients").data("mode");
-    $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
-    $("#clientAlphaDesc").addClass("btn-primary");
-    var selectHeight = $(this).data("height");
-    $.post(
-      "inc/getSelecteurClients.inc.php",
-      {
-        idClient: idClient,
-        sortClient: "alphaDesc",
-        selectHeight: selectHeight,
-        mode: mode,
-      },
-      function (resultat) {
-        $("#selectUsers").html(resultat);
-      }
-    );
   });
 });

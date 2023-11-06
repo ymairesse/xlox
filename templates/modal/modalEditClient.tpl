@@ -35,14 +35,15 @@
           <div class="row">
             <div class="pb-3 col-2">
               <label for="civilite">
-                <i class="fa fa-female" aria-hidden="true"></i> <i class="fa fa-male" aria-hidden="true"></i> <i class="fa fa-genderless" aria-hidden="true"></i>
-
+                <i class="fa fa-female" aria-hidden="true"></i> 
+                <i class="fa fa-male" aria-hidden="true"></i> 
+                <i class="fa fa-genderless" aria-hidden="true"></i>
               </label>
               <select name="civilite" id="civilite" class="form-control">
                 <option value="">Select</option>
-                <option value="F">Madame</option>
-                <option value="M">Monsieur</option>
-                <option value="X">MX</option>
+                <option value="F"{if $dataClient.civilite == 'F'} selected{/if}>Madame</option>
+                <option value="M"{if $dataClient.civilite == 'M'} selected{/if}>Monsieur</option>
+                <option value="X"{if $dataClient.civilite == 'X'} selected{/if}>MX</option>
               </select>
 
               
@@ -179,7 +180,7 @@
             <div class="form-group pb-3 col-12">
               <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="rgpd" name="rgpd" {if isset($dataClient.rgpd) && $dataClient.rgpd == 1}checked{/if}>
-                <label class="form-check-label" id="lblrgpd" for="rgpd">J'accepte que mes données personnelles soient conservées pour usage ultérieur 
+                <label class="form-check-label reparation" id="lblrgpd" for="rgpd">J'accepte que mes données personnelles soient conservées pour usage ultérieur 
                   <button type="button" 
                     class="btn btn-primary btn-sm info-rgpd" 
                     data-bs-toggle="tooltip"

@@ -68,14 +68,14 @@
   </div>
   <div class="col-md-6">
     <button type="button" id="ficheClientPerso" class="d-flex btn btn-lg btn-success w-100 h-100">
-      <img src="images/oxico.png" alt="Oxfam" style="float-start">
+      <img src="images/oxico.png" alt="Oxfam" class="float-start">
       <p style="display: flex; align-items: center;justify-content: center; font-weight: bolder">Créer un compte client Ixelles</p></button>  
   </div>
 </div>
 
 
 <h2>Horaires</h2>
-<table class="table table-condensed">
+<table class="table table-sm">
   <tr>
     <td>Lundi</td>
     <td>Fermé</td>

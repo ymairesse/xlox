@@ -100,7 +100,7 @@ class User
     public function getListeUsers($droits, $sort = 'alphaAsc')
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-        $sql = 'SELECT idUser, nom, prenom, dateAcces ';
+        $sql = 'SELECT idUser, nom, prenom, dateAcces, droits ';
         $sql .= 'FROM '.PFX.'users ';
         // ? à la place des différentes options
         $lesDroits = join(',', array_fill(0, count($droits), '?'));
@@ -125,6 +125,9 @@ class User
             $requete->setFetchMode(PDO::FETCH_ASSOC);
             while ($ligne = $requete->fetch()) {
                 $idUser = $ligne['idUser'];
+                $dateHeure = explode(' ', $ligne['dateAcces']);
+                $ligne['date'] = Application::datePHP($dateHeure[0]);
+                $ligne['heure'] = substr($dateHeure[1], 0, 5);
                 $liste[$idUser] = $ligne;
             }
         }
@@ -205,7 +208,7 @@ class User
         $sql .= 'SET civilite = :civilite, idUser = :idUser, nom = :nom, prenom = :prenom, ';
         $sql .= 'telephone = :telephone, gsm = :gsm, mail = :mail, pseudo = :pseudo, ';
         $sql .= 'adresse = :adresse, commune = :commune, cpost = :cpost, tva = :tva, ';
-        $sql .= 'droits = :droits, rgpd = :rgpd ';
+        $sql .= 'droits = :droits, rgpd = :rgpd, dateAcces = :dateAcces ';
         if ($pwd != null) {
             $sql .= ', md5passwd = :pwd ';
         }
@@ -233,7 +236,7 @@ class User
         $requete->bindParam(':tva', $tva, PDO::PARAM_STR, 12);
         $requete->bindParam(':droits', $droits, PDO::PARAM_STR, 6);
         $requete->bindParam(':rgpd', $rgpd, PDO::PARAM_INT);
-
+        
         $Now = new DateTime('now', new DateTimeZone('Europe/Brussels'));
         $dateAcces = $Now->format('Y-m-d H:i:s');
         $requete->bindParam(':dateAcces', $dateAcces, PDO::PARAM_STR, 17);
@@ -244,6 +247,8 @@ class User
         $resultat = $requete->execute();
 
         $nb = $requete->rowCount();
+
+        // pour le cas d'un nouveau utilisateur
         $idUser = ($idUser == null) ? $connexion->lastInsertId() : $idUser;
 
         Application::DeconnexionPDO($connexion);

@@ -6,11 +6,16 @@
       <input type="hidden" value="{$profil.idUser}" name="idClient" id="idClient">
       <div class="pb-3 col-2">
         <label for="civilite">Genre</label>
-        <select name="civilite" id="civilite" class="form-control" readonly>
-          <option disabled value="">Sélectionner </option>
-          <option disabled value="F" {if $profil.civilite == 'F'}selected{/if}>Madame</option>
-          <option disabled value="M" {if $profil.civilite == 'M'}selected{/if}>Monsieur</option>
-        </select>
+        <input name="civilite" 
+          id="civilite" 
+          class="form-control" 
+          type="text"
+          value="{if $profil.civilite == 'F'}Madame 
+            {elseif $profil.civilite == 'M'}Monsieur 
+            {else}MX 
+          {/if}"
+          >
+
       </div>
 
       <div class="form-group pb-3 col-6">

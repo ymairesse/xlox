@@ -1,15 +1,20 @@
+ficheProfil
 <form autocomplete="false" id="formUser">
 
   <div class="container-fluid">
     <div class="row">
       <input type="hidden" value="{$profil.idUser}" name="idUser">
-      <div class="pb-3 col-2">
-        <label for="civilite">Genre</label>
-        <select name="civilite" id="civilite" class="form-control">
-          <option value="">Sélectionner </option>
-          <option value="F" {if $profil.civilite == 'F'}selected{/if}>Madame</option>
-          <option value="M" {if $profil.civilite == 'M'}selected{/if}>Monsieur</option>
-        </select>
+      <div class="form-group pb-3 col-2">
+        <label for="genre">F/M/X</label>
+        <input
+          type="text"
+          class="form-control"
+          name="civilite"
+          id="civilite"
+          readonly
+          value="{$profil.civilite|default:''}"
+          placeholder="Civ."
+        />
       </div>
 
       <div class="form-group pb-3 col-6">
@@ -38,23 +43,6 @@
           placeholder="Prénom"
           required
         />
-      </div>
-
-      <div class="form-group pb-3 col-md-4">
-        <label for="mail"
-          ><i class="fa fa-send" aria-hidden="true"></i> Adresse
-          mail</label
-        >
-        <input
-          type="mail"
-          class="form-control"
-          name="mail"
-          id="mail"
-        
-          value="{$profil.mail|default:''}"
-          placeholder="Adresse mail"
-          required
-        >
       </div>
 
     <div class="form-group pb-3 col-md-4">
@@ -87,10 +75,26 @@
           aria-describedby="addonMdp"
           >
       </div>
-
     </div>
 
-    <div class="form-group pb-3 col-6">
+    <div class="form-group pb-3 col-md-4">
+      <label for="mail"
+        ><i class="fa fa-send" aria-hidden="true"></i> Adresse
+        mail</label
+      >
+      <input
+        type="mail"
+        class="form-control"
+        name="mail"
+        id="mail"
+      
+        value="{$profil.mail|default:''}"
+        placeholder="Adresse mail"
+        required
+      >
+    </div>
+
+    <div class="form-group pb-3 col-4">
       <label for="gsm"
         ><i class="fa fa-mobile" aria-hidden="true"></i> GSM</label
       >
@@ -105,7 +109,7 @@
       />
     </div>
       
-      <div class="form-group pb-3 col-6">
+      <div class="form-group pb-3 col-4">
         <label for="telephone"
           ><i class="fa fa-phone" aria-hidden="true"></i> Téléphone</label
         >
@@ -159,36 +163,18 @@
         />
       </div>
 
-      <div class="form-group pb-3 col-8">
-        <label for="tva">N° TVA</label>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text">BE</span>
-          </div>
-          <input
-            type="text"
-            class="form-control"
-            id="tva"
-            autocomplete="false"
-            name="tva"
-            value="{$profil.tva|default:''}"
-          />
-        </div>
-      </div>
-
-{if isset($idUser)}
-      <div class="form-group pb-3 col-4">
+      
+      <div class="form-group pb-3 col-md-4 col-6">
         <label for="droits">Droits</label>
-        <select id="droits" class="form-control" name="droits">
-          <option value="client" {if $profil.droits =="client"}selected{/if}>Client</option>
-          <option value="oxfam" {if $profil.droits =="oxfam"}selected{/if}>Oxfam</option>
-          <option value="root" {if $profil.droits =="root"}selected{/if}>Administrateur</option>
-        </select>
+        <input
+          type="text"
+          id="droits"
+          name="droits"
+          class="form-control"
+          value="{$profil.droits|default:'oxfam'}"
+        />
       </div>
-      {else} 
-      <input type="hidden" name="droits" value="{$profil.droits}">
-{/if}
-      <button type="button" class="btn btn-warning w-100" id="btn-saveProfil"><i class="fa fa-floppy-o" aria-hidden="true"></i> Enregistrer</button>
+      
 
     </div>
   

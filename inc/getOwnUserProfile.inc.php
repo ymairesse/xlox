@@ -9,11 +9,10 @@ require_once '../config.inc.php';
 // ressources principales toujours nécessaires: classes Application, User, Smarty, 
 include 'entetes.inc.php';
 
-$benevole = $User->getUser();
-$idUser = $benevole['idUser'];
 
-$profil = $User->getDataUser($idUser);
-$smarty->assign('profil', $profil);
+// utilisateur actif en session
+$dataUser = $User->getUser();
+$smarty->assign('dataUser', $dataUser);
 
-// fiche personnelle
-$smarty->display('ficheProfil.tpl');
+// fiche personnelle uniquement
+$smarty->display('ficheProfilUser.tpl');

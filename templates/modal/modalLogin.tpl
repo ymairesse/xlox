@@ -22,16 +22,19 @@
                 placeholder="Votre adresse mail ou votre pseudo"
                 value=""
                 autocomplete="off"
+                tabindex="1"
               />
             </div>
           </div>
 
+  
           <div class="row">
             <div class="col-1">
               <button
                 class="btn btn-outline-secondary"
                 type="button"
                 id="btn-view"
+                tabindex="4"
               >
                 <i class="fa fa-eye" aria-hidden="true"></i>
               </button>
@@ -45,9 +48,11 @@
                 id="passwd"
                 name="passwd"
                 autocomplete="off"
+                tabindex="2"
               />
             </div>
           </div>
+   
           <!--
           <button
             type="button"
@@ -59,17 +64,14 @@
         --></form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Annuler
-        </button>
-        <button type="button" class="btn btn-primary" id="btn-modalLogin">
+        <button type="button" class="btn btn-primary" id="btn-modalLogin" tabindex="3">
           Connexion
         </button>
+
       </div>
     </div>
   </div>
 </div>
-
 
 <script>
   $(document).ready(function () {

@@ -14,7 +14,7 @@
 </p>
 
 <h2>Horaires</h2>
-<table class="table table-condensed">
+<table class="table table-sm">
   <tr>
     <td>Lundi</td>
     <td>Fermé</td>

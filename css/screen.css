@@ -15,11 +15,15 @@ h2 {
     padding-bottom: 2em;
 }
 
-select#listeClients,
-select#listeUsers {
-    background-color: #34ac5d;
-    color: white;
+table#listeClients tr td, 
+table#listeUsers tr td {
+    cursor: pointer;
 }
+
+table#listeClients  tr.choosen td,
+table#listeUsers tr.choosen td {
+    background-color: #f7ea3f;
+  }
 
 #refClients {
     background-color: #ca9b2c66;
@@ -76,5 +80,13 @@ label.error {
 
 
 #fichesReparation {
-    background: pink;
+    background-color: #ffc0cb;
+}
+
+#formUser {
+    background-color: #bbbbff;
+}
+
+#formClient {
+    background-color: #ccffcc;
 }

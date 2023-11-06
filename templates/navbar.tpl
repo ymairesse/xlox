@@ -20,23 +20,24 @@
         class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
         style="--bs-scroll-height: 100px"
       >
-
         {if isset($user) && in_array($user.droits, ['oxfam','root'])}
-      <li class="nav-item dropdown">
-        <a href="#" 
-          class="nav-link dropdown-toggle"
-          role="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >Clients</a>
-        <ul class="dropdown-menu">
-          <li>
-            <a href="#" class="dropdown-item" id="gestionClients">
-              Gestion des clients
-            </a>
-          </li>
-        </ul>
-      </li>
+        <li class="nav-item dropdown">
+          <a
+            href="#"
+            class="nav-link dropdown-toggle"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            >Clients</a
+          >
+          <ul class="dropdown-menu">
+            <li>
+              <a href="#" class="dropdown-item" id="gestionClients">
+                Gestion des clients
+              </a>
+            </li>
+          </ul>
+        </li>
 
         <li class="nav-item dropdown">
           <a
@@ -84,6 +85,7 @@
             </li>
           </ul>
         </li>
+
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
@@ -96,20 +98,43 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a class="dropdown-item" id="profil" href="#">Profil personnel</a>
+              <a class="dropdown-item" id="profil" href="#"
+                ><i class="fa fa-user"></i> Profil personnel</a
+              >
             </li>
+
             {if $user.droits == 'root'}
             <li>
               <a class="dropdown-item" id="gestUsers" href="#"
-                >Gestion des utilisateurs</a
+                ><i class="fa fa-users"></i> Gestion des utilisateurs</a
               >
             </li>
             {/if}
           </ul>
         </li>
 
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Préférences
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" id="neverDie" href="#"
+                ><i class="fa fa-spinner" aria-hidden="true"></i> Never die</a
+              >
+            </li>
+
+          </ul>
+        </li>
         {/if}
       </ul>
+
       <ul class="text-end list-unstyled">
         <li class="nav-item">
           {if $user != Null}
@@ -121,8 +146,9 @@
             title="Déconnexion"
           >
             <i class="fa fa-sign-out" aria-hidden="true"></i>
-            <span id="loggedUser"
-              >{$user.civilite} {$user.nom} {$user.prenom}</span
+            <span id="loggedUser">
+              <span id="never"></span>
+              {$user.civilite} {$user.nom} {$user.prenom}</span
             >
           </a>
           {else}

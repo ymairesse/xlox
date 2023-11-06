@@ -245,7 +245,7 @@
             <div class="form-group pb-3 col-12">
               <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="rgpd" name="rgpd" {if isset($dataClient.rgpd) && $dataClient.rgpd == 1}checked{/if}>
-                <label class="form-check-label" id="lblrgpd" for="rgpd">J'accepte que mes données personnelles soient conservées pour usage ultérieur 
+                <label class="form-check-label reparation facture devis" id="lblrgpd" for="rgpd">J'accepte que mes données personnelles soient conservées pour usage ultérieur 
                   <button type="button" 
                     class="btn btn-primary btn-sm info-rgpd" 
                     data-bs-toggle="tooltip"

@@ -17,7 +17,7 @@ $sortClient = isset($_POST['sortClient']) ? $_POST['sortClient'] : 'alphaAsc';
 $listeClients = $User->getListeUsers(array('client'), $sortClient);
 
 // fiche personnelle
-$profil = $idClient != Null ? $User->getDataUser($idClient) : Null;
+$profil = ($idClient != Null) ? $User->getDataUser($idClient) : Null;
 
 $smarty->assign('listeClients', $listeClients);
 $smarty->assign('idClient', $idClient);
@@ -25,6 +25,5 @@ $smarty->assign('profil', $profil);
 $smarty->assign('sortClient', $sortClient);
 
 $smarty->assign('mode', $mode);
-$smarty->assign('selectHeight', 15); // hauteur du sélecteur de clients
 
 $smarty->display('ficheClients.tpl');

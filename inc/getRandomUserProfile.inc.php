@@ -1,6 +1,6 @@
 <?php
 
-// Édition du profil personnel de l'utilisateur
+// Édition du profil utilisateur oXFAM
 
 session_start();
 
@@ -11,10 +11,8 @@ include 'entetes.inc.php';
 
 $idUser = isset($_POST['idUser']) ? $_POST['idUser'] : Null;
 
-$profil = $User->getDataUser($idUser);
-$smarty->assign('profil', $profil);
+$dataUser = $User->getDataUser($idUser);
+$smarty->assign('dataUser', $dataUser);
 $smarty->assign('idUser', $idUser);
 
-// fiche personnelle
-
-$smarty->display('ficheProfil.tpl');
+$smarty->display('ficheProfilUser.tpl');
