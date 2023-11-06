@@ -1,4 +1,4 @@
-ficheProfilUser.tpl
+fichedataUserUser.tpl
 
 <form autocomplete="false" id="formUser">
   <div class="container-fluid">
@@ -22,7 +22,11 @@ ficheProfilUser.tpl
           name="civilite"
           id="civilite"
           readonly
-          value="{$dataUser.civilite|default:''}"
+          value="{if $dataUser.civilite == 'F'}Madame 
+            {elseif $dataUser.civilite == 'M'}Monsieur 
+            {elseif $dataUser.civilie == 'X'}MX
+            {else}-
+          {/if}"
           placeholder="Civ."
         />
       </div>

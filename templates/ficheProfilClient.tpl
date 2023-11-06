@@ -1,21 +1,25 @@
 <form autocomplete="false" id="formClient">
-
   <div class="container-fluid">
     <div class="row">
-
-      <input type="hidden" value="{$profil.idUser}" name="idClient" id="idClient">
+      <input
+        type="hidden"
+        value="{$profil.idUser}"
+        name="idClient"
+        id="idClient"
+      />
       <div class="pb-3 col-2">
         <label for="civilite">Genre</label>
-        <input name="civilite" 
-          id="civilite" 
-          class="form-control" 
+        <input
+          name="civilite"
+          id="civilite"
+          class="form-control"
           type="text"
           value="{if $profil.civilite == 'F'}Madame 
-            {elseif $profil.civilite == 'M'}Monsieur 
-            {else}MX 
+          {elseif $profil.civilite == 'M'}Monsieur 
+          {elseif $profil.civilie == 'X'}MX
+          {else}-
           {/if}"
-          >
-
+        />
       </div>
 
       <div class="form-group pb-3 col-6">
@@ -48,19 +52,17 @@
 
       <div class="form-group pb-3 col-md-4">
         <label for="mail"
-          ><i class="fa fa-send" aria-hidden="true"></i> Adresse
-          mail</label
+          ><i class="fa fa-send" aria-hidden="true"></i> Adresse mail</label
         >
         <input
           type="mail"
           class="form-control"
           name="mail"
           id="mail"
-        
           value="{$profil.mail|default:''}"
           placeholder="Adresse mail"
           readonly
-        >
+        />
       </div>
 
       <div class="form-group pb-3 col-4">
@@ -94,24 +96,22 @@
           readonly
         />
       </div>
-
     </div>
-    
+
     <div class="row">
-
-    <div class="form-group pb-3 col-md-4 col-12">
-      <label for="adresse">Adresse</label>
-      <input
-        type="text"
-        class="form-control"
-        name="adresse"
-        autocomplete="false"
-        id="adresse"
-        value="{$profil.adresse|default:''}"
-        placeholder="Adresse rue / numéro"
-        readonly
-      />
-    </div>
+      <div class="form-group pb-3 col-md-4 col-12">
+        <label for="adresse">Adresse</label>
+        <input
+          type="text"
+          class="form-control"
+          name="adresse"
+          autocomplete="false"
+          id="adresse"
+          value="{$profil.adresse|default:''}"
+          placeholder="Adresse rue / numéro"
+          readonly
+        />
+      </div>
 
       <div class="form-group pb-3 col-md-4 col-8">
         <label for="commune">Commune</label>
@@ -140,28 +140,24 @@
           readonly
         />
       </div>
-
     </div>
 
-      <div class="form-group pb-3 col-12">
-        <label for="tva">N° TVA</label>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text">BE</span>
-          </div>
-          <input
-            type="text"
-            class="form-control"
-            id="tva"
-            autocomplete="false"
-            name="tva"
-            value="{$profil.tva|default:''}"
-            readonly
-          />
+    <div class="form-group pb-3 col-12">
+      <label for="tva">N° TVA</label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">BE</span>
         </div>
+        <input
+          type="text"
+          class="form-control"
+          id="tva"
+          autocomplete="false"
+          name="tva"
+          value="{$profil.tva|default:''}"
+          readonly
+        />
       </div>
-
     </div>
-  
+  </div>
 </form>
-
