@@ -31,7 +31,7 @@ class User
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT * ';
-        $sql .= 'FROM '.PFX.'users ';
+        $sql .= 'FROM ' . PFX . 'users ';
         $sql .= 'WHERE (mail = :identifiant OR pseudo = :identifiant) AND md5passwd = :md5passwd ';
 
         $requete = $connexion->prepare($sql);
@@ -72,7 +72,7 @@ class User
     public function savePasswd($passwd, $mail)
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-        $sql = 'UPDATE '.PFX.'users ';
+        $sql = 'UPDATE ' . PFX . 'users ';
         $sql .= 'SET md5passwd = :md5passwd ';
         $sql .= 'WHERE mail = :mail ';
         $requete = $connexion->prepare($sql);
@@ -101,16 +101,16 @@ class User
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT idUser, nom, prenom, dateAcces, droits ';
-        $sql .= 'FROM '.PFX.'users ';
+        $sql .= 'FROM ' . PFX . 'users ';
         // ? à la place des différentes options
         $lesDroits = join(',', array_fill(0, count($droits), '?'));
-        $sql .= 'WHERE droits IN ('.$lesDroits.') ';
+        $sql .= 'WHERE droits IN (' . $lesDroits . ') ';
 
         switch ($sort) {
             case 'alphaAsc':
                 $sql .= 'ORDER BY nom ASC, prenom, mail ';
                 break;
-            case 'alphaDesc': 
+            case 'alphaDesc':
                 $sql .= 'ORDER BY nom DESC, prenom, mail ';
                 break;
             case 'parDate':
@@ -148,7 +148,7 @@ class User
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT * ';
-        $sql .= 'FROM '.PFX.'users ';
+        $sql .= 'FROM ' . PFX . 'users ';
         $sql .= 'WHERE idUser = :idUser ';
         if ($droits != null) {
             $sql .= 'AND droits = :droits ';
@@ -186,7 +186,7 @@ class User
     public function saveUser($form)
     {
         $idUser = isset($form['idUser']) ? $form['idUser'] : null;
-        $civilite = isset($form['civilite'] ) ? $form['civilite'] : null;
+        $civilite = isset($form['civilite']) ? $form['civilite'] : null;
         $nom = isset($form['nom']) ? $form['nom'] : null;
         $prenom = isset($form['prenom']) ? $form['prenom'] : null;
 
@@ -204,7 +204,7 @@ class User
         $rgpd = isset($form['rgpd']) ? 1 : 0;
 
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-        $sql = 'INSERT INTO '.PFX.'users ';
+        $sql = 'INSERT INTO ' . PFX . 'users ';
         $sql .= 'SET civilite = :civilite, idUser = :idUser, nom = :nom, prenom = :prenom, ';
         $sql .= 'telephone = :telephone, gsm = :gsm, mail = :mail, pseudo = :pseudo, ';
         $sql .= 'adresse = :adresse, commune = :commune, cpost = :cpost, tva = :tva, ';
@@ -236,7 +236,7 @@ class User
         $requete->bindParam(':tva', $tva, PDO::PARAM_STR, 12);
         $requete->bindParam(':droits', $droits, PDO::PARAM_STR, 6);
         $requete->bindParam(':rgpd', $rgpd, PDO::PARAM_INT);
-        
+
         $Now = new DateTime('now', new DateTimeZone('Europe/Brussels'));
         $dateAcces = $Now->format('Y-m-d H:i:s');
         $requete->bindParam(':dateAcces', $dateAcces, PDO::PARAM_STR, 17);
@@ -283,7 +283,7 @@ class User
             $rgpd = isset($form['rgpd']) ? 1 : 0;
 
             $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-            $sql = 'INSERT INTO '.PFX.'users ';
+            $sql = 'INSERT INTO ' . PFX . 'users ';
             $sql .= 'SET civilite = :civilite, idUser = :idUser, nom = :nom, prenom = :prenom, ';
             $sql .= 'telephone = :telephone, gsm = :gsm, mail = :mail, pseudo = :pseudo, ';
             $sql .= 'adresse = :adresse, commune = :commune, cpost = :cpost, tva = :tva, ';
@@ -345,7 +345,7 @@ class User
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT * ';
-        $sql .= 'FROM '.PFX.'bonsReparation ';
+        $sql .= 'FROM ' . PFX . 'bonsReparation ';
         $sql .= 'WHERE idUser = :idUser AND numeroBon = :numeroBon ';
         $requete = $connexion->prepare($sql);
 
@@ -363,6 +363,37 @@ class User
 
         return $dataBon;
     }
+
+        /**
+     * renvoie le contenu du bon de réparation $numeroBon 
+     *
+     * @param int $numeroBon
+     *
+     * @return array
+     */
+
+     public function getData4Bon($numeroBon)
+     {
+         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+         $sql = 'SELECT * ';
+         $sql .= 'FROM '.PFX.'bonsReparation AS bons ';
+         $sql .= 'JOIN '.PFX.'typeMateriel AS tm ON bons.typeMateriel = tm.idTypeMateriel ';
+         $sql .= 'WHERE numeroBon = :numeroBon ';
+         $requete = $connexion->prepare($sql);
+ 
+         $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
+ 
+         $resultat = $requete->execute();
+ 
+         if ($resultat) {
+             $requete->setFetchMode(PDO::FETCH_ASSOC);
+             $dataBon = $requete->fetch();
+         }
+ 
+         Application::DeconnexionPDO($connexion);
+ 
+         return $dataBon;
+     }
 
     /**
      * Enregistrement des données d'un bon depuis le formulaire $form
@@ -397,12 +428,12 @@ class User
 
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         if ($numeroBon == null) {
-            $sql = 'INSERT INTO '.PFX.'bonsReparation ';
+            $sql = 'INSERT INTO ' . PFX . 'bonsReparation ';
             $sql .= 'SET idUser = :idUser, typeMateriel = :typeMateriel, marque = :marque, modele = :modele, ox = :ox, ';
             $sql .= 'dateEntree = :dateEntree, benevole = :benevole, mdp = :mdp, probleme = :probleme, etat = :etat, devis = :devis, ';
             $sql .= 'data = :data, remarque = :remarque, termine = :termine, dateSortie = :dateSortie, apayer = :apayer, garantie = :garantie ';
         } else {
-            $sql = 'UPDATE '.PFX.'bonsReparation ';
+            $sql = 'UPDATE ' . PFX . 'bonsReparation ';
             $sql .= 'SET idUser = :idUser, typeMateriel = :typeMateriel, marque = :marque, modele = :modele, ox = :ox, ';
             $sql .= 'dateEntree = :dateEntree, benevole = :benevole, mdp = :mdp, probleme = :probleme, etat = :etat, devis = :devis, ';
             $sql .= 'data = :data, remarque = :remarque, termine = :termine, dateSortie = :dateSortie, apayer = :apayer, garantie = :garantie ';
@@ -442,7 +473,7 @@ class User
         $listeAccessoires = isset($form['accessoires']) ? $form['accessoires'] : null;
 
         // nettoyage de la liste actuelle
-        $sql = 'DELETE FROM '.PFX.'bonsAccessoires ';
+        $sql = 'DELETE FROM ' . PFX . 'bonsAccessoires ';
         $sql .= 'WHERE numeroBon = :numeroBon ';
         $requete = $connexion->prepare($sql);
 
@@ -451,7 +482,7 @@ class User
 
         // remise en place éventuelle des "accessoires" du formulaire
         if ($listeAccessoires != null) {
-            $sql = 'INSERT INTO '.PFX.'bonsAccessoires ';
+            $sql = 'INSERT INTO ' . PFX . 'bonsAccessoires ';
             $sql .= 'SET numeroBon = :numeroBon, idAccessoire = :idAccessoire ';
             $requete = $connexion->prepare($sql);
 
@@ -481,8 +512,8 @@ class User
         // $sql = 'SELECT numeroBon, idUser, type.type, marque, modele, ox, data, ';
         // $sql .= 'dateEntree, dateSortie, benevole, mdp, data, probleme, etat, devis, remarque, apayer, termine ';
         $sql = 'SELECT * ';
-        $sql .= 'FROM '.PFX.'bonsReparation ';
-        $sql .= 'JOIN '.PFX.'typeMateriel AS type ON typeMateriel = type.idTypeMateriel ';
+        $sql .= 'FROM ' . PFX . 'bonsReparation ';
+        $sql .= 'JOIN ' . PFX . 'typeMateriel AS type ON typeMateriel = type.idTypeMateriel ';
         $sql .= 'WHERE idUser = :idClient ';
         $sql .= 'ORDER BY dateEntree ';
         $requete = $connexion->prepare($sql);
@@ -515,7 +546,7 @@ class User
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT idTypeMateriel, type ';
-        $sql .= 'FROM '.PFX.'typeMateriel ';
+        $sql .= 'FROM ' . PFX . 'typeMateriel ';
         $sql .= 'ORDER BY type ';
         $requete = $connexion->prepare($sql);
 
@@ -546,10 +577,10 @@ class User
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         if ($idMatos == null) {
-            $sql = 'INSERT INTO '.PFX.'typeMateriel ';
+            $sql = 'INSERT INTO ' . PFX . 'typeMateriel ';
             $sql .= 'SET type = :type ';
         } else {
-            $sql = 'UPDATE '.PFX.'typeMateriel ';
+            $sql = 'UPDATE ' . PFX . 'typeMateriel ';
             $sql .= 'SET type = :type ';
             $sql .= 'WHERE idTypeMateriel = :idMatos ';
         }
@@ -583,10 +614,10 @@ class User
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         if ($idAccessoire == null) {
-            $sql = 'INSERT INTO '.PFX.'accessoires ';
+            $sql = 'INSERT INTO ' . PFX . 'accessoires ';
             $sql .= 'SET accessoire = :accessoire ';
         } else {
-            $sql = 'UPDATE '.PFX.'accessoires ';
+            $sql = 'UPDATE ' . PFX . 'accessoires ';
             $sql .= 'SET acessoire = :accessoire ';
             $sql .= 'WHERE idAccessoire = :idAccessoire ';
         }
@@ -621,8 +652,8 @@ class User
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT numeroBon, macc.idAccessoire, accessoire ';
-        $sql .= 'FROM '.PFX.'bonsAccessoires AS macc ';
-        $sql .= 'JOIN '.PFX.'accessoires AS acc ON acc.idAccessoire = macc.idAccessoire ';
+        $sql .= 'FROM ' . PFX . 'bonsAccessoires AS macc ';
+        $sql .= 'JOIN ' . PFX . 'accessoires AS acc ON acc.idAccessoire = macc.idAccessoire ';
         $sql .= 'WHERE numeroBon = :numeroBon ';
         $requete = $connexion->prepare($sql);
 
@@ -655,7 +686,7 @@ class User
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT idAccessoire, accessoire ';
-        $sql .= 'FROM '.PFX.'accessoires ';
+        $sql .= 'FROM ' . PFX . 'accessoires ';
         $sql .= 'ORDER BY accessoire ';
         $requete = $connexion->prepare($sql);
 
@@ -685,7 +716,7 @@ class User
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT idTypeMateriel, type ';
-        $sql .= 'FROM '.PFX.'typeMateriel ';
+        $sql .= 'FROM ' . PFX . 'typeMateriel ';
         $sql .= 'ORDER BY UPPER(type) ';
         $requete = $connexion->prepare($sql);
 
@@ -715,7 +746,7 @@ class User
     public function deleteBon($idUser, $numeroBon)
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-        $sql = 'DELETE FROM '.PFX.'bonsReparation ';
+        $sql = 'DELETE FROM ' . PFX . 'bonsReparation ';
         $sql .= 'WHERE numeroBon = :numeroBon AND idUser = :idUser';
         $requete = $connexion->prepare($sql);
 
@@ -746,16 +777,16 @@ class User
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         // C'est une nouvelle mention
         if ($idMention == null) {
-            $sql = 'INSERT INTO '.PFX.'mentionsTravail ';
+            $sql = 'INSERT INTO ' . PFX . 'mentionsTravail ';
             $sql .= 'SET idUser = :idUser, type = :type, texte = :mention ';
         } else {
             // Il s'agit d'une suppression
             if (trim($mention) == '') {
-                $sql = 'DELETE FROM '.PFX.'mentionsTravail ';
+                $sql = 'DELETE FROM ' . PFX . 'mentionsTravail ';
                 $sql .= 'WHERE idMention = :idMention ';
             } else {
                 // c'est une édition
-                $sql = 'UPDATE '.PFX.'mentionsTravail ';
+                $sql = 'UPDATE ' . PFX . 'mentionsTravail ';
                 $sql .= 'SET idUser = :idUser, type = :type, texte = :mention ';
                 $sql .= 'WHERE idMention = :idMention ';
             }
@@ -799,8 +830,8 @@ class User
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT idMention, type, texte, mentions.idUser, users.prenom ';
-        $sql .= 'FROM '.PFX.'mentionsTravail AS mentions ';
-        $sql .= 'JOIN '.PFX.'users AS users ON users.idUser = mentions.idUser ';
+        $sql .= 'FROM ' . PFX . 'mentionsTravail AS mentions ';
+        $sql .= 'JOIN ' . PFX . 'users AS users ON users.idUser = mentions.idUser ';
         $sql .= 'WHERE type = :type ';
         $sql .= 'ORDER BY prenom, texte ';
 
@@ -833,7 +864,7 @@ class User
     public function delUser($idUser)
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-        $sql = 'DELETE FROM '.PFX.'users ';
+        $sql = 'DELETE FROM ' . PFX . 'users ';
         $sql .= 'WHERE idUser = :idUser ';
         $requete = $connexion->prepare($sql);
 
@@ -862,8 +893,8 @@ class User
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT users.* ';
-        $sql .= 'FROM '.PFX.'bonsReparation AS bons ';
-        $sql .= 'JOIN '.PFX.'users AS users ON users.idUser = bons.idUser ';
+        $sql .= 'FROM ' . PFX . 'bonsReparation AS bons ';
+        $sql .= 'JOIN ' . PFX . 'users AS users ON users.idUser = bons.idUser ';
         $sql .= 'WHERE bons.numeroBon = :numeroBon ';
         $requete = $connexion->prepare($sql);
 
@@ -893,7 +924,7 @@ class User
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT COUNT(*) AS compte ';
-        $sql .= 'FROM '.PFX.'bonsReparation ';
+        $sql .= 'FROM ' . PFX . 'bonsReparation ';
         $sql .= 'WHERE idUser = :idUser ';
         $requete = $connexion->prepare($sql);
 
@@ -919,13 +950,19 @@ class User
     *
     * @return array
     */
-    public function getNbAvancements4bons()
+    public function getNbAvancements4bons($numeroBon = Null)
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT numeroBon, count(idAvancement) AS nb ';
-        $sql .= 'FROM '.PFX.'bonsAvancement ';
-        $sql .= 'GROUP BY numeroBon ';
+        $sql .= 'FROM ' . PFX . 'bonsAvancement ';
+        if ($numeroBon == Null)
+            $sql .= 'GROUP BY numeroBon ';
+        if ($numeroBon != Null)
+            $sql .= 'WHERE numeroBon = :numeroBon ';
         $requete = $connexion->prepare($sql);
+
+        if ($numeroBon != Null)
+            $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
 
         $listeAvancements = array();
         $resultat = $requete->execute();
@@ -953,7 +990,7 @@ class User
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT * ';
-        $sql .= 'FROM '.PFX.'bonsAvancement AS avancement ';
+        $sql .= 'FROM ' . PFX . 'bonsAvancement AS avancement ';
         $sql .= 'WHERE numeroBon = :numeroBon ';
         $sql .= 'ORDER BY date ';
         $requete = $connexion->prepare($sql);
@@ -991,7 +1028,7 @@ class User
     public function saveAvancement($numeroBon, $texte, $benevole, $interaction)
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-        $sql = 'INSERT INTO '.PFX.'bonsAvancement ';
+        $sql = 'INSERT INTO ' . PFX . 'bonsAvancement ';
         $sql .= 'SET numeroBon = :numeroBon, texte = :texte, benevole = :benevole, interactionClient = :interaction ';
         $requete = $connexion->prepare($sql);
 
@@ -1021,7 +1058,7 @@ class User
     public function strikeAvancement($numeroBon, $idAvancement, $benevole)
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-        $sql = 'UPDATE '.PFX.'bonsAvancement ';
+        $sql = 'UPDATE ' . PFX . 'bonsAvancement ';
         $sql .= 'SET barre = NOT(barre), barrePar = :benevole ';
         $sql .= 'WHERE numeroBon = :numeroBon AND idAvancement = :idAvancement ';
         $requete = $connexion->prepare($sql);
@@ -1050,7 +1087,7 @@ class User
     public function delAvancement($idAvancement)
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-        $sql = 'DELETE FROM '.PFX.'bonsAvancement ';
+        $sql = 'DELETE FROM ' . PFX . 'bonsAvancement ';
         $sql .= 'WHERE idAvancement = :idAvancement ';
         $requete = $connexion->prepare($sql);
 
@@ -1066,62 +1103,46 @@ class User
     }
 
     /**
-     * recherche la valeur actuelle du token "Client"
-     *
-     * @param
-     *
-     * @return string
+     * ----------------------------------------------------------------------------
+     * Gestion des réparations
+     * ----------------------------------------------------------------------------
      */
-    public function getToken()
-    {
-        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-        $sql = 'SELECT token FROM '.PFX.'token ';
-        $requete = $connexion->prepare($sql);
-
-        $token = '';
-        $resultat = $requete->execute();
-        if ($resultat) {
-            $requete->setFetchMode(PDO::FETCH_ASSOC);
-            $ligne = $requete->fetch();
-            $token = $ligne['token'];
-        }
-
-        Application::DeconnexionPDO($connexion);
-
-        if ($token == '') {
-            $token = $this->renewToken();
-        }
-
-        return $token;
-    }
 
     /**
-     * renouvelle la valeur du token "Client"
+     * Liste les bons de réparations $enCours (ou plus $enCours)
      *
-     * @param
+     * @param bool $enCours
      *
-     * @return string
+     * @return array
      */
-    public function renewToken()
+    public function getListeReparations($termine = false)
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-        $sql = 'TRUNCATE '.PFX.'token ';
+        $sql = 'SELECT type, civilite, nom, prenom, numeroBon, bons.idUser, typeMateriel, ';
+        $sql .= 'marque, modele, dateEntree, termine ';
+        $sql .= 'FROM ' . PFX . 'bonsReparation AS bons ';
+        $sql .= 'JOIN ' . PFX . 'typeMateriel AS type ON type.idTypeMateriel = bons.typeMateriel ';
+        $sql .= 'JOIN ' . PFX . 'users AS clients ON clients.idUser = bons.idUser ';
+        $sql .= 'WHERE termine = :termine ';
+        $sql .= 'ORDER BY dateEntree ';
         $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':termine', $termine, PDO::PARAM_INT);
+
         $resultat = $requete->execute();
 
-        $token = rand(0, 9999);
-        $token = str_pad($token, 4, '0', STR_PAD_LEFT);
-        $sql = 'INSERT INTO '.PFX.'token ';
-        $sql .= 'SET token = :token ';
-        $requete = $connexion->prepare($sql);
-
-        $requete->bindParam(':token', $token, PDO::PARAM_STR, 4);
-
-        $resultat = $requete->execute();
+        $liste = array();
+        if ($resultat){
+            $requete->setFetchMode(PDO::FETCH_ASSOC);
+            while ($ligne = $requete->fetch()){
+                $numeroBon = $ligne['numeroBon'];
+                $liste[$numeroBon] = $ligne;
+            }
+        }
 
         Application::DeconnexionPDO($connexion);
 
-        return $token;
+        return $liste;
     }
 
 

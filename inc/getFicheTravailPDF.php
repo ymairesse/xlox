@@ -21,6 +21,7 @@ $client = $User->getClient4bon($numeroBon);
 $idUser = $client['idUser'];
 
 $dataBon = $User->getDataBon($idUser, $numeroBon);
+
 $accessoiresBon = $User->getAccessoires4bon($numeroBon);
 
 

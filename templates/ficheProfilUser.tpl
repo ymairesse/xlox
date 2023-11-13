@@ -1,5 +1,3 @@
-fichedataUserUser.tpl
-
 <form autocomplete="false" id="formUser">
   <div class="container-fluid">
     <div class="row">

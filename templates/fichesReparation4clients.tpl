@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-md-3 col-12" id="selectClients">
         
@@ -6,8 +7,8 @@
     </div>
 
     <div class="col-md-9 col-12" id="fichesReparation">
-
-        {include file='ficheTravail.tpl'}   
+        
+        {include file='ficheTravail.tpl'}
 
     </div>
 

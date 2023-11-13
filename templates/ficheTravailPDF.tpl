@@ -21,20 +21,20 @@
     <h2>Client</h2>
   <table style="width: 100%">
     <tr>
-      <td style="width: 33%">{$client.civilite}</td>
-      <td style="width: 34%">Nom: <strong>{$client.nom}</strong></td>
-      <td style="width: 33%">Prenom: <strong>{$client.prenom}</strong></td>
+      <td style="width: 33%"><strong style="font-size: 14pt">{$client.civilite}</strong></td>
+      <td style="width: 34%">Nom: <strong style="font-size: 14pt">{$client.nom}</strong></td>
+      <td style="width: 33%">Prenom: <strong style="font-size: 14pt">{$client.prenom}</strong></td>
     </tr>
 
     <tr>
       <td style="width: 33%">
-        GSM: <strong>{$client.gsm|default:'---'}</strong>
+        GSM: <strong style="font-size: 14pt">{$client.gsm|default:'---'}</strong>
       </td>
       <td style="width: 34%">
-        Téléphone: <strong>{$client.telephone|default:'---'}</strong>
+        Téléphone: <strong style="font-size: 14pt">{$client.telephone|default:'---'}</strong>
       </td>
       <td style="width: 33%">
-        email: <strong>{$client.mail|default:'---'}</strong>
+        email: <strong style="font-size: 14pt">{$client.mail|default:'---'}</strong>
       </td>
     </tr>
   </table>

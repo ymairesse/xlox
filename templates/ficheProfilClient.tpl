@@ -140,23 +140,23 @@
           readonly
         />
       </div>
-    </div>
 
-    <div class="form-group pb-3 col-12">
-      <label for="tva">N° TVA</label>
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">BE</span>
+      <div class="form-group pb-3 col-12">
+        <label for="tva">N° TVA</label>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">BE</span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            id="tva"
+            autocomplete="false"
+            name="tva"
+            value="{$profil.tva|default:''}"
+            readonly
+          />
         </div>
-        <input
-          type="text"
-          class="form-control"
-          id="tva"
-          autocomplete="false"
-          name="tva"
-          value="{$profil.tva|default:''}"
-          readonly
-        />
       </div>
     </div>
   </div>

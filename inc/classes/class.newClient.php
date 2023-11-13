@@ -6,12 +6,12 @@ class NewClient
 
     public static function autoSaveClient($form)
     {
-        $captcha = isset($form['captcha']) ? strtoupper($form['captcha']) : null;
+        // $captcha = isset($form['captcha']) ? strtoupper($form['captcha']) : null;
 
-        // vérification du captcha
-        if (($captcha == null) || ($captcha != $_SESSION['oxxl']['captcha'])) {
-            return json_encode(array('nb' => 0, 'idUser' => null, 'erreur' => 'Captcha'));
-        } else {
+        // // vérification du captcha
+        // if (($captcha == null) || ($captcha != $_SESSION['oxxl']['captcha'])) {
+        //     return json_encode(array('nb' => 0, 'idUser' => null, 'erreur' => 'Captcha'));
+        // } else {
 
             $idUser = isset($form['idUser']) ? $form['idUser'] : null;
             $civilite = isset($form['civilite']) ? $form['civilite'] : null;
@@ -33,7 +33,7 @@ class NewClient
 
             $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
             $sql = 'INSERT INTO '.PFX.'users ';
-            $sql .= 'SET civilite = :civilite, idUser = :idUser, nom = :nom, prenom = :prenom, ';
+            $sql .= 'SET civilite = :civilite, nom = :nom, prenom = :prenom, ';
             $sql .= 'telephone = :telephone, gsm = :gsm, mail = :mail, pseudo = :pseudo, ';
             $sql .= 'adresse = :adresse, commune = :commune, cpost = :cpost, tva = :tva, ';
             $sql .= 'droits = :droits, rgpd = :rgpd ';
@@ -78,7 +78,6 @@ class NewClient
 
             return json_encode(array('nb' => $nb, 'idUser' => $idUser));
 
-        }
     }
 
 }

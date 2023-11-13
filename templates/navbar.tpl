@@ -52,7 +52,12 @@
           <ul class="dropdown-menu">
             <li>
               <a href="#" class="dropdown-item" id="ficheReparation">
-                <i class="fa fa-pencil"></i> Fiche de réparation
+                <i class="fa fa-pencil"></i> Fiche de réparation par client
+              </a>
+            </li>
+            <li>
+              <a href="#" class="dropdown-item" id="reparations4bons" >
+                <i class="fa fa-wrench" aria-hidden="true"></i> Réparations en cours
               </a>
             </li>
             <li><hr class="dropdown-divider" /></li>
@@ -139,7 +144,7 @@
         <li class="nav-item">
           {if $user != Null}
           <a
-            type="button"
+            role="button"
             class="btn btn-danger btn-sm"
             href="#"
             id="btn-logout"

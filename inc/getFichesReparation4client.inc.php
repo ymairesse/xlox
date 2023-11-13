@@ -18,11 +18,24 @@ $listeClients = $User->getListeUsers(array('client'), $sortClient);
 
 $listeBons = $User->getListeBonsReparation($idClient);
 
+$allAccessoires = $User->getAllAccessoires();
+
+$listeNumerosBons = array_keys($listeBons);
+
+$accessoires4Bons = array();
+foreach ($listeNumerosBons as $noBon) {
+    $accessoires4Bons[$noBon] = $User->getAccessoires4bon($noBon);
+}
+
 $smarty->assign('listeClients', $listeClients);
 $smarty->assign('idClient', $idClient);
 
 $smarty->assign('listeBons', $listeBons);
 $smarty->assign('numeroBon', $numeroBon);
+$smarty->assign('allAccessoires', $allAccessoires);
+
+$smarty->assign('listeAccessoires', $accessoires4Bons);
+
 
 $smarty->assign('sortClient', $sortClient);
 $smarty->assign('mode', $mode);

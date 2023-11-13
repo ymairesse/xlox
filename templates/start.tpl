@@ -10,19 +10,19 @@
   >
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="images/20230802_105334.jpg" class="d-block w-100" alt="..." />
+        <img src="images/20230802_105334.jpg" class="d-block w-100" alt="...">
       </div>
       <div class="carousel-item">
-        <img src="images/20230802_101632.jpg" class="d-block w-100" alt="..." />
+        <img src="images/20230802_101632.jpg" class="d-block w-100" alt="...">
       </div>
       <div class="carousel-item">
-        <img src="images/20230802_101702.jpg" class="d-block w-100" alt="..." />
+        <img src="images/20230802_101702.jpg" class="d-block w-100" alt="...">
       </div>
       <div class="carousel-item">
-        <img src="images/20230802_101715.jpg" class="d-block w-100" alt="..." />
+        <img src="images/20230802_101715.jpg" class="d-block w-100" alt="...">
       </div>
       <div class="carousel-item">
-        <img src="images/20230802_111654.jpg" class="d-block w-100" alt="..." />
+        <img src="images/20230802_111654.jpg" class="d-block w-100" alt="...">
       </div>
     </div>
 
@@ -53,7 +53,7 @@
   <div class="col-md-6">
     <h2>Nous Visiter</h2>
     <p>
-      Adresse: 252 Chaussée d'Ixelles<br />
+      Adresse: 252 Chaussée d'Ixelles<br>
       1050 Ixelles
     </p>
     <h2>Nous contacter</h2>
@@ -69,7 +69,7 @@
   <div class="col-md-6">
     <button type="button" id="ficheClientPerso" class="d-flex btn btn-lg btn-success w-100 h-100">
       <img src="images/oxico.png" alt="Oxfam" class="float-start">
-      <p style="display: flex; align-items: center;justify-content: center; font-weight: bolder">Créer un compte client Ixelles</p></button>  
+      <span style="display: flex; align-items: center;justify-content: center; font-weight: bolder">Créer un compte client Ixelles</span></button>  
   </div>
 </div>
 

@@ -39,7 +39,7 @@
                 <i class="fa fa-male" aria-hidden="true"></i> 
                 <i class="fa fa-genderless" aria-hidden="true"></i>
               </label>
-              <select name="civilite" id="civilite" class="form-control">
+              <select name="civilite" id="civilite" class="form-control reparation devis facture">
                 <option value="">Select</option>
                 <option value="F"{if $dataClient.civilite == 'F'} selected{/if}>Madame</option>
                 <option value="M"{if $dataClient.civilite == 'M'} selected{/if}>Monsieur</option>
@@ -138,6 +138,20 @@
             />
           </div>
 
+          <div class="form-group pb-3 col-5 col-md-3" data-bs-toggle="tooltip" data-bs-title="Adresse nécessaire uniquement pour un devis ou une facturation">
+            <label for="cpost">
+              Code postal
+            </label>
+            <input
+              type="text"
+              class="form-control devis facture"
+              name="cpost"
+              id="cpost"
+              value="{$dataClient.cpost|default:''}"
+              placeholder="Code Postal"
+            />
+          </div>
+
             <div class="form-group pb-3 col-7 col-md-4" data-bs-toggle="tooltip" data-bs-title="Adresse nécessaire uniquement pour un devis ou une facturation">
               <label for="commune">
                 Commune
@@ -151,19 +165,7 @@
                 placeholder="Commune"
               />
             </div>
-            <div class="form-group pb-3 col-5 col-md-3" data-bs-toggle="tooltip" data-bs-title="Adresse nécessaire uniquement pour un devis ou une facturation">
-              <label for="cpost">
-                Code postal
-              </label>
-              <input
-                type="text"
-                class="form-control devis facture"
-                name="cpost"
-                id="cpost"
-                value="{$dataClient.cpost|default:''}"
-                placeholder="Code Postal"
-              />
-            </div>
+
             <div class="form-group pb-3 col-12">
               <label for="tva">
                 Numéro de TVA                

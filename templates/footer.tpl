@@ -5,4 +5,4 @@
 	  <div class="d-none d-lg-block">Le {$smarty.now|date_format:"%A, %e %b %Y"} à {$smarty.now|date_format:"%Hh%M"}</div>
 	
 	</div>
-  </nav>
+  </nav> 

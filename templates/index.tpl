@@ -19,11 +19,13 @@
     <script src="js/jsCookie/src/js.cookie.js"></script>
 
     <script src="js/javascript.js"></script>
+    <script src="js/javascriptReparation.js"></script>
+    <script src="js/javascriptClients.js"></script>
+    <script src="js/javascriptUsers.js"></script>
     <script src="js/jqvalidate/dist/jquery.validate.min.js"></script>
     <script src="js/jqvalidate/dist/additional-methods.min.js"></script>
     <script src="js/jqvalidate/dist/localization/messages_fr.js"></script>
     <script src="js/bootbox.min.js"></script>
-
   </head>
   <body>
     <div class="container-fluid" id="menu">{include file="navbar.tpl"}</div>
@@ -37,17 +39,14 @@
     <div id="modal"></div>
 
     {include file="footer.tpl"}
-  </body>
 
-  <script>
-
-    $(document).ready(function () {
+    <script>
       var tooltipTriggerList = [].slice.call(
         document.querySelectorAll('[data-bs-toggle="tooltip"]')
       );
       var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
       });
-    });
-  </script>
+    </script>
+  </body>
 </html>

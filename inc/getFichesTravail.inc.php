@@ -32,4 +32,5 @@ $smarty->assign('avancements4bons', $avancements4bons);
 
 $smarty->assign('allAccessoires', $allAccessoires);
 
+// liste de toutes les fiches de travail pour ce client
 $smarty->display('ficheTravail.tpl');

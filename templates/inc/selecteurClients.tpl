@@ -19,7 +19,7 @@
       <button
         class="btn btn-sm btn-sort py-0 {if isset($sortClient) && ($sortClient == 'alphaDesc')}btn-primary{else}btn-default{/if}"
         id="clientAlphaDesc"
-        data-bs-title="Par ordre alphabétique DESC"
+        title="Par ordre alphabétique DESC"
       >
         <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
       </button>
@@ -49,7 +49,7 @@
       <td>{$client.nom} {$client.prenom}</td>
       <td
         data-bs-toggle="tooltip"
-        data-bs-title="{$client.date} {$client.heure}"
+        data-bs-title="Date du dernier accès {$client.date} {$client.heure}"
       >
         {$client.date|substr:0:5}
       </td>
@@ -57,3 +57,13 @@
     {/foreach}
   </table>
 </div>
+
+
+<script>
+  var tooltipTriggerList = [].slice.call(
+    document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  );
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+</script>

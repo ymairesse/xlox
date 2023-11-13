@@ -246,6 +246,41 @@ class User
         return $dataBon;
     }
 
+
+    /**
+     * renvoie le contenu du bon de réparation $numeroBon 
+     *
+     * @param int $numeroBon
+     *
+     * @return array
+     */
+
+     public function getData4Bon($numeroBon)
+     {
+         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+         $sql = 'SELECT numeroBon, idUser, typeMateriel, marque, modele, ox, ';
+         $sql .= 'dateEntree, dateSortie, benevole, probleme, etat, devis, ';
+         $sql .= 'remarque, apayer, termine ';
+         $sql .= 'FROM '.PFX.'bonsReparation ';
+         $sql .= 'WHERE numeroBon = :numeroBon ';
+         $requete = $connexion->prepare($sql);
+ 
+         $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
+ 
+         $resultat = $requete->execute();
+ 
+         if ($resultat) {
+             $requete->setFetchMode(PDO::FETCH_ASSOC);
+             $dataBon = $requete->fetch();
+         }
+ 
+         Application::DeconnexionPDO($connexion);
+ 
+         return $dataBon;
+     }
+ 
+     
+
     /**
      * Enregistrement des données d'un bon depuis le formulaire $form
      *
