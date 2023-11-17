@@ -50,7 +50,7 @@
 <div class="col-md-6 col-12">
 
   <div class="row">
-  <div class="col-md-6">
+  <div class="col-6">
     <h2>Nous Visiter</h2>
     <p>
       Adresse: 252 Chaussée d'Ixelles<br>
@@ -66,7 +66,7 @@
   >
 </p>
   </div>
-  <div class="col-md-6">
+  <div class="col-6">
     <button type="button" id="ficheClientPerso" class="d-flex btn btn-lg btn-success w-100 h-100">
       <img src="images/oxico.png" alt="Oxfam" class="float-start">
       <span style="display: flex; align-items: center;justify-content: center; font-weight: bolder">Créer un compte client Ixelles</span></button>  

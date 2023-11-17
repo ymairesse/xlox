@@ -138,6 +138,59 @@ class User
     }
 
     /**
+     * renvoie la liste de tous les clients qui ont un travail en cours 
+     * $travailTermine = false
+     * l'ordre est donné par le paramètre $sort
+     * 
+     * @param boolean $travailTermine ($false)
+     * @param string $sort
+     * 
+     * @return array
+     */
+    public function getListeClientsTravail($travailTermine = false, $sort = 'alphaAsc') {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'SELECT DISTINCT users.idUser, numeroBon, nom, prenom, mail, dateAcces ';
+        $sql .= 'FROM ' . PFX . 'users AS users ';
+        $sql .= 'LEFT JOIN ' . PFX . 'bonsReparation AS reparation ON reparation.idUser = users.idUser ';
+        $sql .= 'WHERE droits = "client" AND reparation.termine = :travailTermine ';
+        switch ($sort) {
+            case 'alphaAsc':
+                $sql .= 'ORDER BY nom ASC, prenom, mail ';
+                break;
+            case 'alphaDesc':
+                $sql .= 'ORDER BY nom DESC, prenom, mail ';
+                break;
+            case 'parDate':
+                $sql .= 'ORDER BY dateAcces DESC, nom, prenom, mail ';
+                break;
+        }
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':travailTermine', $travailTermine, PDO::PARAM_INT);
+
+        $resultat = $requete->execute();
+        $liste = array();
+        if ($resultat) {
+            $requete->setFetchMode(PDO::FETCH_ASSOC);
+            while ($ligne = $requete->fetch()) {
+                $idUser = $ligne['idUser'];
+                $dateHeure = explode(' ', $ligne['dateAcces']);
+                $ligne['date'] = Application::datePHP($dateHeure[0]);
+                $ligne['heure'] = substr($dateHeure[1], 0, 5);
+                $numeroBon = $ligne['numeroBon'];
+                if (!isset($liste[$idUser]))
+                    $liste[$idUser] = $ligne;
+                $liste[$idUser]['numerosBons'][] = $numeroBon;
+            }
+        }
+
+        Application::DeconnexionPDO($connexion);
+
+        return $liste;
+
+    }
+
+    /**
      * renvoie la fiche perso de l'utilisateur dont on donne l'adresse $mail
      *
      * @param string $mail
@@ -502,7 +555,7 @@ class User
     /**
     * renvoie les bons de réparation dont on donne la liste $listeNumerosBons
     *
-    * @param int $idUser
+    * @param int $idClient
     *
     * @return array
     */

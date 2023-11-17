@@ -28,7 +28,9 @@
     <script src="js/bootbox.min.js"></script>
   </head>
   <body>
-    <div class="container-fluid" id="menu">{include file="navbar.tpl"}</div>
+    <div class="container-fluid" id="menu">
+      <div class="row">{include file="navbar.tpl"}</div>
+    </div>
 
     <div class="container-fluid" id="corpsPage">
       <div class="row">
