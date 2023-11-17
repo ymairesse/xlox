@@ -92,3 +92,14 @@ label.error {
 #formClient {
     background-color: #ccffcc;
 }
+
+#ficheTravail .nav-link.active {
+    background-color: #f99 !important;
+    color: #666;
+  }
+
+  #ficheTravail .nav-link {
+    background-color: #99f;
+    color: #666;
+    border: 1px solid #000;
+  }
