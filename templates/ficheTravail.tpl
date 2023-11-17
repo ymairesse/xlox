@@ -55,23 +55,4 @@
 <h1 id="travauxEnCours" class="void">Pas de travaux en cours</h1>
 {/if}
 
-<style>
-  #ficheTravail .nav-link.active {
-    background-color: #f99 !important;
-    color: #666;
-  }
 
-  #ficheTravail .nav-link {
-    background-color: #99f;
-    color: #666;
-    border: 1px solid #000;
-  }
-</style>
-
-<script>
-  $(document).ready(function () {
-    // sélection du bon de réparation actuellement actif
-    // au chargement de la page
-    $('.nav-link[data-numerobon="' + { $numeroBon } + '"]').trigger("click");
-  });
-</script>
