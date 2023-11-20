@@ -1,3 +1,5 @@
+<h2><u>[{if $profil.civilite == 'F'}Madame{elseif $profil.civilite == 'M'}Monsieur{else} {/if} {$profil.prenom} {$profil.nom}]</u></h2>
+
 <form autocomplete="false" id="formClient">
   <div class="container-fluid">
     <div class="row">
@@ -16,7 +18,7 @@
           type="text"
           value="{if $profil.civilite == 'F'}Madame 
           {elseif $profil.civilite == 'M'}Monsieur 
-          {elseif $profil.civilie == 'X'}MX
+          {elseif $profil.civilite == 'X'}MX
           {else}-
           {/if}"
         />

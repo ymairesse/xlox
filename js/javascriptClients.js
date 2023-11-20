@@ -1,11 +1,9 @@
-$(document).ready(function(){
-
-
+$(document).ready(function () {
   //----------------------------------------------------------------
   // gestion des clients
   //----------------------------------------------------------------
 
-  function restoreSelecteurClients(idClient, sortClient, mode) {
+  function restoreSelecteurClients(conteneur, idClient, sortClient, mode) {
     $.post(
       "inc/getSelecteurClients.inc.php",
       {
@@ -14,10 +12,13 @@ $(document).ready(function(){
         mode: mode,
       },
       function (resultat) {
-        $("#selectClients").html(resultat);
+        conteneur.html(resultat);
+        conteneur
+          .find('.listeClients tr[data-idclient="' + idClient + '"]')
+          .addClass("choosen");
         clearForm($("#formClient"));
         // cas où le client idClient a été supprimé
-        $("#listeClients tr.choosen").trigger("click");
+        conteneur.find(".listeClients tr.choosen").trigger("click");
       }
     );
   }
@@ -43,14 +44,16 @@ $(document).ready(function(){
 
   // ------------------------------------------------------
   // sélection d'un client
-  $("body").on("click", "#listeClients tr", function (event) {
+  $("body").on("click", ".listeClients tr", function (event) {
     testSession(event);
+    // le widget "listeClients" doit se trouver dans un div .conteneurClients
+    var conteneur = $(this).closest(".conteneurClients");
     var idClient = $(this).data("idclient");
-    $("#listeClients tr").removeClass("choosen");
+    conteneur.find(".listeClients tr").removeClass("choosen");
     $(this).addClass("choosen");
     Cookies.set("clientEnCours", idClient, { sameSite: "strict" });
     // sommes-nous dans la gestion des clients? -------------------------
-    if ($(this).closest("table").data("mode") == "gestion") {
+    if (conteneur.find("table").data("mode") == "gestion") {
       $.post(
         "inc/getProfilClient.inc.php",
         {
@@ -88,17 +91,20 @@ $(document).ready(function(){
     testSession(event);
     var title = "Suppression d'un client";
     var mode = "gestion";
-    var idClient = $("#listeClients tr.choosen").data("idclient");
-    var nomClient = $("#listeClients tr.choosen td").eq(0).text();
+    // retrouver le conteneur entre les boutons d'ajout et de suppression
+    // de client
+    var conteneur = $(this).closest("div").find('.conteneurClients');;
+    var clientToDelete = $(".listeClients tr.choosen").data("idclient");
+
     var sortClient =
-      Cookies.get("sortClient") != undefined
+    Cookies.get("sortClient") != undefined
         ? Cookies.get("sortClient")
         : "alphaAsc";
-
+    var nomClient = $(".listeClients tr.choosen td").eq(0).text();
     $.post(
       "inc/getDependances.inc.php",
       {
-        idClient: idClient,
+        idClient: clientToDelete,
       },
       function (resultatJSON) {
         var resultat = JSON.parse(resultatJSON);
@@ -116,16 +122,22 @@ $(document).ready(function(){
               nomClient +
               "</strong>",
             callback: function (result) {
-              if (result == true)
+              if (result == true){
+                // choix du client sélectionné après la suppression du client actuel
+                var nextClient = $(".listeClients tr.choosen").next().data('idclient');
+                var prevClient = $(".listeClients tr.choosen").prev().data('idclient');
+                // on sélectionne le client précédent dans le tableau
+                var selectedClient = (prevClient == undefined) ? nextClient : prevClient;
                 $.post(
                   "inc/deleteClient.inc.php",
                   {
-                    idClient: idClient,
+                    idClient: clientToDelete,
                   },
                   function () {
-                    restoreSelecteurClients(null, sortClient, mode);
+                    restoreSelecteurClients(conteneur, selectedClient, sortClient, mode);
                   }
                 );
+            }
             },
           });
       }
@@ -250,45 +262,54 @@ $(document).ready(function(){
   // ---------------------------------------------------------
   // présentation tri par date
 
-  $("body").on("click", "#clientParDate", function (event) {
+  $("body").on("click", ".clientParDate", function (event) {
     testSession(event);
+    var conteneur = $(this).closest(".conteneurClients");
     var sortClient = "parDate";
     Cookies.set("sortClient", "parDate", { sameSite: "strict" });
-    var idClient = $("#listeClients tr.choosen").data("idclient");
-    var mode = $("#listeClients").data("mode");
-
-    $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
-    $("#clientParDate").addClass("btn-primary");
-    restoreSelecteurClients(idClient, sortClient, mode);
+    var idClient = conteneur.find(".listeClients tr.choosen").data("idclient");
+    var mode = conteneur.find(".listeClients").data("mode");
+    conteneur
+      .find(".btn-sort")
+      .addClass("btn-default")
+      .removeClass("btn-primary");
+    conteneur.find(".clientParDate").addClass("btn-primary");
+    restoreSelecteurClients(conteneur, idClient, sortClient, mode);
   });
 
   // présentation tri alphaAsc
-  $("body").on("click", "#clientAlphaAsc", function (event) {
+  $("body").on("click", ".clientAlphaAsc", function (event) {
     testSession(event);
+    var conteneur = $(this).closest(".conteneurClients");
     var sortClient = "alphaAsc";
     Cookies.set("sortClient", "alphaAsc", { sameSite: "strict" });
-    var idClient = $("#listeClients tr.choosen").data("idclient");
-    var mode = $("#listeClients").data("mode");
+    var idClient = conteneur.find(".listeClients tr.choosen").data("idclient");
+    var mode = conteneur.find(".listeClients").data("mode");
 
-    $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
-    $("#clientAlphaAsc").addClass("btn-primary");
-    restoreSelecteurClients(idClient, sortClient, mode);
+    conteneur
+      .find(".btn-sort")
+      .addClass("btn-default")
+      .removeClass("btn-primary");
+    conteneur.find(".clientAlphaAsc").addClass("btn-primary");
+    restoreSelecteurClients(conteneur, idClient, sortClient, mode);
   });
 
   // présentation tri alphaDesc
-  $("body").on("click", "#clientAlphaDesc", function (event) {
+  $("body").on("click", ".clientAlphaDesc", function (event) {
     testSession(event);
+    var conteneur = $(this).closest(".conteneurClients");
     var sortClient = "alphaDesc";
     Cookies.set("sortClient", "alphaDesc", { sameSite: "strict" });
-    var idClient = $("#listeClients tr.choosen").data("idclient");
-    var mode = $("#listeClients").data("mode");
+    var idClient = conteneur.find(".listeClients tr.choosen").data("idclient");
+    var mode = conteneur.find(".listeClients").data("mode");
 
-    $(".btn-sort").addClass("btn-default").removeClass("btn-primary");
-    $("#clientAlphaDesc").addClass("btn-primary");
-    restoreSelecteurClients(idClient, sortClient, mode);
+    conteneur
+      .find(".btn-sort")
+      .addClass("btn-default")
+      .removeClass("btn-primary");
+    conteneur.find(".clientAlphaDesc").addClass("btn-primary");
+    restoreSelecteurClients(conteneur, idClient, sortClient, mode);
   });
-
-
 
   //
   // auto-enregistrement de fiche client ---------------------
@@ -336,7 +357,4 @@ $(document).ready(function(){
       );
     }
   });
-
-
-
-})
+});

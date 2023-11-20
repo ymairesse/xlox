@@ -1,5 +1,5 @@
 <!--  Enfant de "ficheTravail.tpl " -->
-<!--  Ceci est l'onglet qui permet d'ouvrir les fiches de travail -->
+<!--  Ceci est la page contenant une fiche de travail -->
 <div
   class="tab-pane fade {if $smarty.foreach.bons.index == 0}show active{/if}"
   id="bon_{$numeroBon}"
@@ -10,6 +10,6 @@
 <!-- formTravail.tpl est le formulaire fictif qui présente les informations -->
 <!-- de chaque fiche de travail                                             -->
 
-  {include file="inc/formTravail.tpl"}  
+  {include file="inc/formTravail.tpl"}
 
 </div>

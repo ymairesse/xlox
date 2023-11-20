@@ -8,6 +8,8 @@ require_once '../config.inc.php';
 include 'entetes.inc.php';
 
 $idClient = isset($_POST['idClient']) ? $_POST['idClient'] : null;
+$identiteClient = $User->getDataUser($idClient);
+
 // numéro du bon de travail actuellement actif
 $numeroBon = isset($_POST['numeroBon']) ? $_POST['numeroBon'] : null;
 
@@ -25,6 +27,7 @@ foreach ($listeNumerosBons as $noBon) {
 $avancements4bons = $User->getNbAvancements4bons();
 
 $smarty->assign('idClient', $idClient); 
+$smarty->assign('identiteClient', $identiteClient);
 $smarty->assign('listeBons', $listeBons);
 $smarty->assign('numeroBon', $numeroBon);
 $smarty->assign('listeAccessoires', $accessoires4Bons);

@@ -1,3 +1,5 @@
+<h2><u>[{if $dataUser.civilite == 'F'}Madame{elseif $dataUser.civilite == 'M'}Monsieur{else} {/if} {$dataUser.prenom} {$dataUser.nom}]</u></h2>
+
 <form autocomplete="false" id="formUser">
   <div class="container-fluid">
     <div class="row">

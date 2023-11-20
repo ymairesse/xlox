@@ -1,4 +1,28 @@
 $(document).ready(function () {
+  //
+  // idClient = identifiant du client en cours
+  // sortClient = type de tri ('parDate', 'AlphaAsc', 'AlphaDesc')
+  // mode = utilisation dans la liste des réparations ou dans la liste des clients
+  // travailEnCours = les utilisateurs ont un travail en cours (true) ou sans importance (false)
+  //
+  function restoreSelecteurClients(idClient, sortClient, mode, travailEnCours) {
+    $.post(
+      "inc/refreshSelecteurClients.inc.php",
+      {
+        idClient: idClient,
+        sortClient: sortClient,
+        mode: mode,
+        travailEnCours: travailEnCours,
+      },
+      function (resultat) {
+        $("#selectClients").html(resultat);
+        clearForm($("#formClient"));
+        // cas où le client idClient a été supprimé
+        $("listeClients tr.choosen").trigger("click");
+      }
+    );
+  }
+
   // Actions sur les fiches de travail ---------------------------------
   // -------------------------------------------------------------------
 
@@ -61,7 +85,7 @@ $(document).ready(function () {
   $("body").on("click", "#btn-addBon", function (event) {
     testSession(event);
 
-    var idClient = $("#listeClients tr.choosen").data("idclient");
+    var idClient = $(".listeClients tr.choosen").data("idclient");
 
     $.post(
       "inc/editBon.inc.php",
@@ -76,46 +100,37 @@ $(document).ready(function () {
   });
 
   // Edition: raccourci par clic dans un champ de la fiche de travail
-  $("body").on(
-    "click",
-    // ".formTravail input, .formTravail textarea, .formTravail button, .openModalTravail",
-    ".openModalTravail",
-    function (event) {
-      testSession(event);
-      if (isDoubleClicked($(this))) return;
-      var idClient = $(this)
-        .closest("form")
-        .find('input[name="idClient"]')
-        .val();
-      var numeroBon = $(this)
-        .closest("form")
-        .find('input[name="numeroBon"]')
-        .val();
-      var materielOuClient =
-        $("table#listeClients").length != 0 ? "client" : "materiel";
+  $("body").on("click", ".openModalTravail", function (event) {
+    testSession(event);
+    if (isDoubleClicked($(this))) return;
+    var idClient = $(this).closest("form").find('input[name="idClient"]').val();
+    var numeroBon = $(this)
+      .closest("form")
+      .find('input[name="numeroBon"]')
+      .val();
 
-      $.post(
-        "inc/editBon.inc.php",
-        {
-          numeroBon: numeroBon,
-          idClient: idClient,
-          materielOuClient: materielOuClient,
-        },
-        function (resultat) {
-          $("#modal").html(resultat);
-          $("#modalEditBon").modal("show");
-        }
-      );
-    }
-  );
+    $.post(
+      "inc/editBon.inc.php",
+      {
+        numeroBon: numeroBon,
+        idClient: idClient,
+      },
+      function (resultat) {
+        $("#modal").html(resultat);
+        $("#modalEditBon").modal("show");
+      }
+    );
+  });
 
   $("body").on("click", "#btn-saveBon", function (event) {
     testSession(event);
     if ($("#modalFormBon").valid()) {
       var numeroBon = $("#modalFormBon input#numeroBon").val();
       var idClient = $("#modalFormBon input#idClient").val();
+      var refreshClients = $("#modalFormBon input#refreshClients").val();
 
       var formulaire = $("#modalFormBon").serialize();
+
       $.post(
         "inc/saveBon.inc.php",
         {
@@ -164,6 +179,11 @@ $(document).ready(function () {
           }
         }
       );
+      if (refreshClients == "true") {
+        var mode = "reparation";
+        var sortClient = Cookies.get("sortClient");
+        restoreSelecteurClients(idClient, sortClient, mode, true);
+      }
     }
   });
 
@@ -214,21 +234,56 @@ $(document).ready(function () {
     );
   });
 
-  $('body').on('click', '.btn-searchClient', function(){
-    var numeroBon = $(this).data('numerobon');
-    var idClient = $(this).data('iduser');
-    var sortClient = Cookies.get('sortClient');
-    $.post('inc/getFichesReparation4client.inc.php', {
-      idClient: idClient,
-      numeroBon: numeroBon,
-      mode: 'reparation',
-      sortClient: sortClient
-    }, function(resultat){
-      $('#unique').html(resultat);
-    })
+  $("body").on("click", ".btn-searchClient", function (event) {
+    testSession(event);
+    var numeroBon = $(this).data("numerobon");
+    var idClient = $(this).data("iduser");
+    var sortClient = Cookies.get("sortClient");
+    $.post(
+      "inc/getFichesReparation4client.inc.php",
+      {
+        idClient: idClient,
+        numeroBon: numeroBon,
+        mode: "reparation",
+        sortClient: sortClient,
+      },
+      function (resultat) {
+        $("#unique").html(resultat);
+      }
+    );
+  });
 
+  // montrer la liste des clients n'ayant pas de travail en cours
+  // afin de leur attribuer une nouvelle fiche de travail
+  $("body").on("click", "#btn-findClient4travail", function (event) {
+    testSession(event);
+    $.post("inc/selectClient4Travail.inc.php", {}, function (resultat) {
+      $("#modal").html(resultat);
+      $("#modalSelectClient").modal("show");
+    });
+  });
+  // un client est sélectionné dans la boîte modale
+  $("body").on("click", "#btn-modalChooseClient", function (event) {
+    testSession(event);
     
-  })
+    var idClient = $("#modalSelectClient table.listeClients tr.choosen").data(
+      "idclient"
+    );
+    if (idClient != undefined) {
+      $("#modalSelectClient").modal("hide");
+      $.post(
+        "inc/editBon.inc.php",
+        {
+          idClient: idClient,
+          refreshClients: true,
+        },
+        function (resultat) {
+          $("#modal").html(resultat);
+          $("#modalEditBon").modal("show");
+        }
+      );
+    }
+  });
 
   // sélection par click d'un onglet de la liste des réparations
   $("body").on("click", ".nav-link", function (event) {

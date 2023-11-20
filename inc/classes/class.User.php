@@ -108,13 +108,13 @@ class User
 
         switch ($sort) {
             case 'alphaAsc':
-                $sql .= 'ORDER BY nom ASC, prenom, mail ';
+                $sql .= 'ORDER BY TRIM(nom) ASC, prenom, mail ';
                 break;
             case 'alphaDesc':
-                $sql .= 'ORDER BY nom DESC, prenom, mail ';
+                $sql .= 'ORDER BY TRIM(nom) DESC, prenom, mail ';
                 break;
             case 'parDate':
-                $sql .= 'ORDER BY dateAcces DESC, nom, prenom, mail ';
+                $sql .= 'ORDER BY dateAcces DESC, TRIM(nom), prenom, mail ';
                 break;
         }
         $requete = $connexion->prepare($sql);
@@ -147,7 +147,7 @@ class User
      * 
      * @return array
      */
-    public function getListeClientsTravail($travailTermine = false, $sort = 'alphaAsc') {
+    public function getListeClientsTravail($travailTermine = 1, $sort = 'alphaAsc') {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT DISTINCT users.idUser, numeroBon, nom, prenom, mail, dateAcces ';
         $sql .= 'FROM ' . PFX . 'users AS users ';
@@ -191,7 +191,7 @@ class User
     }
 
     /**
-     * renvoie la fiche perso de l'utilisateur dont on donne l'adresse $mail
+     * renvoie la fiche perso de l'utilisateur dont on donne le $idUser
      *
      * @param string $mail
      *
@@ -240,13 +240,13 @@ class User
     {
         $idUser = isset($form['idUser']) ? $form['idUser'] : null;
         $civilite = isset($form['civilite']) ? $form['civilite'] : null;
-        $nom = isset($form['nom']) ? $form['nom'] : null;
-        $prenom = isset($form['prenom']) ? $form['prenom'] : null;
+        $nom = isset($form['nom']) ? trim($form['nom']) : null;
+        $prenom = isset($form['prenom']) ? trim($form['prenom']) : null;
 
         $telephone = isset($form['telephone']) ? $form['telephone'] : null;
         $gsm = isset($form['gsm']) ? $form['gsm'] : null;
         $mail = isset($form['mail']) ? $form['mail'] : null;
-        $pseudo = isset($form['pseudo']) ? $form['pseudo'] : null;
+        $pseudo = isset($form['pseudo']) ? trim($form['pseudo']) : null;
 
         $adresse = isset($form['adresse']) ? $form['adresse'] : null;
         $commune = isset($form['commune']) ? $form['commune'] : null;

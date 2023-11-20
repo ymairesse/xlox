@@ -6,17 +6,22 @@ body {
     background-position: center;
 }
 
+h1,
+h2 {
+    text-transform: uppercase;
+}
+
 #corpsPage {
     padding-bottom: 2em;
 }
 
-table.listeClients tr td, 
+table#listeClients tr td, 
 table#listeUsers tr td,
 table#listeReparations tr td {
     cursor: pointer;
 }
 
-table.listeClients  tr.choosen td,
+table#listeClients  tr.choosen td,
 table#listeUsers tr.choosen td, 
 table#listeReparations tr.choosen td {
     background-color: #f7ea3f;

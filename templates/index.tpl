@@ -19,8 +19,8 @@
     <script src="js/jsCookie/src/js.cookie.js"></script>
 
     <script src="js/javascript.js"></script>
-    <script src="js/javascriptReparation.js"></script>
     <script src="js/javascriptClients.js"></script>
+    <script src="js/javascriptReparation.js"></script>
     <script src="js/javascriptUsers.js"></script>
     <script src="js/jqvalidate/dist/jquery.validate.min.js"></script>
     <script src="js/jqvalidate/dist/additional-methods.min.js"></script>

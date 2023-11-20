@@ -13,6 +13,7 @@ $smarty->assign('benevole', $benevole);
 // fiche personnelle
 $idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
 $numeroBon = isset($_POST['numeroBon']) ? $_POST['numeroBon'] : Null;
+$refreshClients = isset($_POST['refreshClients']) ? $_POST['refreshClients'] : Null;
 
 $dataBon = ($numeroBon != Null) ? $User->getDataBon($idClient, $numeroBon) : Null;
 
@@ -27,5 +28,6 @@ $smarty->assign('dataBon', $dataBon);
 $smarty->assign('allAccessoires', $allAccessoires);
 $smarty->assign('allMateriel', $allMateriel);
 $smarty->assign('accessoiresBon', $accessoiresBon);
+$smarty->assign('refreshClients', $refreshClients);
 
 $smarty->display('modal/modalEditBon.tpl');

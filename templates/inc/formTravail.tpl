@@ -1,16 +1,18 @@
 <!-- formulaire fictif dont tous les champs sont désactivés -->
 <!-- cliquer dans un champ pour faire apparaître une boîte  -->
 <!-- modale dans laquelle se fera l'édition                 -->
+<h2>Fiche de travail #<u>{$numeroBon}</u></h2>
 
 <form
-  class="formTravail"
+  class="formTravail px-2"
   id="formTravail_{$numeroBon}"
   data-numerobon="{$numeroBon}"
 >
   <input type="hidden" name="numeroBon" value="{$travail.numeroBon}" />
   <input type="hidden" name="idClient" value="{$travail.idUser}" />
   <div class="row">
-    <div class="form-group pb-3 col-md-3 col-sm-3 col-4">
+    
+    <div class="form-group pb-3 col-md-3  col-4">
       <label for="type_{$numeroBon}">Type</label>
       <input
         type="text"
@@ -23,7 +25,7 @@
       />
     </div>
 
-    <div class="form-group pb-3 col-md-3 col-sm-3 col-4">
+    <div class="form-group pb-3 col-md-3 col-4">
       <label for="marque_{$numeroBon}">Marque</label>
       <input
         type="text"
@@ -36,7 +38,7 @@
       />
     </div>
 
-    <div class="form-group pb-3 col-md-3 col-sm-3 col-4">
+    <div class="form-group pb-3 col-md-3 col-4">
       <label for="modele_{$numeroBon}">Modèle</label>
       <input
         type="text"
@@ -48,7 +50,7 @@
         placeholder="Modèle"
       />
     </div>
-    <div class="form-group pb-3 col-md-3 col-sm-3 col-4">
+    <div class="form-group pb-3 col-md-3 col-4">
       <label for="dateEntree_{$numeroBon}">Date de réception</label>
       <input
         type="date"
@@ -166,14 +168,26 @@
       <label for="etat_{$numeroBon}" class="form-label"
         >État à la réception</label
       >
-      <textarea class="form-control openModalTravail" id="etat_{$numeroBon}" rows="2" readonly openModalTravail>
+      <textarea
+        class="form-control openModalTravail"
+        id="etat_{$numeroBon}"
+        rows="2"
+        readonly
+        openModalTravail
+      >
 {$travail.etat}</textarea
       >
     </div>
 
     <div class="col-6 mb-3">
       <label class="form-label">Solution & devis</label>
-      <textarea class="form-control openModalTravail" id="devis_{$numeroBon}" rows="3" readonly openModalTravail>
+      <textarea
+        class="form-control openModalTravail"
+        id="devis_{$numeroBon}"
+        rows="3"
+        readonly
+        openModalTravail
+      >
 {$travail.devis}</textarea
       >
     </div>
@@ -277,18 +291,20 @@
       </div>
     </div>
 
+  
   </div>
 </form>
 
+
 <button
-type="button"
-class="btn btn-danger deleteBon mb-4 w-100"
-data-numerobon="{$numeroBon}"
-data-idclient="{$travail.idUser}"
-title="Supprimer ce bon de réparation"
+  type="button"
+  class="btn btn-danger deleteBon mb-4 w-100"
+  data-numerobon="{$numeroBon}"
+  data-idclient="{$travail.idUser}"
+  title="Supprimer ce bon de réparation"
 >
-<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Supprimer ce
-bon <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Supprimer ce bon
+  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
 </button>
 
 <script>

@@ -41,6 +41,11 @@
             name="benevole"
             value="{$dataBon.benevole|default:$benevole.prenom}"
           />
+          <input type="hidden"
+            name="refreshClients"
+            id="refreshClients"
+            value="{$refreshClients|default:''}"
+            >
           <div class="row">
             <div class="form-group pb-3 col-md-3 col-4">
               <label for="typeMateriel" class="w-100"

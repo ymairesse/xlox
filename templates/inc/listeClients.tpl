@@ -1,10 +1,17 @@
-<button type="button" id="nouveauClient" class="btn btn-success text-truncate w-100">Nouveau Client</button>
+<button
+  type="button"
+  id="nouveauClient"
+  class="btn btn-success text-truncate w-100"
+>
+  Nouveau Client
+</button>
 
-<div id="selecteurClients">
+<div class="conteneurClients">{include file="inc/selecteurClients.tpl"}</div>
 
-  {include file='inc/selecteurClients.tpl'}
-
-</div>
-
-<button type="button" class="btn btn-danger text-truncate w-100" id="delClient">Supprimer ce client</button>
-
+<button 
+  type="button" 
+  id="delClient" 
+  class="btn btn-danger text-truncate w-100"
+  >
+  Supprimer ce client
+</button>
