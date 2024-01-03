@@ -300,16 +300,8 @@
   </div>
 </form>
 
-<button
-  type="button"
-  class="btn btn-danger deleteBon mb-4 w-100"
-  data-numerobon="{$numeroBon}"
-  data-idclient="{$travail.idUser}"
-  title="Supprimer ce bon de réparation"
->
-  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Supprimer ce bon
-  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-</button>
+{include file="reparations/inc/boutonsEditDelPrint.tpl"}
+
 
 {else}
 

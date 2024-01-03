@@ -45,7 +45,7 @@ function isDoubleClicked(element) {
 
 // variables de service pour la session infinie
 var timeOutLive4ever;
-var intervalle = 120000; // toutes les 120 secondes
+var intervalle = 5*60*1000; // toutes les 5 minutes
 
 function liveOnOff(onOff) {
   if (onOff == 1) {

@@ -2,7 +2,6 @@
   Liste des onglets pour présenter les différents "formTravail"
 -->
 
-
 <h2>Travaux en cours pour <u>[{if $identiteClient.civilite == 'F'}Madame{elseif $identiteClient.civilite == 'M'}Monsieur{else}M./Mme{/if} {$identiteClient.prenom} {$identiteClient.nom}]</u></h2>
 
 <div id="ficheTravail">
@@ -13,6 +12,7 @@
         -->
       <ul class="nav nav-tabs nav-justified" id="tabBons" role="tablist">
         {foreach from=$listeBons key=noBon item=travail name=bons}
+
         <li class="nav-item" role="presentation">
           <div class="btn-group w-100">
             <button
@@ -25,18 +25,12 @@
               role="tab"
               aria-selected="{if $smarty.foreach.bons.index == 0}true{else}false{/if}"
             >
-              Bon [{$noBon|string_format:"%05d"}] 
+              Fiche [{$noBon|string_format:"%05d"}] 
             </button>
-            <a type="button" 
-              class="btn btn-primary btn-print{if $smarty.foreach.bons.index != 0} isDisabled{/if}"
-              {if $smarty.foreach.bons.index == 0}
-              href="inc/reparations/getFicheTravailPDF.php?numeroBon={$noBon}"
-              {/if}
-              data-numerobon="{$noBon}" 
-              ><i class="fa fa-print"></i>
-            </a>
+  
           </div>
         </li>
+
         {/foreach}
       </ul>
 
