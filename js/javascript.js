@@ -1,7 +1,6 @@
-var n = 1;
-
 // provoque un session_start() toutes les "Intervalle" ms
-function live4ever() {
+function live4ever(event) {
+  testSession(event);
   var neverDie = Cookies.get("neverDie");
   if (neverDie == 1)
     $.post("inc/live4ever.inc.php", {}, function () {
@@ -46,7 +45,7 @@ function isDoubleClicked(element) {
 
 // variables de service pour la session infinie
 var timeOutLive4ever;
-var intervalle = 12000; // toutes les 12 secondes
+var intervalle = 120000; // toutes les 120 secondes
 
 function liveOnOff(onOff) {
   if (onOff == 1) {
@@ -63,7 +62,7 @@ function liveOnOff(onOff) {
 $(document).ready(function () {
   bootbox.setDefaults({
     locale: "fr",
-    backdrop: false,
+    backdrop: true,
   });
 
   var live = Cookies.get("neverDie");
@@ -114,15 +113,14 @@ $(document).ready(function () {
           $("#modalLogin").modal("hide");
           var loggedUser = $("#loggedUser").text();
           var title = "Connexion";
-          if (loggedUser != "") {
-            live4ever();
-            message = "Bienvenue " + loggedUser;
-          } else message = "Adresse mail, pseudo et/ou mot de passe incorrect";
 
-          bootbox.alert({
-            title: title,
-            message: message,
-          });
+          if (loggedUser == "") {
+            message = "Adresse mail, pseudo et/ou mot de passe incorrect";
+            bootbox.alert({
+              title: title,
+              message: message,
+            });
+          }
         }
       );
     }
@@ -142,17 +140,23 @@ $(document).ready(function () {
     });
   });
 
-
- 
-
-
   // visualisation du mot de passe dans un champ "password"
   $("body").on("click", ".addonMdp", function (event) {
     testSession(event);
-    if ($(this).next().prop("type") == "password")
+    var mdp = $(this).next().data('mdp');
+    if ($(this).next().prop("type") == "password"){
       $(this).next().prop("type", "text");
+      $(this).next().val(mdp);
+      }
     else $(this).next().prop("type", "password");
   });
+
+  $('body').on('click', '.showHiddenMdp', function(){
+    if ($(this).next().hasClass('hiddenMdp')) 
+      $(this).next().removeClass('hiddenMdp').addClass('shownMdp');
+    else $(this).next().removeClass('shownMdp').addClass('hiddenMdp');
+  })
+
 
   $("body").on("click", ".visuChamps", function () {
     var type = $(this).data("type");

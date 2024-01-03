@@ -4,7 +4,11 @@
 require_once INSTALL_DIR.'/inc/classes/class.Application.php';
 $Application = new Application();
 
+require_once INSTALL_DIR.'/inc/classes/class.garantie.php';
+$Garantie = new Garantie();
+
 require_once INSTALL_DIR.'/inc/classes/class.User.php';
+
 $User = isset($_SESSION[APPLICATION]) ? unserialize($_SESSION[APPLICATION]) : null;
 
 // -------------------------------------------------------------

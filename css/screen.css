@@ -12,13 +12,15 @@ body {
 
 table.listeClients tr td, 
 table#listeUsers tr td,
-table#listeReparations tr td {
+table#listeReparations tr td,
+table#listeGarantiesAnonymes tr td {
     cursor: pointer;
 }
 
 table.listeClients  tr.choosen td,
 table#listeUsers tr.choosen td, 
-table#listeReparations tr.choosen td {
+table#listeReparations tr.choosen td,
+table#listeGarantiesAnonymes tr.choosen td {
     background-color: #f7ea3f;
   }
 
@@ -88,13 +90,51 @@ label.error {
     background-color: #ccffcc;
 }
 
-#ficheTravail .nav-link.active {
-    background-color: #f99 !important;
-    color: #666;
+#ficheTravail .nav-link.active, #ficheGarantie .nav-link.active {
+    background-color: #d76a6a !important;
+    color: #fff;
+    font-weight: bold;
   }
 
-  #ficheTravail .nav-link {
-    background-color: #99f;
+  #ficheTravail .nav-link, #ficheGarantie .nav-link {
+    background-color: #bfbfdb;
     color: #666;
     border: 1px solid #000;
   }
+
+  .ellipseLabel {
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    display: block;
+  }
+
+  .null {
+    font-size: 5rem;
+    padding-top: 2em;
+    color: rgba(50,150, 50, 0.8);
+    text-align: center;
+}
+
+h5.boutonsTri {
+    cursor: pointer;
+}
+
+.hiddenMdp {
+    background-color: pink;
+    color: pink;
+    border-radius: 5px;
+    height: 2.3em;
+    border: 1px solid black;
+}
+.shownMdp {
+    background: white;
+    color: black;
+        border-radius: 5px;
+    height: 2.3em;
+    border: 1px solid black;
+    padding: 0.3em;
+}
+
+.strike {
+    text-decoration-line: line-through;
+}

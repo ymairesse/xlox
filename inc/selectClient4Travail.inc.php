@@ -9,8 +9,22 @@ require_once '../config.inc.php';
 // ressources principales toujours nécessaires: classes Application, User, Smarty, 
 include 'entetes.inc.php';
 
-$listeClientsSansTravail = $User->getListeClientsTravail($travailTermine = true, $sort = 'parDate');
+$sortClient = isset($_COOKIE['sortClient']) ? $_COOKIE['sortClient'] : 'alphaAsc';
+$idClient = isset($_COOKIE['clientEnCours']) ? $_COOKIE['clientEnCours'] : Null;
 
-$smarty->assign('listeClients', $listeClientsSansTravail);
+$mode = 'modalSelect';
+
+$listeClients = $User->getListeUsers(array('client'), $sortClient);
+
+// s'il n'y a plus de client actif, reprendre le premier de la liste
+if ($idClient == Null) {
+    reset($listeClients);
+    $idClient = key($listeClients);
+}
+
+$smarty->assign('listeClients', $listeClients);
+$smarty->assign('idClient', $idClient);
+$smarty->assign('sortClient', $sortClient);
+$smarty->assign('mode', $mode);
 
 $smarty->display('modal/modalSelectClient.tpl');

@@ -56,16 +56,11 @@
               </a>
             </li>
             <li>
-              <a href="#" class="dropdown-item" id="reparations4bons" >
-                <i class="fa fa-wrench" aria-hidden="true"></i> Réparations en cours
+              <a href="#" class="dropdown-item" id="reparations4bons">
+                <i class="fa fa-wrench" aria-hidden="true"></i> Réparations en
+                cours
               </a>
             </li>
-            <li><hr class="dropdown-divider" /></li>
-            <li>
-              <a href="#" class="dropdown-item" id="modalAddEditMateriel"
-                >Ajout / Édition de matériel (à venir)</a
-              >
-            </li>
           </ul>
         </li>
 
@@ -77,44 +72,40 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Autres fonctions
+            Garanties
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Devis (à venir)</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#">Garantie (à venir)</a></li>
             <li>
-              <a class="dropdown-item" href="#"
-                >Ganrantie nominative (à venir)</a
+              <a class="dropdown-item" href="#" id="garantieNominative">
+                <i class="fa fa-user-circle" aria-hidden="true"></i> Garantie
+                nominative</a
               >
+            </li>
+            <li>
+              <a href="#" class="dropdown-item" id="garantieAnonyme">
+                <i class="fa fa-user-secret" aria-hidden="true"></i> Garantie
+                Anonyme
+              </a>
             </li>
           </ul>
         </li>
 
         <li class="nav-item dropdown">
           <a
-            class="nav-link dropdown-toggle"
             href="#"
+            class="nav-link dropdown-toggle"
             role="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Profil
-          </a>
+            Devis</a
+          >
           <ul class="dropdown-menu">
             <li>
-              <a class="dropdown-item" id="profil" href="#"
-                ><i class="fa fa-user"></i> Profil personnel</a
+              <a class="dropdown-item" id="devis" href="#"
+                ><i class="fa fa-eur" aria-hidden="true"></i> Devis</a
               >
             </li>
-
-            {if $user.droits == 'root'}
-            <li>
-              <a class="dropdown-item" id="gestUsers" href="#"
-                ><i class="fa fa-users"></i> Gestion des utilisateurs</a
-              >
-            </li>
-            {/if}
           </ul>
         </li>
 
@@ -130,19 +121,39 @@
           </a>
           <ul class="dropdown-menu">
             <li>
+              <a class="dropdown-item" id="profil" href="#"
+                ><i class="fa fa-user"></i> Profil personnel</a
+              >
+            </li>
+
+            {if $user.droits == 'root'}
+            <li>
+              <a class="dropdown-item" id="gestUsers" href="#"
+                ><i class="fa fa-users"></i> Gestion des utilisateurs</a
+              >
+            </li>
+            {/if}
+            <li>
+              <a href="#" id="gestionStock" class="dropdown-item"
+                ><i class="fa fa-desktop" aria-hidden="true"></i>
+                Gestion du stock
+              </a>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
               <a class="dropdown-item" id="neverDie" href="#"
                 ><i class="fa fa-spinner" aria-hidden="true"></i> Never die</a
               >
             </li>
-
           </ul>
         </li>
+
         {/if}
       </ul>
 
       <ul class="text-end list-unstyled">
         <li class="nav-item">
-          {if $user != Null}
+          {if isset($user)}
           <a
             role="button"
             class="btn btn-danger btn-sm"

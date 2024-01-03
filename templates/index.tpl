@@ -22,6 +22,7 @@
     <script src="js/javascriptClients.js"></script>
     <script src="js/javascriptReparation.js"></script>
     <script src="js/javascriptUsers.js"></script>
+    <script src="js/javascriptDocuments.js"></script>
     <script src="js/jqvalidate/dist/jquery.validate.min.js"></script>
     <script src="js/jqvalidate/dist/additional-methods.min.js"></script>
     <script src="js/jqvalidate/dist/localization/messages_fr.js"></script>
@@ -29,7 +30,10 @@
   </head>
   <body>
     <div class="container-fluid" id="menu">
-      <div class="row">{include file="navbar.tpl"}</div>
+      <div class="row">
+        {include file="navbar.tpl"}
+
+      </div>
     </div>
 
     <div class="container-fluid" id="corpsPage">

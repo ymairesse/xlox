@@ -14,7 +14,7 @@ $nbReparations = $User->getDependancesBons($idClient);
 $delete = 'true';
 $raisons = array();
 if ($nbReparations > 0) {
-    $raisons = sprintf("Effacement impossible: cet utilisateur a <strong>%d</strong> réparation(s) en cours.", $nbReparations);
+    $raisons = sprintf("Effacement impossible: ce client a <strong>%d</strong> réparation(s) en cours.", $nbReparations);
     $delete = 'false';
 }
 

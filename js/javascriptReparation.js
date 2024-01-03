@@ -26,7 +26,7 @@ $(document).ready(function () {
   // Actions sur les fiches de travail ---------------------------------
   // -------------------------------------------------------------------
 
-  // clic dans la navbar pour la fiche de réparation
+  // clic dans la navbar principale pour la fiche de réparation par clients
   //
   $("body").on("click", "#ficheReparation", function (event) {
     testSession(event);
@@ -35,10 +35,11 @@ $(document).ready(function () {
     var idClient = Cookies.get("clientEnCours");
     // le dernier bon en cours est pris par défaut
     var numeroBon = Cookies.get("bonEnCours");
+    // mode de tri des clients dans la liste
     var sortClient = Cookies.get("sortClient");
 
     $.post(
-      "inc/getFichesReparation4client.inc.php",
+      "inc/reparations/getFichesReparation4client.inc.php",
       {
         idClient: idClient,
         numeroBon: numeroBon,
@@ -47,9 +48,50 @@ $(document).ready(function () {
       },
       function (resultat) {
         $("#unique").html(resultat);
+        $('.nav-link[data-numerobon="' + numeroBon + '"]').trigger("click");
+        if ($("table.listeClients tr.choosen") != null) {
+          $("table.listeClients tr.choosen")[0].scrollIntoView();
+        }
       }
     );
   });
+
+  // ---------------------------------------------------------------
+  // sélection d'un client dans le cadre "listeClients" à gauche
+  // ---------------------------------------------------------------
+  $("body").on(
+    "click",
+    ".table.listeClients[data-mode='reparation'] tr",
+    function (event) {
+      testSession(event);
+
+      $(this)
+        .closest(".tableClients")
+        .find(".listeClients tr")
+        .removeClass("choosen");
+      // on indique que le client $idClient est sélectionné
+      $(this).addClass("choosen");
+
+      var idClient = $(this).data("idclient");
+      var numeroBon = Cookies.get("bonEnCours");
+
+      Cookies.set("clientEnCours", idClient, { sameSite: "strict" });
+
+      $.post(
+        "inc/reparations/getFichesTravail.inc.php",
+        {
+          idClient: idClient,
+          numeroBon: numeroBon,
+        },
+        function (resultat) {
+          $("#fichesReparation").html(resultat);
+          $('#tabBons .nav-link[data-numerobon="' + numeroBon + '"]').trigger(
+            "click"
+          );
+        }
+      );
+    }
+  );
 
   /**
    * Accès aux fiches de réparation par numéro du bon
@@ -64,7 +106,7 @@ $(document).ready(function () {
     $(this).addClass("choosen");
     Cookies.set("bonEnCours", numeroBon, { sameSite: "strict" });
     $.post(
-      "inc/getFiche4numeroBon.inc.php",
+      "inc/reparations/getFiche4numeroBon.inc.php",
       {
         numeroBon: numeroBon,
       },
@@ -75,6 +117,7 @@ $(document).ready(function () {
   });
 
   // sélection d'une fiche de travail dans les onglets -----------------
+  // permet d'ajuster le Cookie pour le numéro du bon de réparation
   $("body").on("click", "#ficheTravail .nav-link", function (event) {
     testSession(event);
     var numeroBon = $(this).data("numerobon");
@@ -88,9 +131,10 @@ $(document).ready(function () {
     var idClient = $(".listeClients tr.choosen").data("idclient");
 
     $.post(
-      "inc/editBon.inc.php",
+      "inc/reparations/editBon.inc.php",
       {
         idClient: idClient,
+        // pas de numero de bon
       },
       function (resultat) {
         $("#modal").html(resultat);
@@ -110,7 +154,7 @@ $(document).ready(function () {
       .val();
 
     $.post(
-      "inc/editBon.inc.php",
+      "inc/reparations/editBon.inc.php",
       {
         numeroBon: numeroBon,
         idClient: idClient,
@@ -122,68 +166,81 @@ $(document).ready(function () {
     );
   });
 
+  // enregistrement du bon de réparation en cours d'édition
+  // ------------------------------------------------------------
   $("body").on("click", "#btn-saveBon", function (event) {
     testSession(event);
     if ($("#modalFormBon").valid()) {
       var numeroBon = $("#modalFormBon input#numeroBon").val();
       var idClient = $("#modalFormBon input#idClient").val();
-      var refreshClients = $("#modalFormBon input#refreshClients").val();
+      // faut-il raffraîchir la liste des clients?
 
       var formulaire = $("#modalFormBon").serialize();
 
       $.post(
-        "inc/saveBon.inc.php",
+        "inc/reparations/saveBon.inc.php",
         {
           formulaire: formulaire,
         },
         function (resultat) {
           var numeroBon = resultat;
-          bootbox.alert({
-            title: "Enregistrement",
-            message: "Fiche de réparation n° " + numeroBon + " enregistrée",
-          });
-
           // au cas où il s'agit d'une nouvelle fiche de travail
-          Cookies.set("bonEnCours", numeroBon);
+          Cookies.set("bonEnCours", numeroBon, { sameSite: "strict" });
 
           $("#modalEditBon").modal("hide");
 
-          // rafraîchir l'écran "fiches clients" ou "par fiches de travail"
-          if ($("table#listeClients").length != 0) {
-            $.post(
-              // récupérer
-              "inc/getFichesTravail.inc.php",
-              {
-                idClient: idClient,
-                numeroBon: numeroBon,
-              },
-              function (resultat) {
-                $("#fichesReparation").html(resultat);
-                $(
-                  '#formTravail .nav-link[data-numerobon="' + numeroBon + '"]'
-                ).trigger("click");
+          bootbox.alert({
+            title: "Enregistrement",
+            message: "Fiche de réparation n° " + numeroBon + " enregistrée",
+            callback: function (numeroBon) {
+              // rafraîchir l'écran par "fiches clients" ou "par fiches de travail"
+
+              // s'il y a un tableau des clients à l'écran
+              if ($("table.listeClients").length != 0) {
+                // la liste des clients est affichée
+                var sortClient = Cookies.get("sortClient");
+                var numeroBon = Cookies.get("bonEnCours");
+
+                $.post(
+                  "inc/reparations/getFichesReparation4client.inc.php",
+                  {
+                    idClient: idClient,
+                    numeroBon: numeroBon,
+                    mode: "reparation",
+                    sortClient: sortClient,
+                  },
+                  function (resultat) {
+                    $("#unique").html(resultat);
+                    // $(
+                    //   '.listeClients tr[data-idclient="' + idClient + '"]'
+                    // ).trigger("click");
+                    $('.nav-link[data-numerobon="' + numeroBon + '"]').trigger(
+                      "click"
+                    );
+                    $(
+                      '.listeClients tr[data-idclient="63"]'
+                    )[0].scrollIntoView();
+                  }
+                );
+              } else {
+                // c'est la liste la liste des fiches de réparations disponible
+                // à gauche
+                var bonEnCours = numeroBon;
+                $.post(
+                  "inc/reparations/getListeBons.inc.php",
+                  {
+                    termine: false,
+                    bonEnCours: bonEnCours,
+                  },
+                  function (resultat) {
+                    $("#unique").html(resultat);
+                  }
+                );
               }
-            );
-          } else {
-            var bonEnCours = numeroBon;
-            $.post(
-              "inc/getListeBons.inc.php",
-              {
-                termine: false,
-                bonEnCours: bonEnCours,
-              },
-              function (resultat) {
-                $("#unique").html(resultat);
-              }
-            );
-          }
+            },
+          });
         }
       );
-      if (refreshClients == "true") {
-        var mode = "reparation";
-        var sortClient = Cookies.get("sortClient");
-        restoreSelecteurClients(idClient, sortClient, mode, true);
-      }
     }
   });
 
@@ -211,21 +268,10 @@ $(document).ready(function () {
                   confirm: true,
                 },
                 function () {
-                  $.post(
-                    "inc/getFichesTravail.inc.php",
-                    {
-                      idClient: idClient,
-                      numeroBon: numeroBon,
-                    },
-                    function (resultat) {
-                      $("#fichesReparation").html(resultat);
-                      $(
-                        '#formTravail .nav-link[data-numerobon="' +
-                          numeroBon +
-                          '"]'
-                      ).trigger("click");
-                    }
-                  );
+                  var sortClient = Cookies.get("sortClient");
+                  var numeroBon = null;
+                  Cookies.set("bonEnCours", numeroBon, { sameSite: "strict" });
+                  $("#ficheReparation").trigger("click");
                 }
               );
           },
@@ -240,7 +286,7 @@ $(document).ready(function () {
     var idClient = $(this).data("iduser");
     var sortClient = Cookies.get("sortClient");
     $.post(
-      "inc/getFichesReparation4client.inc.php",
+      "inc/reparations/getFichesReparation4client.inc.php",
       {
         idClient: idClient,
         numeroBon: numeroBon,
@@ -260,22 +306,30 @@ $(document).ready(function () {
     $.post("inc/selectClient4Travail.inc.php", {}, function (resultat) {
       $("#modal").html(resultat);
       $("#modalSelectClient").modal("show");
+      if ($("#modal .table.listeClients tr.choosen") != null) {
+        $("#modal .table.listeClients tr.choosen")[0].scrollIntoView();
+      }
     });
   });
+
   // un client est sélectionné dans la boîte modale
   $("body").on("click", "#btn-modalChooseClient", function (event) {
     testSession(event);
-    
+
     var idClient = $("#modalSelectClient table.listeClients tr.choosen").data(
       "idclient"
     );
     if (idClient != undefined) {
+      // le client $idClient a été sélectionné dans la boîte modale de recherche
+      // de clients sans travail en cours (#modalSelectClient)
+      // on peut donc cacher cette boîte modale
       $("#modalSelectClient").modal("hide");
+      // et présenter le formulaire d'établissement d'une fiche de travail
+      // pour l'utilisateur $idClient
       $.post(
-        "inc/editBon.inc.php",
+        "inc/reparations/editBon.inc.php",
         {
           idClient: idClient,
-          refreshClients: true,
         },
         function (resultat) {
           $("#modal").html(resultat);
@@ -286,13 +340,13 @@ $(document).ready(function () {
   });
 
   // sélection par click d'un onglet de la liste des réparations
-  $("body").on("click", ".nav-link", function (event) {
+  $("body").on("click", "#tabBons .nav-link", function (event) {
     testSession(event);
     $(".btn-print").attr("href", "javascript:void(0)").addClass("isDisabled");
     var numeroBon = $(this).data("numerobon");
-    $('.btn-print[data-numerobon="' + numeroBon + '"]')
-      .attr("href", "inc/getFicheTravailPDF.php?numeroBon=" + numeroBon)
-      .removeClass("isDisabled");
+    $('.btn-print[data-numerobon="' + numeroBon + '"]').removeClass(
+      "isDisabled"
+    );
   });
 
   // ouverture de la liste des réparations en cours
@@ -300,7 +354,7 @@ $(document).ready(function () {
     testSession(event);
     var bonEnCours = Cookies.get("bonEnCours");
     $.post(
-      "inc/getListeBons.inc.php",
+      "inc/reparations/getListeBons.inc.php",
       {
         termine: false,
         bonEnCours: bonEnCours,
@@ -318,7 +372,7 @@ $(document).ready(function () {
     testSession(event);
     var numeroBon = $(this).data("numerobon");
     $.post(
-      "inc/getModalAvancement.inc.php",
+      "inc/reparations/getModalAvancement.inc.php",
       {
         numeroBon: numeroBon,
       },
@@ -336,7 +390,7 @@ $(document).ready(function () {
       var formulaire = $("#form-avancement").serialize();
       var numeroBon = $(this).data("numerobon");
       $.post(
-        "inc/saveAvancement.inc.php",
+        "inc/reparations/saveAvancement.inc.php",
         {
           formulaire: formulaire,
         },
@@ -390,7 +444,7 @@ $(document).ready(function () {
     var idAvancement = $(this).data("idavancement");
     var numeroBon = $(this).data("numerobon");
     $.post(
-      "inc/strikeAvancement.inc.php",
+      "inc/reparations/strikeAvancement.inc.php",
       {
         idAvancement: idAvancement,
         numeroBon: numeroBon,
@@ -560,7 +614,7 @@ $(document).ready(function () {
         callback: function (texte) {
           if (texte != null)
             $.post(
-              "inc/saveMentionsBon.inc.php",
+              "inc/reparations/saveMentionsBon.inc.php",
               {
                 mention: texte,
                 type: type,

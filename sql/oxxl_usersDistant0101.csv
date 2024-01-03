@@ -1,0 +1,103 @@
+"idUser","pseudo","civilite","nom","prenom","telephone","gsm","mail","adresse","cpost","commune","tva","droits","rgpd","dateAcces","md5passwd"
+"1","maiyve","M","Mairesse","Yves",,"+32474754694","ymairesse@sio2.be","Av. Daniel Boon, 59","1160","Auderghem",,"root","0","2023-09-21 17:24:08","1224b6196e600af6d118b8d7a12fec76"
+"2","Michel","M","Rouserez","Michel",,"0475850747","michel.rouserez@skynet.be",,,"Wezembeek-Oppem",,"root","0","2023-09-21 18:57:23","b829dae101214d738a37fb571398ae04"
+"10",NULL,,"Machin","Bidule",,"0474754696","nomail@nomail.com",,"1070","Anderlecht",,"client","0","2023-10-11 21:49:07","b829dae101214d738a37fb571398ae04"
+"17","tld",,"Le Dauphin","Thomas",,"0485359367","thomas.ledauphin@oxfam.org",,,,,"root","0","2023-11-17 13:25:19","c0ed4855078c32fc96eede7899d4b0e5"
+"19","babelkot",,"Germain","Jean-Claude",,"0479393026","babelkot@gmail.com",,,,NULL,"oxfam","0","2023-12-14 07:58:06","26473d30784a7c5494ea01c57ae7f007"
+"22","kjc","M","KWIZERA","Jean Claude",,"0465115104","kjclaude2020@gmail.com",,,,,"oxfam","0","2023-09-13 11:05:24","e6c277aad22a8eef91bf6c1e51701a63"
+"25","carole","F","Guedem","Carole",,"+32467600936","o.guedem@yahoo.fr",,,,,"root","0","2023-10-17 14:52:04","805e144839171ed0b20c77ab68e80051"
+"26",NULL,,"Brupower","-",,,"invoicing@brupower.be","rue bissé 17/0029","1070","Anderlecht ","0787241013","client","1","2023-10-11 20:59:33",NULL
+"27",NULL,NULL,"Barbé","Alexandre ",,"+33754376977",,,,,,"client","1","2023-09-21 17:14:24",NULL
+"28",NULL,"F","Mac-Baye","Naomi",,"0488 265174",,,,,,"client","0","2023-09-22 12:00:21",NULL
+"33",NULL,,"Rampelberg","Jessica",,"0485 006418",," ",,,,"client","1","2023-10-11 21:06:17",NULL
+"34",NULL,"M","Boland ","Vincent",,"0473 502733",,,,,,"client","0","2023-10-10 12:38:24",NULL
+"35",NULL,,"Venderickx","Birgit",,"0476 292662",,,,,,"client","0","2023-10-11 13:10:42",NULL
+"36",NULL,,"Valentinelli","Laure",,"0033624146185","laure-valentinelli@hotmail.fr","rue montagne des cerisiers 31","1200","Wolluwe Saint Lambert",,"client","1","2023-10-24 17:37:12",NULL
+"37",NULL,,"wantiez","Nicole","02 6571815",,,,,,,"client","0","2023-10-11 17:29:00",NULL
+"38",NULL,,"Charlier","Mathieu",,"04712803074",,,,,,"client","0","2023-10-12 13:23:11",NULL
+"39",NULL,,"Gits","Catheline",,"0472 568202",,,,,,"client","0","2023-10-18 10:23:25",NULL
+"40",NULL,,"Honnay","Sandrine",,"0474 854280",,,,,,"client","0","2023-10-18 11:06:00",NULL
+"41",NULL,"F","Gonzalez Gomez","MJ",,"0475 910448",,"0475910448",,,,"client","0","2023-10-18 17:46:14",NULL
+"42",NULL,"M","GODEFROID","ARTHUR",,"0496 747806","arthur.godefroid@hotmail.com","place Louis Morichar 39","1060","Saint Gilles","0775347724","client","1","2023-10-19 10:37:57",NULL
+"43",NULL,"M","KEMBE TSANANG","Leonel Stève",,"0465 940978",,,,,,"client","1","2023-10-19 13:52:54",NULL
+"44","edgar","M","edgar","junior",,"0465 522512","edgarmbouega@gmail.com",,,,NULL,"oxfam","0","2023-12-15 12:12:42","eff4344ecc78152ace6a555f9b9a1d26"
+"45",NULL,,"fatima ","billah","0467 656842",,,,,,,"client","0","2023-10-20 15:35:08",NULL
+"47",NULL,,"hedhili","rachid",,"0485 548434",,"rue",,,,"client","0","2023-10-25 15:21:47",NULL
+"48",NULL,"M","moncayo","charles","0486 174832",,"charlesmoncayo3@gmail.com",,,,,"client","0","2023-10-25 17:27:44",NULL
+"49",NULL,,"Gilbert","Phitsamone","0470 538117",,,,,,,"client","0","2023-10-25 17:29:09",NULL
+"50",NULL,,"beauduin"," ","+33615656564",,,,,,,"client","0","2023-10-26 10:10:32",NULL
+"51",NULL,,"Everard de Harzir ","Anne","0478 633714",,,,,,,"client","0","2023-10-26 10:33:59",NULL
+"52",NULL,,"Dia","Fatimata",,"0467 775478",,"Rue d Anderlecht 113","1000","Bruxelles",,"client","0","2023-10-26 12:42:57",NULL
+"53",NULL,,"de clynsen","bruno",,"0478 666665",,,,,,"client","1","2023-10-27 11:22:22",NULL
+"54",NULL,,"Poncé","Louise",,"0497 266718","ponce.louise@gmail.com",,,,,"client","0","2023-10-27 11:31:40",NULL
+"55",NULL,,"givron","stephane","0467 698342","0467 698342",,,,,,"client","0","2023-10-27 14:25:40",NULL
+"56",NULL,,"Recour","Grietje",,"0478 757991","grietrecour@hotmail.com","Rue Tervaete 63","1040","Etterbeek",,"client","1","2023-10-27 17:57:08",NULL
+"57",NULL,"F","Brault","Chloé",,"0474 090252","chloe.brault@gmail.com",,,,,"client","1","2023-10-28 14:23:04",NULL
+"58",NULL,,"Sepulveda","Ortiz","0472 782591",,,,,,,"client","0","2023-10-31 12:49:23",NULL
+"59",NULL,,"Ranieri","marco",,"0495 594876",,,,,,"client","0","2023-10-31 15:34:38",NULL
+"60",NULL,,"Vandemoortele","Luc",,"0478 886567",,,,,,"client","0","2023-10-31 17:44:55",NULL
+"62",NULL,,"Tinant","Marie Thérése",,"0479 746373",,,,,,"client","0","2023-11-04 15:03:00",NULL
+"63",NULL,," Rider","John",,"0456 192430",,,,,,"client","0","2023-11-07 10:58:35",NULL
+"64",NULL,,"Csako","Janos",,"0470 206528",,,,,,"client","0","2023-11-07 12:00:06",NULL
+"65",NULL,,"Bellanger","Claire",,"0479 436098","bellanger.claire@hotmail.com","chaussée de Forest 157",,,,"client","0","2023-11-07 12:11:33",NULL
+"66",NULL,"X","oxfam","computer",,"02 6474851",,,,,,"client","1","2023-11-08 14:57:17",NULL
+"67",NULL,"F","Gonçalves Gomes","Raquel",,"0493 982717",,,,,,"client","1","2023-11-08 17:51:34",NULL
+"69",NULL,"M","de Duve","Diego",,"0489/45.48.73",,,,,,"client","0","2023-11-09 14:18:09",NULL
+"71",NULL,,"Bouzarouata","Mariam",,"0483360006","mariam1050@hotmail.com","rue de l'abbatoir 27","1000","bruxelles",,"client","1","2023-11-10 14:55:11",NULL
+"72",NULL,"F","KAMPUNDU","Epiphanie",,"0484042836",,,,,,"client","0","2023-11-10 18:04:27",NULL
+"74",NULL,,"Gianviti","Gérard","0473 498573",,,,,,,"client","0","2023-11-14 15:12:17",NULL
+"75",NULL,"F","Duhaut","Bénédicte",,"0475 483682",,,,,,"client","0","2023-11-15 12:58:29",NULL
+"77",NULL,"F","faiz","ismahan",,"0488 867744",,"square jacques franck 2/18/6","1060","saint gilles",,"client","0","2023-11-15 15:54:29",NULL
+"78",NULL,,"TORMA","SCRL",,"+32476720573","torma@skynet.be","rue de livourne,115","1050","IXELLES","0430774426","client","1","2023-11-15 16:53:00",NULL
+"79",NULL,,"Verhoeven","Karel",,"0486 536945",,,,,,"client","0","2023-11-17 12:12:57",NULL
+"80","dami","M","Durand","Damien",,"0493 363952","ddurand@mail.be","Avenue du roi Albert 88","5590","Ciney",NULL,"oxfam","0","2023-11-17 13:21:41","207c5b25b7f864362b0b237b09d1fde4"
+"82",NULL,,"Leveugle","Elise",,"0485 712810",,,,,,"client","0","2023-11-17 14:21:43",NULL
+"83",NULL,"M","luna","ty",,"0486 156848","ty_luna@hotmail.com","33 rue capouillet","1060","st gilles",,"client","0","2023-11-17 17:27:21",NULL
+"84",NULL,"F","LEGRAND","MARTINE",,"0476 745566","martinelegrand5920@gmail.com",,,,,"client","0","2023-11-18 17:13:57",NULL
+"85",NULL,,"Jurisse","Alain",,"0479 708033",,,,,,"client","0","2023-11-21 10:45:14",NULL
+"86",NULL,,"Delcommenne","Eric",,"0497 530620",,,,,,"client","0","2023-11-21 11:28:21",NULL
+"88",NULL,"M","Penneman",,"02 3444685",,,,,,,"client","0","2023-11-22 10:29:48",NULL
+"89",NULL,,"savenkova","iryna",,"+324677812110",,"avenue du silance 15","uccle","1180",,"client","0","2023-11-22 13:50:01",NULL
+"90",NULL,"F","alonso","violaine",,"0472 273107","v.alonso@qdli.be","rue du congres 49","1000","Bruxelles","0674567593","client","0","2023-11-22 15:09:52",NULL
+"91",NULL,,"Zombek","Jean-Pierre","02 4146251",,,,,,,"client","0","2023-11-22 16:47:23",NULL
+"92",NULL,,"ROJAS ZAMBRANA","MARCELA",,"0492 311214",,,,,,"client","0","2023-11-22 17:51:05",NULL
+"93",NULL,"F","mayeur","catherine",,"0496 374172",,,,,,"client","0","2023-11-23 10:12:28",NULL
+"94",NULL,,"Delneuville","Jean-Baptiste",,"0498 703484",,,,,,"client","0","2023-11-23 13:40:47",NULL
+"95",NULL,"F","laoureux"," claudie",,"0472 846449",,,,,,"client","0","2023-11-24 10:29:30",NULL
+"96",NULL,"F","francois","sabine",,"0474 319188",,,,,,"client","0","2023-11-24 17:46:00",NULL
+"97",NULL,"M","Dulczewski ","Bohdan",,"0495 413281",,,,,,"client","0","2023-11-28 11:06:19",NULL
+"98",NULL,,"Benie","Conseline",,"0497 144646","conseline@yahoo.fr","Rue du Mont-Blanc 23","1060","Saint-Gilles",,"client","0","2023-11-28 15:51:29",NULL
+"99",NULL,"F","mandevu","lee ernica",,"0465 780497","emandevu@yahoo.fr","Rue des confédérés 48","1000","bruxelles",,"client","0","2023-11-29 11:55:02",NULL
+"100",NULL,,"Del Biondo","Karen",,"0498 207272",,,,,,"client","0","2023-11-29 14:16:52",NULL
+"102",NULL,"F","Emond","Christine",,"0486 725877",,,,,,"client","0","2023-11-30 16:55:41",NULL
+"103",NULL,,"Ajuzie","Bernard",,"0485 047008",,,,,,"client","1","2023-11-30 17:29:07",NULL
+"104",NULL,"M","Nielsen","Gustavo",,"0489 230597",,,,,,"client","1","2023-12-02 17:30:35",NULL
+"105",NULL,,"Heene","Tom",,"0496 300227",,,,,,"client","0","2023-12-05 11:36:07",NULL
+"106",NULL,,"SAUNIER","Luna","0456 706844","+33781278303",,,,,,"client","0","2023-12-06 12:43:43",NULL
+"107",NULL,,"fadi","Habelrih",,"0032467671427",,"aveune beilar","1180","uccle",,"client","0","2023-12-06 14:26:59",NULL
+"108",NULL,"F","SIMON","Sylvie",,"0497 431481",,,,,,"client","0","2023-12-06 17:03:10",NULL
+"109",NULL,"F","diallo","aissatou",,"0472 263550",,"rue de l eglise saint pierre 12","1090","jette",,"client","1","2023-12-06 17:55:14",NULL
+"110",NULL,,"Circulaction asbl"," Lemos",,"0486 035833","equilibreenmouvement@hotmail.com","42 avenue Gevaert ","1332","Genval",,"client","0","2023-12-07 13:20:09",NULL
+"111",NULL,,"MABILLE","GILBERT",,,"GMABILLE068@GMAIL.COM",,,,,"client","0","2023-12-07 14:41:50",NULL
+"112",NULL,"F","Kubben","Véronique",,"0490 215282",,,,,,"client","0","2023-12-07 17:04:15",NULL
+"113",NULL,"M"," Rashad","Mahmud",,"0475 612942",,,,,,"client","0","2023-12-07 17:20:26",NULL
+"114",NULL,"M","Cqrlo","Braun",,"+32478512927","u_braun@hotmail.com","Staf. Braffortlaan 25","3090","Overijse",,"client","0","2023-12-09 17:42:03",NULL
+"115",NULL,"M","Carlo","Braun",,"+32478512927",,,,,,"client","0","2023-12-09 17:43:12",NULL
+"117",NULL,"F","sellouk","sarah",,"0470 122810",,,,,,"client","0","2023-12-12 15:09:37",NULL
+"118",NULL,,"SANTY","Christophe",,"0498 107435","chr.santy@gmail.com","Avenue des Etangs 85","1780","Wemmel",,"client","1","2023-12-12 17:04:15",NULL
+"119",,,"Piette","Jean-Christophe","00000","000000","contact@jc-piette.fr",,,,NULL,"oxfam","0","2023-12-13 10:31:17","84c49a06ffa0ad533cbc6822e8109313"
+"120",NULL,,"Masoin FRANÇOISE"," ",,"02 3741349",,,,,,"client","0","2023-12-13 15:57:18",NULL
+"121",NULL,,"VERBIST","A",,"0484 345078",,,,,,"client","0","2023-12-13 16:25:33",NULL
+"122",NULL,,"Tondeur","Pascal",,"0474 508138",,,,,,"client","0","2023-12-14 10:02:49",NULL
+"123",NULL,,"hedhili","rachid",,"0485 548434",,,,,,"client","0","2023-12-15 12:02:50",NULL
+"124",NULL,"M","de wind","denis",,"0472 481479","denis.dewind@hotmail.com",,,,,"client","0","2023-12-15 12:17:18",NULL
+"125",NULL,"F","barbirato","diana","02 6495498",,,,,,,"client","0","2023-12-16 14:30:06",NULL
+"126",NULL,,"Sow","Mamadou","0483 820543",,"itme.sow@gmail.com",,,,,"client","0","2023-12-16 14:52:58",NULL
+"127",NULL,"M","Mairesse","Yves",,"0474 754696",,,,,,"client","1","2023-12-18 09:12:52",NULL
+"128",NULL,"F","Hargon","Raj",,"0493 179524",,,,,,"client","0","2023-12-19 10:44:03",NULL
+"129",NULL,,"Krasnova","Ludmila",,"0495 315593",,,,,,"client","0","2023-12-19 11:43:18",NULL
+"130",NULL,"F","winderickx","marianne","0478 538316",,,,,,,"client","0","2023-12-19 17:13:48",NULL
+"131",NULL,"M","ALABDALLAH","Mahmoud",,"32466388289",,,"1070","Anderlecht",,"client","1","2023-12-20 15:09:13",NULL
+"132",NULL,"M","Daniel","Pinardi",,"0477 330851",,,,,,"client","0","2023-12-21 12:04:14",NULL
+"133",NULL,"M","FRANCESCON","Lino",,"04772666177",,,,,,"client","1","2023-12-22 13:28:56",NULL
+"134",NULL,"F","Orfinger","Marie",,"47 2194547","lea.orf@gmail.com",,,,,"client","0","2023-12-26 15:11:44",NULL

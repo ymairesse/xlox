@@ -11,14 +11,8 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5 w-100" id="modalEditClientLabel">Fiche Client
-          <div class="btn-group float-end">
-  
-            <button class="btn btn-warning btn-sm py-0 visuChamps" data-type="reparation" data-bs-toggle="tooltip" data-bs-title="Pour une réparation">Réparation</button>
-            <button class="btn btn-success btn-sm py-0 visuChamps" data-type="devis" data-bs-toggle="tooltip" data-bs-title="Pour un devis">Devis</button>
-            <button class="btn btn-danger btn-sm py-0 visuChamps" data-type="facture" data-bs-toggle="tooltip" data-bs-title="Pour une facture">Facture</button>
-          </div>
-
+        <h1 class="modal-title fs-5 w-100" id="modalEditClientLabel">
+          Fiche Client établie par [ {$benevole.prenom} ]
         </h1>
         <button
           type="button"
@@ -41,9 +35,9 @@
               </label>
               <select name="civilite" id="civilite" class="form-control reparation devis facture">
                 <option value="">Select</option>
-                <option value="F"{if $dataClient.civilite == 'F'} selected{/if}>Madame</option>
-                <option value="M"{if $dataClient.civilite == 'M'} selected{/if}>Monsieur</option>
-                <option value="X"{if $dataClient.civilite == 'X'} selected{/if}>MX</option>
+                <option value="F"{if isset($dataClient) && $dataClient.civilite == 'F'} selected{/if}>Madame</option>
+                <option value="M"{if isset($dataClient) && $dataClient.civilite == 'M'} selected{/if}>Monsieur</option>
+                <option value="X"{if isset($dataClient) && $dataClient.civilite == 'X'} selected{/if}>MX</option>
               </select>
 
               

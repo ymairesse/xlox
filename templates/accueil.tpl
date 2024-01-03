@@ -31,12 +31,9 @@
     </script>
   </head>
   <body>
-    <div
-    class="bg-info d-flex align-items-center justify-content-center"
-    style="width: 500px; height: 400px"
-  >
+
     <div class="bg-warning" style="width: 150; height: 100"></div>
-  </div>
+
     
 
 

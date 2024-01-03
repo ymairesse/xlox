@@ -1,3 +1,5 @@
+{if $profil != Null}
+
 <h2><u>[{if $profil.civilite == 'F'}Madame{elseif $profil.civilite == 'M'}Monsieur{else} {/if} {$profil.prenom} {$profil.nom}]</u></h2>
 
 <form autocomplete="false" id="formClient">
@@ -163,3 +165,10 @@
     </div>
   </div>
 </form>
+
+
+{else} 
+
+  <h1 class="null">Aucun client sélectionné</h1>
+
+{/if}

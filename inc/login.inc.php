@@ -16,13 +16,23 @@ $md5passwd = md5($passwd);
 
 $User = new User($identifiant, $md5passwd);
 
-$user = $User->getUser();
+if ($User != false) {
+    $user = $User->getUser();
 
-if ($User != NULL) {
     $_SESSION[APPLICATION] = serialize($User);
     // suppression préventive du Cookie 'neverDie'
-    setcookie('neverDie', ' ', time() - 3600, '/');
+    setcookie('neverDie', ' ', 
+    [
+    "expires" => time() -3600,
+    "path" => '/',
+    "domain" => "",
+    "secure" => true,
+    "httponly" => false,
+    "samesite" => "Strict"]
+    );
+
     $smarty->assign('user', $user);
     $smarty->display('navbar.tpl');
     }
 else echo "ko";
+

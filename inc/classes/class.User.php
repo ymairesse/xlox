@@ -61,6 +61,21 @@ class User
         return ($this->identite);
     }
 
+    public function getCivNomPrenom(){
+        $user = $this->identite;
+        $civilite = $user['civilite'];
+        $nom = $user['nom'];
+        $prenom = $user['prenom'];
+        switch ($civilite) {
+            case 'M': $civ = 'Monsieur';
+            break;
+            case 'F': $civ = 'Madame';
+            break;
+            default : $civ = 'M./Mme';
+        }
+        return printf('%s %s %s', $civ, $nom, $prenom);
+    }
+
     /**
      * Enregistrer le mot de passe $passwd pour l'utilisateur d'adresse mail $mail
      *
@@ -93,17 +108,16 @@ class User
     /**
      * renvoie la liste de tous les utilisateurs qui ont les droits $droits
      *
-     * @param string $droits
+     * @param array $droits (type array('root', 'oxfam')) ou array('client')
      *
      * @return array
      */
     public function getListeUsers($droits, $sort = 'alphaAsc')
     {
+        $lesDroits = '"' . implode('","', $droits) . '"';
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT idUser, nom, prenom, dateAcces, droits ';
         $sql .= 'FROM ' . PFX . 'users ';
-        // ? à la place des différentes options
-        $lesDroits = join(',', array_fill(0, count($droits), '?'));
         $sql .= 'WHERE droits IN (' . $lesDroits . ') ';
 
         switch ($sort) {
@@ -117,9 +131,10 @@ class User
                 $sql .= 'ORDER BY dateAcces DESC, TRIM(nom), prenom, mail ';
                 break;
         }
+
         $requete = $connexion->prepare($sql);
 
-        $resultat = $requete->execute($droits);
+        $resultat = $requete->execute();
         $liste = array();
         if ($resultat) {
             $requete->setFetchMode(PDO::FETCH_ASSOC);
@@ -138,16 +153,17 @@ class User
     }
 
     /**
-     * renvoie la liste de tous les clients qui ont un travail en cours 
+     * renvoie la liste de tous les clients qui ont un travail en cours
      * $travailTermine = false
      * l'ordre est donné par le paramètre $sort
-     * 
+     *
      * @param boolean $travailTermine ($false)
      * @param string $sort
-     * 
+     *
      * @return array
      */
-    public function getListeClientsTravail($travailTermine = 1, $sort = 'alphaAsc') {
+    public function getListeClientsTravail($travailTermine = 1, $sort = 'alphaAsc')
+    {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT DISTINCT users.idUser, numeroBon, nom, prenom, mail, dateAcces ';
         $sql .= 'FROM ' . PFX . 'users AS users ';
@@ -178,8 +194,9 @@ class User
                 $ligne['date'] = Application::datePHP($dateHeure[0]);
                 $ligne['heure'] = substr($dateHeure[1], 0, 5);
                 $numeroBon = $ligne['numeroBon'];
-                if (!isset($liste[$idUser]))
+                if (!isset($liste[$idUser])) {
                     $liste[$idUser] = $ligne;
+                }
                 $liste[$idUser]['numerosBons'][] = $numeroBon;
             }
         }
@@ -218,10 +235,12 @@ class User
         if ($resultat) {
             $requete->setFetchMode(PDO::FETCH_ASSOC);
             $data = $requete->fetch();
-            $dateAcces = explode(' ', $data['dateAcces']);
-            $date  = Application::datePHP($dateAcces[0]);
-            $heure = substr($dateAcces[1], 0, 5);
-            $data['dateAcces'] = sprintf('%s %s', $date, $heure);
+            if ($data != null) {
+                $dateAcces = explode(' ', $data['dateAcces']);
+                $date  = Application::datePHP($dateAcces[0]);
+                $heure = substr($dateAcces[1], 0, 5);
+                $data['dateAcces'] = sprintf('%s %s', $date, $heure);
+            }
         }
 
         Application::DeconnexionPDO($connexion);
@@ -274,6 +293,7 @@ class User
             $sql .= ', md5passwd = :pwd ';
         }
         $requete = $connexion->prepare($sql);
+
 
         $requete->bindParam(':idUser', $idUser, PDO::PARAM_INT);
         $requete->bindParam(':civilite', $civilite, PDO::PARAM_STR, 1);
@@ -417,36 +437,36 @@ class User
         return $dataBon;
     }
 
-        /**
-     * renvoie le contenu du bon de réparation $numeroBon 
+    /**
+     * renvoie le contenu du bon de réparation $numeroBon
      *
      * @param int $numeroBon
      *
      * @return array
      */
 
-     public function getData4Bon($numeroBon)
-     {
-         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-         $sql = 'SELECT * ';
-         $sql .= 'FROM '.PFX.'bonsReparation AS bons ';
-         $sql .= 'JOIN '.PFX.'typeMateriel AS tm ON bons.typeMateriel = tm.idTypeMateriel ';
-         $sql .= 'WHERE numeroBon = :numeroBon ';
-         $requete = $connexion->prepare($sql);
- 
-         $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
- 
-         $resultat = $requete->execute();
- 
-         if ($resultat) {
-             $requete->setFetchMode(PDO::FETCH_ASSOC);
-             $dataBon = $requete->fetch();
-         }
- 
-         Application::DeconnexionPDO($connexion);
- 
-         return $dataBon;
-     }
+    public function getData4Bon($numeroBon)
+    {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'SELECT * ';
+        $sql .= 'FROM ' . PFX . 'bonsReparation AS bons ';
+        $sql .= 'JOIN ' . PFX . 'typeMateriel AS tm ON bons.typeMateriel = tm.idTypeMateriel ';
+        $sql .= 'WHERE numeroBon = :numeroBon ';
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
+
+        $resultat = $requete->execute();
+
+        if ($resultat) {
+            $requete->setFetchMode(PDO::FETCH_ASSOC);
+            $dataBon = $requete->fetch();
+        }
+
+        Application::DeconnexionPDO($connexion);
+
+        return $dataBon;
+    }
 
     /**
      * Enregistrement des données d'un bon depuis le formulaire $form
@@ -476,7 +496,7 @@ class User
         $remarque = isset($form['remarque']) ? $form['remarque'] : null;
         $termine = isset($form['termine']) ? $form['termine'] : null;
         $dateSortie = ($form['dateSortie'] != '') ? $form['dateSortie'] : null;
-        $apayer = isset($form['apayer']) ? $form['apayer'] : null;
+        $apayer = isset($form['apayer']) ? $form['apayer'] : '-';
         $garantie = isset($form['garantie']) ? $form['garantie'] : null;
 
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
@@ -484,12 +504,14 @@ class User
             $sql = 'INSERT INTO ' . PFX . 'bonsReparation ';
             $sql .= 'SET idUser = :idUser, typeMateriel = :typeMateriel, marque = :marque, modele = :modele, ox = :ox, ';
             $sql .= 'dateEntree = :dateEntree, benevole = :benevole, mdp = :mdp, probleme = :probleme, etat = :etat, devis = :devis, ';
-            $sql .= 'data = :data, remarque = :remarque, termine = :termine, dateSortie = :dateSortie, apayer = :apayer, garantie = :garantie ';
+            $sql .= 'data = :data, remarque = :remarque, termine = :termine, dateSortie = :dateSortie, apayer = :apayer, ';
+            $sql .= 'garantie = :garantie ';
         } else {
             $sql = 'UPDATE ' . PFX . 'bonsReparation ';
             $sql .= 'SET idUser = :idUser, typeMateriel = :typeMateriel, marque = :marque, modele = :modele, ox = :ox, ';
             $sql .= 'dateEntree = :dateEntree, benevole = :benevole, mdp = :mdp, probleme = :probleme, etat = :etat, devis = :devis, ';
-            $sql .= 'data = :data, remarque = :remarque, termine = :termine, dateSortie = :dateSortie, apayer = :apayer, garantie = :garantie ';
+            $sql .= 'data = :data, remarque = :remarque, termine = :termine, dateSortie = :dateSortie, apayer = :apayer, ';
+            $sql .= 'garantie = :garantie ';
             $sql .= 'WHERE numeroBon = :numeroBon ';
         }
         $requete = $connexion->prepare($sql);
@@ -553,7 +575,7 @@ class User
     }
 
     /**
-    * renvoie les bons de réparation dont on donne la liste $listeNumerosBons
+    * renvoie les bons de réparation dont on donne l'identifiant du client correspondant
     *
     * @param int $idClient
     *
@@ -789,7 +811,7 @@ class User
     }
 
     /**
-     * Suppression définitive du bon $numeroBon du client $idUser
+     * Suppression définitive du bon de réparation $numeroBon du client $idUser
      *
      * @param int $idUser
      * @param int $numeroBon
@@ -1003,19 +1025,22 @@ class User
     *
     * @return array
     */
-    public function getNbAvancements4bons($numeroBon = Null)
+    public function getNbAvancements4bons($numeroBon = null)
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT numeroBon, count(idAvancement) AS nb ';
         $sql .= 'FROM ' . PFX . 'bonsAvancement ';
-        if ($numeroBon == Null)
+        if ($numeroBon == null) {
             $sql .= 'GROUP BY numeroBon ';
-        if ($numeroBon != Null)
+        }
+        if ($numeroBon != null) {
             $sql .= 'WHERE numeroBon = :numeroBon ';
+        }
         $requete = $connexion->prepare($sql);
 
-        if ($numeroBon != Null)
+        if ($numeroBon != null) {
             $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
+        }
 
         $listeAvancements = array();
         $resultat = $requete->execute();
@@ -1185,9 +1210,9 @@ class User
         $resultat = $requete->execute();
 
         $liste = array();
-        if ($resultat){
+        if ($resultat) {
             $requete->setFetchMode(PDO::FETCH_ASSOC);
-            while ($ligne = $requete->fetch()){
+            while ($ligne = $requete->fetch()) {
                 $numeroBon = $ligne['numeroBon'];
                 $liste[$numeroBon] = $ligne;
             }
@@ -1196,7 +1221,6 @@ class User
         Application::DeconnexionPDO($connexion);
 
         return $liste;
-    }
-
+    }    
 
 }

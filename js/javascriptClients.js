@@ -1,27 +1,33 @@
+function restoreSelecteurClients4gestion(
+  conteneur,
+  idClient,
+  sortClient,
+  mode
+) {
+  $.post(
+    "inc/refreshSelecteurClients.inc.php",
+    {
+      idClient: idClient,
+      sortClient: sortClient,
+      mode: mode,
+    },
+    function (resultat) {
+      conteneur.html(resultat);
+      // $("#selectClients").html(resultat);
+      conteneur
+        .find('.listeClients tr[data-idclient="' + idClient + '"]')
+        .addClass("choosen");
+
+      // activer le client en cours
+      conteneur.find(".listeClients tr.choosen").trigger("click");
+    }
+  );
+}
+
 $(document).ready(function () {
   //----------------------------------------------------------------
   // gestion des clients
   //----------------------------------------------------------------
-
-  function restoreSelecteurClients(conteneur, idClient, sortClient, mode) {
-    $.post(
-      "inc/getSelecteurClients.inc.php",
-      {
-        idClient: idClient,
-        sortClient: sortClient,
-        mode: mode,
-      },
-      function (resultat) {
-        conteneur.html(resultat);
-        conteneur
-          .find('.listeClients tr[data-idclient="' + idClient + '"]')
-          .addClass("choosen");
-        clearForm($("#formClient"));
-        // cas où le client idClient a été supprimé
-        conteneur.find(".listeClients tr.choosen").trigger("click");
-      }
-    );
-  }
 
   // gestion des clients: page principale
   $("body").on("click", "#gestionClients", function (event) {
@@ -38,22 +44,42 @@ $(document).ready(function () {
       },
       function (resultat) {
         $("#unique").html(resultat);
+        $('table.listeClients tr.choosen')[0].scrollIntoView();
       }
     );
   });
 
+  $('body').on('click', 'h5.boutonsTri', function(){
+    if ($('table.listeClients tr.choosen') != null) {
+      $('table.listeClients tr.choosen')[0].scrollIntoView();
+    }
+  })
+
   // ------------------------------------------------------
-  // sélection d'un client
-  $("body").on("click", ".listeClients tr", function (event) {
+  // sélection d'un client dans le cadre "listeClients à gauche"
+  // -------------------------------------------------------
+  $("body").on("click", "table.listeClients tr", function (event) {
     testSession(event);
-    // le widget "listeClients" doit se trouver dans un div .conteneurClients
-    var conteneur = $(this).closest(".conteneurClients");
+    // le widget "listeClients" doit se trouver dans un div .tableClients
     var idClient = $(this).data("idclient");
-    conteneur.find(".listeClients tr").removeClass("choosen");
+    var sortClient = Cookies.get("sortClient");
+
+    // dans le conteneur trouvé ci-dessus et pas dans un autre
+    // qui contiendrait aussi la liste des clients
+    $(this)
+      .closest(".tableClients")
+      .find(".listeClients tr")
+      .removeClass("choosen");
+    // on indique que le client $idClient est sélectionné
     $(this).addClass("choosen");
     Cookies.set("clientEnCours", idClient, { sameSite: "strict" });
+    //
+    //
+    // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     // sommes-nous dans la gestion des clients? -------------------------
-    if (conteneur.find("table").data("mode") == "gestion") {
+    // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    if ($(this).closest("table").data("mode") == "gestion") {
+      $("#delClient").prop("disabled", false);
       $.post(
         "inc/getProfilClient.inc.php",
         {
@@ -64,24 +90,7 @@ $(document).ready(function () {
         }
       );
     }
-    // sommes-nous dans un bon de réparation? ------------------------
-    if ($(this).closest("table").data("mode") == "reparation") {
-      // le dernier bon en cours est pris par défaut
-      var numeroBon = Cookies.get("bonEnCours");
-      $.post(
-        "inc/getFichesTravail.inc.php",
-        {
-          idClient: idClient,
-          numeroBon: numeroBon,
-        },
-        function (resultat) {
-          $("#fichesReparation").html(resultat);
-          $(
-            '#formTravail .nav-link[data-numerobon="' + numeroBon + '"]'
-          ).trigger("click");
-        }
-      );
-    }
+
   });
 
   // --------------------------------------------------------------------
@@ -89,59 +98,79 @@ $(document).ready(function () {
 
   $("body").on("click", "#delClient", function (event) {
     testSession(event);
-    var title = "Suppression d'un client";
-    var mode = "gestion";
-    // retrouver le conteneur entre les boutons d'ajout et de suppression
-    // de client
-    var conteneur = $(this).closest("div").find('.conteneurClients');;
+    ceci = $(this);
     var clientToDelete = $(".listeClients tr.choosen").data("idclient");
+    if (clientToDelete != undefined) {
+      var title = "Suppression d'un client";
+      var mode = "gestion";
+      // le div.tableClients contient le tableau de la liste des clients
+      // c'est là qu'il faudra réinsérer ce tableau
+      var conteneur = $(this).closest("div").find(".tableClients");
 
-    var sortClient =
-    Cookies.get("sortClient") != undefined
-        ? Cookies.get("sortClient")
-        : "alphaAsc";
-    var nomClient = $(".listeClients tr.choosen td").eq(0).text();
-    $.post(
-      "inc/getDependances.inc.php",
-      {
-        idClient: clientToDelete,
-      },
-      function (resultatJSON) {
-        var resultat = JSON.parse(resultatJSON);
-        var deleteOK = resultat["deleteOK"];
-        if (deleteOK == "false") {
-          bootbox.alert({
-            title: title,
-            message: resultat.raisons,
-          });
-        } else
-          bootbox.confirm({
-            title: title,
-            message:
-              "Veuillez confirmer la suppression définitive<br>du client <strong>" +
-              nomClient +
-              "</strong>",
-            callback: function (result) {
-              if (result == true){
-                // choix du client sélectionné après la suppression du client actuel
-                var nextClient = $(".listeClients tr.choosen").next().data('idclient');
-                var prevClient = $(".listeClients tr.choosen").prev().data('idclient');
-                // on sélectionne le client précédent dans le tableau
-                var selectedClient = (prevClient == undefined) ? nextClient : prevClient;
-                $.post(
-                  "inc/deleteClient.inc.php",
-                  {
-                    idClient: clientToDelete,
-                  },
-                  function () {
-                    restoreSelecteurClients(conteneur, selectedClient, sortClient, mode);
-                  }
-                );
-            }
-            },
-          });
-      }
-    );
+      var sortClient =
+        Cookies.get("sortClient") != undefined
+          ? Cookies.get("sortClient")
+          : "alphaAsc";
+      var nomClient = $(".listeClients tr.choosen td").eq(0).text();
+      $.post(
+        "inc/getDependances.inc.php",
+        {
+          idClient: clientToDelete,
+        },
+        function (resultatJSON) {
+          var resultat = JSON.parse(resultatJSON);
+          var deleteOK = resultat["deleteOK"];
+          if (deleteOK == "false") {
+            bootbox.alert({
+              title: title,
+              message: resultat.raisons,
+            });
+          } else
+            bootbox.confirm({
+              title: title,
+              message:
+                "Veuillez confirmer la suppression définitive<br>du client <strong>" +
+                nomClient +
+                "</strong>",
+              callback: function (result) {
+                if (result == true) {
+                  // choix du client sélectionné après la suppression du client actuel
+                  var nextClient = $(".listeClients tr.choosen")
+                    .next()
+                    .data("idclient");
+                  var prevClient = $(".listeClients tr.choosen")
+                    .prev()
+                    .data("idclient");
+                  // on sélectionne le client précédent (ou, à déraut, le suivent) dans le tableau
+                  var selectedClient =
+                    prevClient == undefined ? nextClient : prevClient;
+                  Cookies.set("clientEnCours", selectedClient, { sameSite: "strict" });
+                  $.post(
+                    "inc/deleteClient.inc.php",
+                    {
+                      idClient: clientToDelete,
+                    },
+                    function () {
+                      // retour de la page de gestion des clients
+                      $.post(
+                        "inc/getClientsProfiles.inc.php",
+                        {
+                          idClient: selectedClient,
+                          mode: "gestion",
+                          sortClient: sortClient,
+                        },
+                        function (resultat) {
+                          $("#unique").html(resultat);
+                        }
+                      );
+                    }
+                  );
+                }
+              },
+            });
+        }
+      );
+    }
   });
 
   // Édition d'un client
@@ -228,7 +257,7 @@ $(document).ready(function () {
           Cookies.set("clientEnCours", idClient, { sameSite: "strict" });
 
           $("#modalEditClient").modal("hide");
-
+          // retour de la page de gestion des clients
           $.post(
             "inc/getClientsProfiles.inc.php",
             {
@@ -254,61 +283,108 @@ $(document).ready(function () {
     }
   });
 
-  $("body").on("click", "#btn-resetClient", function (event) {
-    testSession(event);
-    clearForm($("#formClient"));
-  });
+  // $("body").on("click", "#btn-resetClient", function (event) {
+  //   testSession(event);
+  //   clearForm($("#formClient"));
+  // });
 
   // ---------------------------------------------------------
   // présentation tri par date
-
   $("body").on("click", ".clientParDate", function (event) {
     testSession(event);
-    var conteneur = $(this).closest(".conteneurClients");
+    var ceci = $(this);
+    // le div.tableClients contient le tableau de la liste des clients
+    // c'est là qu'il faudra réinsérer ce tableau
+    var conteneur = ceci.closest(".boutonsTri").siblings(".tableClients");
+
+    var idClient = conteneur.find("tr.choosen").data("idclient");
+    var mode = conteneur.find("table.listeClients").data("mode");
+
     var sortClient = "parDate";
     Cookies.set("sortClient", "parDate", { sameSite: "strict" });
-    var idClient = conteneur.find(".listeClients tr.choosen").data("idclient");
-    var mode = conteneur.find(".listeClients").data("mode");
-    conteneur
-      .find(".btn-sort")
-      .addClass("btn-default")
-      .removeClass("btn-primary");
-    conteneur.find(".clientParDate").addClass("btn-primary");
-    restoreSelecteurClients(conteneur, idClient, sortClient, mode);
+
+    ceci.closest(".boutonsTri").find("button").removeClass("btn-primary");
+    ceci
+      .closest(".boutonsTri")
+      .find("button.clientParDate")
+      .addClass("btn-primary");
+    $.post(
+      "inc/refreshSelecteurClients.inc.php",
+      {
+        idClient: idClient,
+        sortClient: sortClient,
+        mode: mode,
+      },
+      function (resultat) {
+        conteneur.html(resultat);
+      }
+    );
   });
 
   // présentation tri alphaAsc
   $("body").on("click", ".clientAlphaAsc", function (event) {
     testSession(event);
-    var conteneur = $(this).closest(".conteneurClients");
+    var ceci = $(this);
+
+    // le div.tableClients contient le tableau de la liste des clients
+    // c'est là qu'il faudra réinsérer ce tableau
+    var conteneur = ceci.closest(".boutonsTri").siblings(".tableClients");
+
+    var idClient = conteneur.find("tr.choosen").data("idclient");
+    var mode = conteneur.find("table.listeClients").data("mode");
+
     var sortClient = "alphaAsc";
     Cookies.set("sortClient", "alphaAsc", { sameSite: "strict" });
-    var idClient = conteneur.find(".listeClients tr.choosen").data("idclient");
-    var mode = conteneur.find(".listeClients").data("mode");
 
-    conteneur
-      .find(".btn-sort")
-      .addClass("btn-default")
-      .removeClass("btn-primary");
-    conteneur.find(".clientAlphaAsc").addClass("btn-primary");
-    restoreSelecteurClients(conteneur, idClient, sortClient, mode);
+    ceci.closest(".boutonsTri").find("button").removeClass("btn-primary");
+    ceci
+      .closest(".boutonsTri")
+      .find("button.clientAlphaAsc")
+      .addClass("btn-primary");
+
+    $.post(
+      "inc/refreshSelecteurClients.inc.php",
+      {
+        idClient: idClient,
+        sortClient: sortClient,
+        mode: mode,
+      },
+      function (resultat) {
+        conteneur.html(resultat);
+      }
+    );
   });
 
   // présentation tri alphaDesc
   $("body").on("click", ".clientAlphaDesc", function (event) {
     testSession(event);
-    var conteneur = $(this).closest(".conteneurClients");
+    var ceci = $(this);
+    // le div.tableClients contient le tableau de la liste des clients
+    // c'est là qu'il faudra réinsérer ce tableau
+    var conteneur = ceci.closest(".boutonsTri").siblings(".tableClients");
+
+    var idClient = conteneur.find("tr.choosen").data("idclient");
+    var mode = conteneur.find("table.listeClients").data("mode");
+
     var sortClient = "alphaDesc";
     Cookies.set("sortClient", "alphaDesc", { sameSite: "strict" });
-    var idClient = conteneur.find(".listeClients tr.choosen").data("idclient");
-    var mode = conteneur.find(".listeClients").data("mode");
 
-    conteneur
-      .find(".btn-sort")
-      .addClass("btn-default")
-      .removeClass("btn-primary");
-    conteneur.find(".clientAlphaDesc").addClass("btn-primary");
-    restoreSelecteurClients(conteneur, idClient, sortClient, mode);
+    ceci.closest(".boutonsTri").find("button").removeClass("btn-primary");
+    ceci
+      .closest(".boutonsTri")
+      .find("button.clientAlphaDesc")
+      .addClass("btn-primary");
+    $.post(
+      "inc/refreshSelecteurClients.inc.php",
+      {
+        idClient: idClient,
+        sortClient: sortClient,
+        mode: mode,
+      },
+      function (resultat) {
+        conteneur.html(resultat);
+      }
+    );
   });
 
   //
@@ -357,4 +433,5 @@ $(document).ready(function () {
       );
     }
   });
+
 });
