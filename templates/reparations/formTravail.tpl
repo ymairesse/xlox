@@ -1,3 +1,4 @@
+
 {if $numeroBon != Null}
 
 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
@@ -298,9 +299,10 @@
     </div>
 
   </div>
-</form>
 
-{include file="reparations/inc/boutonsEditDelPrint.tpl"}
+  {include file="reparations/inc/boutonsEditDelPrint.tpl"}
+
+</form>
 
 
 {else}
