@@ -32,6 +32,7 @@ function clearForm(form) {
 
 function isDoubleClicked(element) {
   //if already clicked return TRUE to indicate this click is not allowed
+  console.log('double click prevented');
   if (element.data("isclicked")) return true;
   //mark as clicked for 1 second
   element.data("isclicked", true);
@@ -45,7 +46,7 @@ function isDoubleClicked(element) {
 
 // variables de service pour la session infinie
 var timeOutLive4ever;
-var intervalle = 5*60*1000; // toutes les 5 minutes
+var intervalle = 5 * 60 * 1000; // toutes les 5 minutes
 
 function liveOnOff(onOff) {
   if (onOff == 1) {
@@ -92,6 +93,7 @@ $(document).ready(function () {
   // login - logout ------------------------------------------------
   //
   $("body").on("click", "#btn-login", function () {
+    if (isDoubleClicked($(this))) return;
     $.post("inc/modalLogin.inc.php", {}, function (resultat) {
       $("#modal").html(resultat);
       $("#modalLogin").modal("show");
@@ -126,7 +128,11 @@ $(document).ready(function () {
     }
   });
 
+  // -----------------------------------------------
+  // fermeture de l'application
+  // -----------------------------------------------
   $("body").on("click", "#btn-logout", function () {
+    if (isDoubleClicked($(this))) return;   
     bootbox.confirm({
       title: "Déconnexion",
       message: "Veuillez confirmer la déconnexion",
@@ -139,24 +145,23 @@ $(document).ready(function () {
       },
     });
   });
-
+  // -----------------------------------------------
   // visualisation du mot de passe dans un champ "password"
+  // -----------------------------------------------
   $("body").on("click", ".addonMdp", function (event) {
     testSession(event);
-    var mdp = $(this).next().data('mdp');
-    if ($(this).next().prop("type") == "password"){
+    var mdp = $(this).next().data("mdp");
+    if ($(this).next().prop("type") == "password") {
       $(this).next().prop("type", "text");
       $(this).next().val(mdp);
-      }
-    else $(this).next().prop("type", "password");
+    } else $(this).next().prop("type", "password");
   });
 
-  $('body').on('click', '.showHiddenMdp', function(){
-    if ($(this).next().hasClass('hiddenMdp')) 
-      $(this).next().removeClass('hiddenMdp').addClass('shownMdp');
-    else $(this).next().removeClass('shownMdp').addClass('hiddenMdp');
-  })
-
+  $("body").on("click", ".showHiddenMdp", function () {
+    if ($(this).next().hasClass("hiddenMdp"))
+      $(this).next().removeClass("hiddenMdp").addClass("shownMdp");
+    else $(this).next().removeClass("shownMdp").addClass("hiddenMdp");
+  });
 
   $("body").on("click", ".visuChamps", function () {
     var type = $(this).data("type");

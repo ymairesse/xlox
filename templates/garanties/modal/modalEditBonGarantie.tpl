@@ -11,9 +11,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5 w-100" id="modalEditBonGarantieLabel">
-          Édition du bon de garantie #{$dataGarantie.ticketCaisse}
+          Édition du bon de garantie #{$dataGarantie.ticketCaisse|number_format:0:'.':' '}
         </h1>
-
+        
         <button
           type="button"
           class="btn-close"

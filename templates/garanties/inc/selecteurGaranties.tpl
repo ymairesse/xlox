@@ -21,7 +21,6 @@
   </tbody>
   </table>
 
-  <button type="button" class="btn btn-warning w-100" id="btn-addGarantieAnonyme"><i class="fa fa-plus"></i> bon de garantie</button>
-
 </div>
 
+<button type="button" class="btn btn-warning w-100" id="btn-addGarantieAnonyme"><i class="fa fa-plus"></i> bon de garantie</button>

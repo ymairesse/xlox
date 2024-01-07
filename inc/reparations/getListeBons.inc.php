@@ -1,7 +1,5 @@
 <?php
 
-// Édition du profil personnel de l'utilisateur
-
 session_start();
 
 require_once '../../config.inc.php';

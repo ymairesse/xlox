@@ -1,6 +1,17 @@
 {if $profil != Null}
 
-<h2><u>[{if $profil.civilite == 'F'}Madame{elseif $profil.civilite == 'M'}Monsieur{else} {/if} {$profil.prenom} {$profil.nom}]</u></h2>
+<h2>
+  <u
+    >[{if $profil.civilite == 'F'}Madame{elseif $profil.civilite ==
+    'M'}Monsieur{else} {/if} {$profil.prenom} {$profil.nom}]</u
+  >
+  {if $profil.rgpd == 0}<i class="fa fa-unlock" aria-hidden="true"></i>{else}<i
+    class="fa fa-lock"
+    aria-hidden="true"
+    title="Peut être conservé"
+  ></i
+  >{/if}
+</h2>
 
 <form autocomplete="false" id="formClient">
   <div class="container-fluid">
@@ -166,9 +177,8 @@
   </div>
 </form>
 
+{else}
 
-{else} 
-
-  <h1 class="null">Aucun client sélectionné</h1>
+<h1 class="null">Aucun client sélectionné</h1>
 
 {/if}

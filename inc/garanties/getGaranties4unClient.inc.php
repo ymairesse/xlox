@@ -13,7 +13,10 @@ $bonGarantie = isset($_POST['bonGarantie']) ? $_POST['bonGarantie'] : null;
 $identiteClient = $User->getDataUser($idClient);
     
 // liste de toutes les fiches de garantiespour le client en cours
+// y compris les marchandises
+// y compris les conditions particulières de vente
 $listeBonsGarantie = $Garantie->getGaranties4Client($idClient);
+
 
 $listeNumerosBons = array_keys($listeBonsGarantie);
 

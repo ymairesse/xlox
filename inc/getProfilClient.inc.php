@@ -12,6 +12,7 @@ include 'entetes.inc.php';
 $idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
 
 $profil = $User->getDataUser($idClient);
+
 $smarty->assign('profil', $profil);
 
 // fiche personnelle

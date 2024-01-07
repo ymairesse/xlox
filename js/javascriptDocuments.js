@@ -87,40 +87,49 @@ $(document).ready(function () {
   // -----------------------------------------------------------------
   // gestion des conditions particulières (bons CPAS,...)
   // -----------------------------------------------------------------
-  $("body").on("click", "#btn-conditionsPart", function (event) {
+  $("body").on("click", ".editCondPart", function (event) {
     testSession(event);
     var ticketCaisse = $(this).data("ticketcaisse");
-    // supprimer les éditions éventuellement en cours pour toutes les garanties
-    $('.condPart textarea').removeClass('editing');
-    $('textarea[data-ticketcaisse="' + ticketCaisse + '"]').addClass('editing');
-    $.post('inc/garanties/getConditionsPart.inc.php', {
-      ticketCaisse: ticketCaisse
-    }, function(resultat){
-      $('#modal').html(resultat);
-      $('#modalCondPart').modal('show');
-    })
+    if (isDoubleClicked($(this))) return;
+    $.post(
+      "inc/garanties/getConditionsPart.inc.php",
+      {
+        ticketCaisse: ticketCaisse,
+      },
+      function (resultat) {
+        $("#modal").html(resultat);
+        $("#modalCondPart").modal("show");
+      }
+    );
   });
 
   // -----------------------------------------------------------------
   // Enregistrement du texte des cond. Part. pour le $ticketCaisse
   // -----------------------------------------------------------------
-  $('body').on('click', '#btn-savemodalCondPart', function(event){
+  $("body").on("click", "#btn-savemodalCondPart", function (event) {
     testSession(event);
-    var formulaire = $('#formmodalCondPart').serialize();
-    $.post('inc/garanties/saveConditionsPart.inc.php', {
-      formulaire: formulaire
-    }, function(resultatJSON){
-      $('#modalCondPart').modal("hide");
-      var resultat = JSON.parse(resultatJSON);
-      var nb = resultat['nb'];
-      var ticketcaisse = resultat['ticketCaisse'];
-      var texte = resultat['texte'];
-      // placer le texte dans le textarea en cours d'édition
-      $('textarea.editing').val(texte);
-    })
-  })
-
-
+    var formulaire = $("#formmodalCondPart").serialize();
+    var ticketCaisse = $("#formmodalCondPart input#ticketCaisse").val();
+    $.post(
+      "inc/garanties/saveConditionsPart.inc.php",
+      {
+        formulaire: formulaire,
+      },
+      function (resultatJSON) {
+        $("#modalCondPart").modal("hide");
+        var resultat = JSON.parse(resultatJSON);
+        var ticketcaisse = resultat["ticketCaisse"];
+        var texte = resultat["texte"];
+        var condPart = resultat["condPart"];
+        // placer le texte dans le textarea
+        $("textarea").val(texte);
+        // placer le type dans le bouton
+        $('#btn-conditionsPart[data-ticketcaisse="' + ticketCaisse + '"]').text(
+          condPart
+        );
+      }
+    );
+  });
 
   // ------------------------------------------------------------------
   // Édition de l'entête () d'un bon de garantie $ticketCaisse
@@ -200,7 +209,6 @@ $(document).ready(function () {
     if ($("#modalFormBonGarantie").valid()) {
       var idClient = $("#modalFormBonGarantie input#idClient").val();
       var formulaire = $("#modalFormBonGarantie").serialize();
-
       var sortClient = Cookies.get("sortClient");
       $.post(
         "inc/garanties/saveBonGarantie.inc.php",
@@ -213,7 +221,7 @@ $(document).ready(function () {
           var ticketCaisse = resultat["ticketCaisse"];
           var title = "Bon de garantie";
 
-          if (rows == 1) {
+          if (rows != 0) {
             Cookies.set("ticketCaisse", ticketCaisse, { sameSite: "strict" });
             $("#modalEditBonGarantie").modal("hide");
             bootbox.alert({
@@ -224,6 +232,7 @@ $(document).ready(function () {
                 "</strong>",
             });
             if (idClient != "") {
+              // c'est une garantie nominative
               $.post(
                 "inc/garanties/getBonsGarantie.inc.php",
                 {
@@ -244,6 +253,7 @@ $(document).ready(function () {
                 }
               );
             } else {
+              // c'est une garantie anonyme
               $.post(
                 "inc/garanties/getGarantiesAnonymes.inc.php",
                 {
@@ -300,9 +310,38 @@ $(document).ready(function () {
                   title: title,
                   message: "Bon de garantie supprimé",
                 });
-              $('table.listeClients[data-mode="garantie"] tr.choosen').trigger(
-                "click"
-              );
+              if ($("table.listeClients tr").length != 0) {
+                // C'est une garantie nominative
+                $(
+                  'table.listeClients[data-mode="garantie"] tr.choosen'
+                ).trigger("click");
+              } else {
+                // c'est une garantie anonyme
+                // quelle est la précédente ou la suivante garantie dans la table?
+                var prevGarantie = $("table#listeGarantiesAnonymes tr.choosen")
+                  .prev()
+                  .data("ticketcaisse");
+                // s'il n'y a pas de précédente, on choisit la suivante
+                if (prevGarantie == undefined){
+                  prevGarantie = $(
+                    "table#listeGarantiesAnonymes tr.choosen"
+                  )
+                    .next()
+                    .data("ticketcaisse");
+                }
+                // effacement de la garantie supprimée hors de la liste
+                $(
+                  'table#listeGarantiesAnonymes tr[data-ticketcaisse="' +
+                    ticketCaisse +
+                    '"'
+                ).remove();
+                // sélection de la garantie précédent celle qui a été supprimées
+                $(
+                  'table#listeGarantiesAnonymes tr[data-ticketcaisse="' +
+                    prevGarantie +
+                    '"]'
+                ).trigger("click");
+              }
             }
           );
         }

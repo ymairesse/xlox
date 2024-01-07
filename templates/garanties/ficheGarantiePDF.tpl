@@ -40,8 +40,8 @@
 
   {include file="garanties/tableauItemsPDF.tpl"}
 
-  <div style="font-size: 8pt">
-  {$condPart|default:''|nl2br}
+  <div style="font-size: 10pt">
+    {$condPart.texte|default:''|nl2br}
   </div>
 
   <div id="cgv" style="font-size: 7pt; width: 98%">
@@ -64,9 +64,9 @@
 
     <ul style="list-style-type: circle;">
       <li>
-        Oxfam-Solidarité a.s.b.l. donne une garantie d'un an à partir de la date
-        d'achat. Les cartouches d'encre des imprimantes, les batteries et autres
-        biens de consommation sont exclus de la garantie.
+        Oxfam-Solidarité a.s.b.l. donne <b>une garantie d'un an à partir de la date
+        d'achat</b>. Les cartouches d'encre des imprimantes, les batteries et autres
+        biens de consommation<b> sont exclus de la garantie</b>.
       </li>
       <li>
         Oxfam Solidarité a.s.b.l. n'est pas responsable du fonctionnement des
@@ -89,7 +89,7 @@
       </li>
     </ul>
     <p>La garantie ne s'applique pas:</p>
-    <ul style="list-style-type:circle">
+    <ul style="list-style-type:circle;">
       <li>si l'appareil a été ouvert ou</li>
       <li>
         dans le cas d'une utilisation non conforme de l'ordinateur, un mauvais
@@ -166,5 +166,13 @@
     background-color: black;
     font-weight: bold;
     padding: 0;
+  }
+
+  p {
+    margin: 5px;
+  }
+
+  ul {
+    margin: 5px;
   }
 </style>

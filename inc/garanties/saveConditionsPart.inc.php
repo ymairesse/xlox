@@ -12,8 +12,20 @@ $form = array();
 parse_str($formulaire, $form);
 
 $ticketCaisse = $form['ticketCaisse'];
+$typeCondPart = ($form['typeCondPart'] != '') ? $form['typeCondPart'] : Null;
 $texte = $form['texte'];
 
-$nb = $Garantie->saveConditionsPart($ticketCaisse, $texte);
+$nb = $Garantie->saveConditionsPart($ticketCaisse, $typeCondPart, $texte);
 
-echo json_encode(array('nb' => $nb, 'texte' => $texte, 'ticketCaisse' => $ticketCaisse));
+switch ($typeCondPart) {
+    case 'CPAS':
+        $condPart = 'Bon CPAS';
+        break;
+    case 'Facture':
+        $condPart = 'Facture acquitée demandée';
+        break;
+    default:
+        $condPart = 'Aucune condition particulière';
+}
+
+echo json_encode(array('texte' => $texte, 'ticketCaisse' => $ticketCaisse, 'condPart' => $condPart));

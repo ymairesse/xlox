@@ -74,7 +74,7 @@
                 id="civilite"
                 class="form-control reparation facture devis"
               >
-                <option value="">Select</option>
+                <option value="">Genre</option>
                 <option class="nonX" data-lang="fr" value="F">Madame</option>
                 <option class="nonX d-none" data-lang="nl" value="F">
                   Mevrouw

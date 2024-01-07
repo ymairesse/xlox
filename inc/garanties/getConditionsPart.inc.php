@@ -9,9 +9,9 @@ include '../entetes.inc.php';
 
 $ticketCaisse = isset($_POST['ticketCaisse']) ? $_POST['ticketCaisse'] : null;
 
-$texte = $Garantie->getConditionsPart($ticketCaisse);
+$condPart = $Garantie->getConditionsPart($ticketCaisse);
 
-$smarty->assign('texte', $texte);
+$smarty->assign('condPart', $condPart);
 $smarty->assign('ticketCaisse', $ticketCaisse);
 
 $smarty->display('garanties/modal/modalCondPart.tpl');

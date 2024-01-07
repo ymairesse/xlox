@@ -70,7 +70,7 @@ class Garantie {
         if ($listeBonsGarantie != Null) {
             $listeTicketsBons = array_keys($listeBonsGarantie);
             $listeTicketsBonsString = '"'.implode('","', $listeTicketsBons).'"';
-            $sql = 'SELECT ticketCaisse, texte ';
+            $sql = 'SELECT ticketCaisse, texte, typeCondPart ';
             $sql .= 'FROM '.PFX.'bonsGarantieCondPart ';
             $sql .= 'WHERE ticketCaisse IN ('.$listeTicketsBonsString.') ';
             $sql .= 'ORDER BY ticketCaisse ';
@@ -84,7 +84,7 @@ class Garantie {
                 while ($ligne = $requete3->fetch()) {
                     $ticketCaisse = $ligne['ticketCaisse'];
                     $texte = $ligne['texte'];
-                    $listeCondPart[$ticketCaisse] = $texte;
+                    $listeCondPart[$ticketCaisse] = $ligne;
                 }
             }
             // coller les textes des conditions particulières aux bons de garantie
@@ -207,11 +207,13 @@ class Garantie {
 
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         if ($idClient != Null) {
+            // c'est une garantie nominative
             $sql = 'INSERT INTO '.PFX.'bonsGarantie ';
             $sql .= 'SET idClient = :idClient, ticketCaisse = :ticketCaisse, date = :dateGarantie ';
             $sql .= 'ON DUPLICATE KEY update date = :dateGarantie ';
         }
         else {
+            // c'est une garantie anonyme
             $sql = 'INSERT INTO '.PFX.'bonsGarantie ';
             $sql .= 'SET ticketCaisse = :ticketCaisse, date = :dateGarantie ';
             $sql .= 'ON DUPLICATE KEY update date = :dateGarantie ';
@@ -517,30 +519,31 @@ class Garantie {
    * renvoie le texte des conditions particulières pour le ticket de caisse $ticketCaisse
    * 
    * @param string $ticketCaisse
+   * @param string $typeCondPart
    * 
    * @return string
    */
   public function getConditionsPart($ticketCaisse) {
     $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-    $sql = 'SELECT texte ';
+    $sql = 'SELECT ticketCaisse, texte, typeCondPart ';
     $sql .= 'FROM '.PFX.'bonsGarantieCondPart  ';
     $sql .= 'WHERE ticketCaisse = :ticketCaisse ';
     $requete = $connexion->prepare($sql);
 
     $requete->bindParam(':ticketCaisse', $ticketCaisse, PDO::PARAM_STR, 10);
 
-    $texte = '';
+    $condPart = array('ticketCaisse' => $ticketCaisse, 'texte' => '', 'typeCondPart' => '');
+
+
     $resultat = $requete->execute();
     if ($resultat) {
         $requete->setFetchMode(PDO::FETCH_ASSOC);
-        while ($ligne = $requete->fetch()) {
-            $texte = $ligne['texte'];
-        }
+        $condPart = $requete->fetch();
     }
 
     Application::DeconnexionPDO($connexion);
 
-    return $texte;
+    return $condPart;
   }
 
   /**
@@ -551,14 +554,15 @@ class Garantie {
    * 
    * @return int (nombre d'insertions)
    */
-  public function saveConditionsPart($ticketCaisse, $texte){
+  public function saveConditionsPart($ticketCaisse, $typeCondPart, $texte){
     $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
     $sql = 'INSERT INTO '.PFX.'bonsGarantieCondPart ';
-    $sql .= 'SET ticketCaisse = :ticketCaisse, texte = :texte ';
-    $sql .= 'ON DUPLICATE KEY UPDATE texte = :texte ';
+    $sql .= 'SET ticketCaisse = :ticketCaisse, typeCondPart = :typeCondPart, texte = :texte ';
+    $sql .= 'ON DUPLICATE KEY UPDATE texte = :texte, typeCondPart = :typeCondPart ';
     $requete = $connexion->prepare($sql);
 
     $requete->bindParam(':ticketCaisse', $ticketCaisse, PDO::PARAM_STR, 10);
+    $requete->bindParam(':typeCondPart', $typeCondPart, PDO::PARAM_STR);
     $requete->bindParam(':texte', $texte, PDO::PARAM_STR);
 
     $resultat = $requete->execute();
@@ -568,6 +572,30 @@ class Garantie {
     Application::DeconnexionPDO($connexion);
 
     return $rows;
+  }
+
+  /**
+   * Effacement de la condition particulière de vente du $ticketCaisse
+   * 
+   * @param string $tickeCaisse
+   * 
+   * @return int
+   */
+  public function delConditionPart($ticketCaisse){
+    $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+    $sql = 'DELETE FROM '.PFX.'bonsGarantieCondPart ';
+    $sql .= 'WHERE ticketCaisse = :ticketCaisse ';
+    $requete = $connexion->prepare($sql);
+
+    $requete->bindParam(':ticketCaisse', $ticketCaisse, PDO::PARAM_STR, 10);
+
+    $resultat = $requete->execute();
+
+    $nb = $requete->rowCount();
+
+    Application::DeconnexionPDO($connexion);
+
+    return $nb;
   }
 
 }

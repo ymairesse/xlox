@@ -37,7 +37,6 @@ $smarty->assign('listeItems', $listeItems);
 $condPart = $Garantie->getConditionsPart($ticketCaisse);
 $smarty->assign('condPart', $condPart);
 
-
 $smarty->assign('ticketCaisse', $ticketCaisse);
 $smarty->assign('idClient', $idClient);
 
@@ -54,12 +53,29 @@ use Spipu\Html2Pdf\Html2Pdf;
 $html2pdf = new Html2Pdf('P','A4','fr');
 
 $html2pdf->WriteHTML($fichePDF);
-$horodatage = date('Y/m/');
+$horodatage = date('Y/m');
+// ajouter underscore pour séparer du numéro de ticket de caisse
+$nomClient = ($dataClient['nom'] != '') ? $dataClient['nom'].'_' : '';
+$nomClient = str_replace(' ', '', $nomClient);
 
+// création éventuelle du répertoire /année/mois
 if (!file_exists(INSTALL_DIR.'/pdf/garanties/'.$horodatage)) {
     mkdir(INSTALL_DIR.'/pdf/garanties/'.$horodatage, 0777, true);
 }
 
-$html2pdf->Output(INSTALL_DIR."/pdf/garanties/".$horodatage.$ticketCaisse.".pdf", 'FD');
+$ssDestination = '';
+if ($condPart['typeCondPart'] == 'Facture') {
+	if (!file_exists(INSTALL_DIR.'/pdf/garanties/'.$horodatage.'/factures')) {
+		mkdir(INSTALL_DIR.'/pdf/garanties/'.$horodatage.'/factures', 0777, true);
+	}
+	$ssDestination = 'factures';
+}
+if ($condPart['typeCondPart'] == 'CPAS') {
+	if (!file_exists(INSTALL_DIR.'/pdf/garanties/'.$horodatage.'/cpas')) {
+		mkdir(INSTALL_DIR.'/pdf/garanties/'.$horodatage.'/cpas', 0777, true);
+	}
+	$ssDestination = 'cpas';
+}
 
-
+// le fichier est enregistré ET présenté dans le navigateur
+$html2pdf->Output(INSTALL_DIR."/pdf/garanties/".$horodatage."/".$ssDestination."/".$nomClient.$ticketCaisse.".pdf", 'FD');
