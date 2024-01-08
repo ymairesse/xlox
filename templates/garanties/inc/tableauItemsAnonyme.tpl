@@ -17,6 +17,8 @@
     </thead>
     {assign var=total value=0 scope="global"} 
     <tbody>
+      
+      {if isset($items)}
       {foreach from=$items key=id item=data} 
       <tr data-iditem="{$data.id}">
         <td>
@@ -40,6 +42,7 @@
       {assign var=total value=$total + $data.prix} 
 
       {/foreach}
+      {/if}
 
     </tbody>
     <tfoot>
