@@ -104,8 +104,7 @@ class Garantie {
     /**
      * retourne les bons de garantie anonymes
      * 
-     * @param void
-     * 
+     * @param  
      * @return array
      */
     public function getGarantiesAnonymes(){
@@ -459,7 +458,7 @@ class Garantie {
   /**
    * retourne la liste des marchandises disponibles dans la table ox_inventaire
    * 
-   * @param void
+   * @param 
    * 
    * @return array
    */
