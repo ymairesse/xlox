@@ -1,5 +1,5 @@
 <div style="max-height: 25em; overflow: auto">
-  <h5>Liste des réparations en cours</h5>
+  <h5 class="scrollReparations">Liste des réparations en cours</h5>
 
   <table class="table table-sm w-100 mh-100" id="listeReparations">
     <tr>

@@ -93,12 +93,11 @@ $(document).ready(function () {
     }
   );
 
-  /**
-   * Accès aux fiches de réparation par numéro du bon
-   *
-   * clic dans une ligne de la liste des bons de réparation
-   * pour voir la fiche correspondante
-   */
+  
+  // Accès aux fiches de réparation par numéro du bon
+  //clic dans une ligne de la liste des bons de réparation
+  // pour voir la fiche correspondante
+  // ---------------------------------------------------------------
   $("body").on("click", "#listeReparations tr", function (event) {
     testSession(event);
     var numeroBon = $(this).data("numerobon");
@@ -111,10 +110,17 @@ $(document).ready(function () {
         numeroBon: numeroBon,
       },
       function (resultat) {
-        $("#ficheTechnique").html(resultat);
+        $("#ficheTechnique").html(resultat);  
       }
     );
   });
+
+  // ------------------------------------------------------------------
+  // Mise en vue de la réparation en cours actuellement sélectionnée
+  // ------------------------------------------------------------------
+  $('body').on('click', '.scrollReparations', function(){
+    $('#listeReparations tr.choosen')[0].scrollIntoView();
+  })
 
   // sélection d'une fiche de travail dans les onglets -----------------
   // permet d'ajuster le Cookie pour le numéro du bon de réparation
@@ -211,14 +217,12 @@ $(document).ready(function () {
                   },
                   function (resultat) {
                     $("#unique").html(resultat);
-                    // $(
-                    //   '.listeClients tr[data-idclient="' + idClient + '"]'
-                    // ).trigger("click");
+
                     $('.nav-link[data-numerobon="' + numeroBon + '"]').trigger(
                       "click"
                     );
                     $(
-                      '.listeClients tr[data-idclient="63"]'
+                      '.listeClients tr[data-idclient="' + numeroBon + '"]'
                     )[0].scrollIntoView();
                   }
                 );
@@ -361,6 +365,7 @@ $(document).ready(function () {
       },
       function (resultat) {
         $("#unique").html(resultat);
+        $('#listeReparations tr.choosen')[0].scrollIntoView();
       }
     );
   });

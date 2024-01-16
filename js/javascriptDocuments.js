@@ -14,6 +14,7 @@ $(document).ready(function () {
     // mode de tri dans la liste des clients
     var sortClient = Cookies.get("sortClient");
     $.post(
+      // rechercher la liste des clients et les bons de garantie pour le client $idClient
       "inc/garanties/getBonsGarantie.inc.php",
       {
         idClient: idClient,
@@ -534,4 +535,6 @@ $(document).ready(function () {
       }
     );
   });
+
+  
 });

@@ -4,9 +4,11 @@
     {include file='inc/selecteurClients.tpl'}
   </div>
 
-  <div class="col-md-9 col-12" id="bonsGarantie">
+  <div class="col-md-9 col-12" id="conteneurDevis">
 
-    {include file='garanties/fichesGarantie4unClient.tpl'}
-    
+    {include file='devis/devis4unClient.tpl'}
+
   </div>
 </div>
+
+

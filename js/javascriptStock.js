@@ -14,7 +14,8 @@ $(document).ready(function () {
   });
 
   // sélection d'une ligne du tableau des matériels
-  $("body").on("click", "#selecteurStock td", function () {
+  $("body").on("click", "#selecteurStock td", function (event) {
+    testSession(event);
     var idMateriel = $(this).closest("tr").data("idmateriel");
     Cookies.set("idMateriel", idMateriel, { sameSite: "strict" });
     $("#selecteurStock tr").removeClass("choosen");
@@ -22,7 +23,8 @@ $(document).ready(function () {
   });
 
   // édition d'une pièce de matériel
-  $("body").on("click", ".btn-editItemStock", function () {
+  $("body").on("click", ".btn-editItemStock", function (event) {
+    testSession(event);
     var idMateriel = $(this).closest("tr").data("idmateriel");
     Cookies.set("idMateriel", idMateriel, { sameSite: "strict" });
     $.post(
@@ -38,7 +40,8 @@ $(document).ready(function () {
   });
 
   // Ajout d'un item au matériel en stock
-  $("body").on("click", "#btn-addItemStock", function () {
+  $("body").on("click", "#btn-addItemStock", function (event) {
+    testSession(event);
     var idMateriel = null;
     $.post(
       "inc/stock/editItemStock.inc.php",
@@ -53,7 +56,8 @@ $(document).ready(function () {
   });
 
   // suppression d'un matériel de l'inventaire
-  $("body").on("click", ".btn-delItemStock", function () {
+  $("body").on("click", ".btn-delItemStock", function (event) {
+    testSession(event);
     var idMateriel = $(this).closest("tr").data("idmateriel");
     Cookies.set("idMateriel", idMateriel, { sameSite: "strict" });
     bootbox.confirm({
@@ -76,7 +80,8 @@ $(document).ready(function () {
   });
 
   // enregistrement (édition ou nouveau) d'un matériel depuis la boîte modale
-  $("body").on("click", "#btn-saveItemStock", function () {
+  $("body").on("click", "#btn-saveItemStock", function (event) {
+    testSession(event);
     if ($("#modalFormItemStock").valid()) {
       var formulaire = $("#modalFormItemStock").serialize();
       $.post(

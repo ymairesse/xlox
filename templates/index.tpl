@@ -24,6 +24,7 @@
     <script src="js/javascriptUsers.js"></script>
     <script src="js/javascriptDocuments.js"></script>
     <script src="js/javascriptStock.js"></script>
+    <script src="js/javascriptDevis.js"></script>
     <script src="js/jqvalidate/dist/jquery.validate.min.js"></script>
     <script src="js/jqvalidate/dist/additional-methods.min.js"></script>
     <script src="js/jqvalidate/dist/localization/messages_fr.js"></script>
