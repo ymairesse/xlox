@@ -991,7 +991,7 @@ class User
      * recherche le nombre de dépendances sur les bons de réparations pour l'utilisateur $idUser
      * afin de ne pas supprimer un utilisateur avec des actions en attente
      *
-     * @param int $idUser
+     * @param int $idUser 
      *
      * @return bool
      */
@@ -1000,7 +1000,7 @@ class User
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT COUNT(*) AS compte ';
         $sql .= 'FROM ' . PFX . 'bonsReparation ';
-        $sql .= 'WHERE idUser = :idUser ';
+        $sql .= 'WHERE idUser = :idUser AND termine = 1 ';
         $requete = $connexion->prepare($sql);
 
         $requete->bindParam(':idUser', $idUser, PDO::PARAM_INT);
