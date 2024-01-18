@@ -104,7 +104,7 @@
                   class="form-control"
                   name="ox"
                   id="ox"
-                  value="{$dataBon.ox|default:' '}"
+                  value="{$dataBon.ox|default:'          '}"
                   maxlength="6"
                   placeholder="Num OX"
                   autocomplete="off"
