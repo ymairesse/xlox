@@ -198,14 +198,14 @@ $(function () {
           bootbox.alert({
             title: "Enregistrement",
             message: "Fiche de réparation n° " + numeroBon + " enregistrée",
-            callback: function (numeroBon) {
+            callback: function () {
+              var numeroBon = Cookies.get("bonEnCours");
               // rafraîchir l'écran par "fiches clients" ou "par fiches de travail"
 
               // s'il y a un tableau des clients à l'écran
               if ($("table.listeClients").length != 0) {
                 // la liste des clients est affichée
                 var sortClient = Cookies.get("sortClient");
-                var numeroBon = Cookies.get("bonEnCours");
 
                 $.post(
                   "inc/reparations/getFichesReparation4client.inc.php",
@@ -229,12 +229,11 @@ $(function () {
               } else {
                 // c'est la liste la liste des fiches de réparations disponible
                 // à gauche
-                var bonEnCours = numeroBon;
                 $.post(
                   "inc/reparations/getListeBons.inc.php",
                   {
                     termine: false,
-                    bonEnCours: bonEnCours,
+                    bonEnCours: numeroBon,
                   },
                   function (resultat) {
                     $("#unique").html(resultat);
