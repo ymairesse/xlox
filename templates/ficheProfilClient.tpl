@@ -176,6 +176,13 @@
     </div>
   </div>
 </form>
+<button 
+  type="button" 
+  id="delClient" 
+  class="btn btn-danger text-truncate w-100"
+  >
+  Supprimer ce client
+</button>
 
 {else}
 

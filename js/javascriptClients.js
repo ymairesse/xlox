@@ -177,6 +177,7 @@ $(function () {
 
   $("body").on("click", "#formClient", function (event) {
     testSession(event);
+    if (isDoubleClicked($(this))) return;
     var idClient = $("input#idClient").val();
     $.post(
       "inc/editClient.inc.php",

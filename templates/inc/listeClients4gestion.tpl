@@ -6,13 +6,10 @@
   Nouveau Client
 </button>
 
-<div class="conteneurClients">{include file="inc/selecteurClients.tpl"}</div>
+<div class="conteneurClients">
 
-<button 
-  type="button" 
-  id="delClient" 
-  class="btn btn-danger text-truncate w-100"
-  {if $idClient == Null} disabled{/if}
-  >
-  Supprimer ce client
-</button>
+{include file="inc/selecteurClients.tpl"}
+
+</div>
+
+

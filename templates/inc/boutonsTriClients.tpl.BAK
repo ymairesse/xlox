@@ -1,4 +1,7 @@
 <h5 class="boutonsTri">
+  <button type="button" class="btn btn-sm btn-primary py-0">
+   <i class="fa fa-eye"></i>
+  </button> 
   Liste des clients
   <div class="btn-group float-end">
     <button

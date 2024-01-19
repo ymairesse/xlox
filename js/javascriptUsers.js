@@ -91,6 +91,7 @@ $(function () {
   // --------------------------------------------------------
   $("body").on("click", "#formUser input.modalOpen", function (event) {
     testSession(event);
+    if (isDoubleClicked($(this))) return;
     var idUser = $("input#idUser").val();
 
     // la liste de sélection est présente à gauche?

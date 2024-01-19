@@ -980,6 +980,17 @@ class User
         if ($resultat) {
             $requete->setFetchMode(PDO::FETCH_ASSOC);
             $client = $requete->fetch();
+            switch($client['civilite']) {
+                case 'F':
+                    $client['civilite'] = 'Mme';
+                    break;
+                case 'M':
+                    $client['civilite'] = 'M.';
+                    break;
+                default:
+                    $client['civilite'] = 'Mme/M.';
+                    break;
+            }
         }
 
         Application::DeconnexionPDO($connexion);
@@ -1214,6 +1225,17 @@ class User
             $requete->setFetchMode(PDO::FETCH_ASSOC);
             while ($ligne = $requete->fetch()) {
                 $numeroBon = $ligne['numeroBon'];
+                    switch($ligne['civilite']) {
+                        case 'F':
+                            $ligne['civilite'] = 'Mme';
+                            break;
+                        case 'M':
+                            $ligne['civilite'] = 'M.';
+                            break;
+                        default:
+                            $ligne['civilite'] = 'Mme/M.';
+                            break;
+                    }
                 $liste[$numeroBon] = $ligne;
             }
         }

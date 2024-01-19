@@ -14,13 +14,12 @@
     >
       <td>[{$unNumeroBon|string_format:"%05d"}]</td>
 
-      <td>{$materiel.type} {$materiel.marque} {$materiel.modele}</td>
+      <td title="{$materiel.civilite} {$materiel.nom} {$materiel.prenom}">{$materiel.type} <strong>{$materiel.nom}</strong></td>
       <td>
         <span 
         class="badge bg-success btn-searchClient"
          data-iduser="{$materiel.idUser}"
-         data-numerobon="{$unNumeroBon}"
-         title="{$materiel.civilite} {$materiel.nom} {$materiel.prenom}">
+         data-numerobon="{$unNumeroBon}">
          <i class="fa fa-user"></i>
         </span>
 

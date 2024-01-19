@@ -101,7 +101,8 @@ label.error {
 }
 
 #ficheTravail .nav-link,
-#ficheGarantie .nav-link {
+#ficheGarantie .nav-link,
+#ficheDevis .nav-link {
     background-color: #bfbfdb;
     color: #666;
     border: 1px solid #000;
