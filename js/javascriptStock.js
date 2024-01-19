@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
   $("body").on("click", "#gestionStock", function (event) {
     testSession(event);
     var idMateriel = Cookies.get("idMateriel");

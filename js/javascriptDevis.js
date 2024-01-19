@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
   // clic dans la navbar pour un devis
   $("body").on("click", "#devis", function (event) {
     testSession(event);

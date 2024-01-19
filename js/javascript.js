@@ -60,7 +60,7 @@ function liveOnOff(onOff) {
   }
 }
 
-$(document).ready(function () {
+$(function () {
   bootbox.setDefaults({
     locale: "fr",
     backdrop: true,

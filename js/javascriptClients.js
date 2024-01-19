@@ -24,7 +24,7 @@ function restoreSelecteurClients4gestion(
   );
 }
 
-$(document).ready(function () {
+$(function () {
   //----------------------------------------------------------------
   // gestion des clients
   //----------------------------------------------------------------

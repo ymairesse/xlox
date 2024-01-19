@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
   //
   // *******************************************************
   // Gestion des garanties
