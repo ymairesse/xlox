@@ -289,7 +289,7 @@ $(function () {
     var numeroBon = $(this).data("numerobon");
     var idClient = $(this).data("iduser");
     var sortClient = Cookies.get("sortClient");
-    Cookies.set("clientEnCours", idClient, { sameSite: "strict" });
+    Cookies.set("clientEnCours", idClient, { sameSite: "strict" }); 
     $.post(
       "inc/reparations/getFichesReparation4client.inc.php",
       {
