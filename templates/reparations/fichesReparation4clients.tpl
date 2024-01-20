@@ -1,6 +1,6 @@
 <div class="row">
 
-    <div class="col-md-3 col-12" id="zoneGauche">
+    <div class="col-xl-3 col-12" id="zoneGauche">
         <!-- LE widget de sélection des clients  -->
         {include file='inc/selecteurClients.tpl'}
         
@@ -9,7 +9,7 @@
 
     </div>
 
-    <div class="col-md-9 col-12" id="fichesReparation">
+    <div class="col-xl-9 col-12" id="fichesReparation">
         
         {include file='reparations/ficheTravail.tpl'}
 

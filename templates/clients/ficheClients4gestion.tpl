@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-3 col-12" id="zoneGauche">
+  <div class="col-xl-3 col-12" id="zoneGauche">
 
     {include file='inc/selecteurClients.tpl'}
 
@@ -13,7 +13,7 @@
 
   </div>
 
-  <div class="col-md-9 col-12" id="ficheProfilClient">
+  <div class="col-xl-9 col-12" id="ficheProfilClient">
     {include file='clients/ficheProfilClient.tpl'}
   </div>
 </div>
