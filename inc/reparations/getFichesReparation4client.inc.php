@@ -22,7 +22,7 @@ $listeClients = $User->getListeClientsTravail($travailTermine, $sortClient);
 if (!isset($listeClients[$idClient])) {
     $keysClients = array_keys($listeClients);
     $idClient = $keysClients[0];
-    setcookie('clientEnCours', $idClient, time()+24*86400, '/');
+    setcookie('clientEnCours', $idClient, ['expires' => time() + 24*86400, 'path' => '/', 'sameSite' => 'Strict']);
 }
 
 $identiteClient = $User->getDataUser($idClient);

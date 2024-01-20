@@ -18,6 +18,7 @@ $listeClients = $User->getListeUsers($droits, $sortClient);
 // s'il n'y a pas de client en cours, on prend le premier de la liste
 if ($idClient == null) {
     $idClient = reset($listeClients)['idUser'];
+    setcookie('clientEnCours', $idClient, ['expires' => time() + 24*86400, 'path' => '/', 'sameSite' => 'Strict']);
 }
 
 // identite du client en cours
