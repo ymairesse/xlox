@@ -15,16 +15,16 @@ $numeroBon = isset($_POST['numeroBon']) ? $_POST['numeroBon'] : null;
 
 $allAccessoires = $User->getAllAccessoires();
 
-$listeBons = $User->getListeBonsReparation($idClient);
+$listeBons = $Reparation->getListeBonsReparation($idClient);
 
 $listeNumerosBons = array_keys($listeBons);
 
 $accessoires4Bons = array();
 foreach ($listeNumerosBons as $noBon) {
-    $accessoires4Bons[$noBon] = $User->getAccessoires4bon($noBon);
+    $accessoires4Bons[$noBon] = $Reparation->getAccessoires4bon($noBon);
 }
 
-$avancements4bons = $User->getNbAvancements4bons();
+$avancements4bons = $Reparation->getNbAvancements4bons();
 
 $smarty->assign('idClient', $idClient); 
 $smarty->assign('identiteClient', $identiteClient);
@@ -37,6 +37,7 @@ $smarty->assign('allAccessoires', $allAccessoires);
 
 // ré-indiquer le nom  du client sur la fiche $formTravail
 $smarty->assign('nomClient', false);
+$smarty->assign('choice', 'listeClients');
 
 // liste de toutes les fiches de travail pour ce client
 $smarty->display('reparations/ficheTravail.tpl');

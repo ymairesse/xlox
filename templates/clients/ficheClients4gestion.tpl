@@ -14,6 +14,6 @@
   </div>
 
   <div class="col-md-9 col-12" id="ficheProfilClient">
-    {include file='ficheProfilClient.tpl'}
+    {include file='clients/ficheProfilClient.tpl'}
   </div>
 </div>

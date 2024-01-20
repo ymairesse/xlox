@@ -25,6 +25,7 @@ function restoreSelecteurClients4gestion(
 }
 
 $(function () {
+
   //----------------------------------------------------------------
   // gestion des clients
   //----------------------------------------------------------------
@@ -36,7 +37,7 @@ $(function () {
     var sortClient = Cookies.get("sortClient");
 
     $.post(
-      "inc/getClientsProfiles.inc.php",
+      "inc/clients/getClientsProfiles.inc.php",
       {
         idClient: idClient,
         mode: "gestion",
@@ -44,15 +45,16 @@ $(function () {
       },
       function (resultat) {
         $("#unique").html(resultat);
-        $('table.listeClients tr.choosen')[0].scrollIntoView();
+        if ($('table.listeClients tr.choosen').length != 0)
+          $('table.listeClients tr.choosen')[0].scrollIntoView();
       }
     );
   });
 
   $('body').on('click', 'h5.boutonsTri', function(){
-    if ($('table.listeClients tr.choosen') != null) {
-      $('table.listeClients tr.choosen')[0].scrollIntoView();
-    }
+    var ceci = $(this);
+    if (ceci.siblings(".tableClients").find('tr.choosen').length > 0)
+      ceci.siblings(".tableClients").find('tr.choosen')[0].scrollIntoView();
   })
 
   // ------------------------------------------------------
@@ -81,7 +83,7 @@ $(function () {
     if ($(this).closest("table").data("mode") == "gestion") {
       $("#delClient").prop("disabled", false);
       $.post(
-        "inc/getProfilClient.inc.php",
+        "inc/clients/getProfilClient.inc.php",
         {
           idClient: idClient,
         },
@@ -113,7 +115,7 @@ $(function () {
           : "alphaAsc";
       var nomClient = $(".listeClients tr.choosen td").eq(0).text();
       $.post(
-        "inc/getDependances.inc.php",
+        "inc/clients/getDependances.inc.php",
         {
           idClient: clientToDelete,
         },
@@ -260,7 +262,7 @@ $(function () {
           $("#modalEditClient").modal("hide");
           // retour de la page de gestion des clients
           $.post(
-            "inc/getClientsProfiles.inc.php",
+            "inc/clients/getClientsProfiles.inc.php",
             {
               idClient: idClient,
               mode: "gestion",
@@ -392,7 +394,7 @@ $(function () {
   // auto-enregistrement de fiche client ---------------------
   $("body").on("click", "#ficheClientPerso", function () {
     $.post(
-      "inc/autoEditClient.inc.php",
+      "inc/clients/autoEditClient.inc.php",
       {
         idClient: null,
         autoFiche: true,

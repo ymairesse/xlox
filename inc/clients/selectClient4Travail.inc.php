@@ -4,10 +4,10 @@
 
 session_start();
 
-require_once '../config.inc.php';
+require_once '../../config.inc.php';
 
 // ressources principales toujours nécessaires: classes Application, User, Smarty, 
-include 'entetes.inc.php';
+include '../entetes.inc.php';
 
 $sortClient = isset($_COOKIE['sortClient']) ? $_COOKIE['sortClient'] : 'alphaAsc';
 $idClient = isset($_COOKIE['clientEnCours']) ? $_COOKIE['clientEnCours'] : Null;
@@ -27,4 +27,4 @@ $smarty->assign('idClient', $idClient);
 $smarty->assign('sortClient', $sortClient);
 $smarty->assign('mode', $mode);
 
-$smarty->display('modal/modalSelectClient.tpl');
+$smarty->display('clients/modal/modalSelectClient.tpl');

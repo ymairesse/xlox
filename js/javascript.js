@@ -61,6 +61,7 @@ function liveOnOff(onOff) {
 }
 
 $(function () {
+
   bootbox.setDefaults({
     locale: "fr",
     backdrop: true,
@@ -150,18 +151,21 @@ $(function () {
   // -----------------------------------------------
   $("body").on("click", ".addonMdp", function (event) {
     testSession(event);
-    var mdp = $(this).next().data("mdp");
     if ($(this).next().prop("type") == "password") {
       $(this).next().prop("type", "text");
-      $(this).next().val(mdp);
     } else $(this).next().prop("type", "password");
   });
 
+  // ---------------------------------------------------------------
+  // cacher ou montrer le contenu du champ "text" contenant un mdp
+  // ---------------------------------------------------------------
   $("body").on("click", ".showHiddenMdp", function () {
     if ($(this).next().hasClass("hiddenMdp"))
       $(this).next().removeClass("hiddenMdp").addClass("shownMdp");
     else $(this).next().removeClass("shownMdp").addClass("hiddenMdp");
   });
+
+  // mise en évidence des champs marqués du type "type"
 
   $("body").on("click", ".visuChamps", function () {
     var type = $(this).data("type");

@@ -13,6 +13,9 @@ $Stock = new Stock();
 require_once INSTALL_DIR.'/inc/classes/class.devis.php';
 $Devis = new Devis();
 
+require_once INSTALL_DIR.'/inc/classes/class.reparations.php';
+$Reparation = new Reparation();
+
 require_once INSTALL_DIR.'/inc/classes/class.User.php';
 
 $User = isset($_SESSION[APPLICATION]) ? unserialize($_SESSION[APPLICATION]) : null;

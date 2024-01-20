@@ -2,10 +2,10 @@
 
 session_start();
 
-require_once '../config.inc.php';
+require_once '../../config.inc.php';
 
 // ressources principales toujours nécessaires: classes Application, User, Smarty, 
-include 'entetes.inc.php';
+include '../entetes.inc.php';
 
 require_once INSTALL_DIR.'/inc/classes/class.newClient.php';
 $Client = new NewClient();

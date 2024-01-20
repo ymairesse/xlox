@@ -11,13 +11,13 @@ include '../entetes.inc.php';
 $numeroBon = isset($_POST['numeroBon']) ? $_POST['numeroBon'] : null;
 
 $allAccessoires = $User->getAllAccessoires();
-$accessoires4Bon[$numeroBon] = $User->getAccessoires4bon($numeroBon);
+$accessoires4Bon[$numeroBon] = $Reparation->getAccessoires4bon($numeroBon);
 
-$avancements4bon = $User->getNbAvancements4bons($numeroBon);
+$avancements4bon = $Reparation->getNbAvancements4bons($numeroBon);
 
-$travail = $User->getData4Bon($numeroBon);
+$travail = $Reparation->getData4Bon($numeroBon);
 
-$dataClient = $User->getClient4bon($numeroBon);
+$dataClient = $Reparation->getClient4bon($numeroBon);
 
 $smarty->assign('numeroBon', $numeroBon);
 $smarty->assign('listeAccessoires', $accessoires4Bon);
@@ -29,5 +29,6 @@ $smarty->assign('travail', $travail);
 
 // ne pas ré-indiquer le nom  du client sur la fiche $formTravail
 $smarty->assign('nomClient', true);
+$smarty->assign('choice', 'listeBons');
 
 $smarty->display('reparations/formTravail.tpl');

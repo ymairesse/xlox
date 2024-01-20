@@ -49,7 +49,8 @@ $(function () {
             ticketCaisse +
             '"]'
         ).trigger("click");
-        $("table#listeGarantiesAnonymes tr.choosen")[0].scrollIntoView();
+        if ($("table#listeGarantiesAnonymes tr.choosen").length != 0)
+          $("table#listeGarantiesAnonymes tr.choosen")[0].scrollIntoView();
       }
     );
   });
@@ -267,7 +268,8 @@ $(function () {
                       ticketCaisse +
                       '"]'
                   ).trigger("click");
-                  // $('table#listeGarantiesAnonymes tr.choosen')[0].scrollIntoView();
+                  if ($('table#listeGarantiesAnonymes tr.choosen').length != 0)
+                    $('table#listeGarantiesAnonymes tr.choosen')[0].scrollIntoView();
                 }
               );
             }

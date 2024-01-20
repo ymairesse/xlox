@@ -13,6 +13,6 @@ parse_str($formulaire, $form);
 
 // Application::afficher($form, true);
 
-$numeroBon = $User->saveDataBon($form);
+$numeroBon = $Reparation->saveDataBon($form);
 
 echo $numeroBon;

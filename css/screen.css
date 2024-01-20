@@ -147,3 +147,7 @@ h5.scrollReparations {
 .strike {
     text-decoration-line: line-through;
 }
+
+.badge.btn-searchClient{
+    margin-right: 0.5em;;
+}

@@ -4,6 +4,7 @@
   class="btn btn-danger deleteBon mb-4"
   data-numerobon="{$travail.numeroBon}"
   data-idclient="{$travail.idUser}"
+  data-choice="{$choice}"
   title="Supprimer le bon de réparation"
 >
   <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Supprimer la fiche #{$travail.numeroBon|string_format:"%05d"}

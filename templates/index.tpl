@@ -28,7 +28,8 @@
     <script src="js/jqvalidate/dist/jquery.validate.min.js"></script>
     <script src="js/jqvalidate/dist/additional-methods.min.js"></script>
     <script src="js/jqvalidate/dist/localization/messages_fr.js"></script>
-    <script src="js/bootbox.min.js"></script>
+    <script src="js/bootbox.all.min.js"></script>
+
   </head>
   <body>
     <div class="container-fluid" id="menu">

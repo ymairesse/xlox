@@ -2,10 +2,10 @@
 
 session_start();
 
-require_once '../config.inc.php';
+require_once '../../config.inc.php';
 
 // ressources principales toujours nécessaires: classes Application, User, Smarty, 
-include 'entetes.inc.php';
+include '../entetes.inc.php';
 
 $idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
 
@@ -26,4 +26,4 @@ $smarty->assign('mode', $mode);
 // profil du client actuellement sélectionné
 $smarty->assign('profil', $profil);
 
-$smarty->display('ficheClients4gestion.tpl');
+$smarty->display('clients/ficheClients4gestion.tpl');

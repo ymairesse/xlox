@@ -94,7 +94,6 @@ $(function () {
     }
   );
 
-  
   // Accès aux fiches de réparation par numéro du bon
   //clic dans une ligne de la liste des bons de réparation
   // pour voir la fiche correspondante
@@ -111,7 +110,7 @@ $(function () {
         numeroBon: numeroBon,
       },
       function (resultat) {
-        $("#ficheTechnique").html(resultat);  
+        $("#ficheTechnique").html(resultat);
       }
     );
   });
@@ -119,9 +118,9 @@ $(function () {
   // ------------------------------------------------------------------
   // Mise en vue de la réparation en cours actuellement sélectionnée
   // ------------------------------------------------------------------
-  $('body').on('click', '.scrollReparations', function(){
-    $('#listeReparations tr.choosen')[0].scrollIntoView();
-  })
+  $("body").on("click", ".scrollReparations", function () {
+    $("#listeReparations tr.choosen")[0].scrollIntoView();
+  });
 
   // sélection d'une fiche de travail dans les onglets -----------------
   // permet d'ajuster le Cookie pour le numéro du bon de réparation
@@ -248,48 +247,50 @@ $(function () {
     }
   });
 
-  $("body").on("click", ".deleteBon", function (event) {
-    testSession(event);
-    var idClient = $(this).data("idclient");
+  // Suppression d'un bon de réparation (le numéro du bon figure sur le bouton .deleteBon)
+  $("body").on("click", ".deleteBon", function () {
     var numeroBon = $(this).data("numerobon");
-    $.post(
-      "inc/deleteBon.inc.php",
-      {
-        idClient: idClient,
-        numeroBon: numeroBon,
+    var idClient = $(this).data("idclient");
+    // est-on dans l'écran de la liste des bons ou de la liste des clients?
+    var choice = $(this).data("choice");
+    bootbox.confirm({
+      title: '<i class="fa fa-warning fa-2x"></i> Veuillez confirmer',
+      message: "Suppression de la fiche de travail #" + numeroBon,
+      callback: function (result) {
+        if (result == true) {
+          $.post(
+            "inc/deleteBon.inc.php",
+            {
+              numeroBon: numeroBon,
+              idClient: idClient,
+            },
+            function (resultat) {
+              if (resultat == 1) {
+                Cookies.set("bonEnCours", null, { sameSite: "strict" });
+                // selon que l'on est parti de la liste des clients ou de la liste des bons
+                if (choice == "listeBons")
+                  $("#reparations4bons").trigger("click");
+                else $("#ficheReparation").trigger("click");
+                boobtox.alert({
+                  title: "Effacement",
+                  message: "Bon de réparation n° " + numeroBon + "supprimé",
+                });
+              }
+            }
+          );
+        }
       },
-      function (resultat) {
-        bootbox.confirm({
-          title: '<i class="fa fa-warning fa-2x"></i> Veuillez confirmer',
-          message: resultat,
-          callback: function (result) {
-            if (result == true)
-              $.post(
-                "inc/deleteBon.inc.php",
-                {
-                  idClient: idClient,
-                  numeroBon: numeroBon,
-                  confirm: true,
-                },
-                function () {
-                  var sortClient = Cookies.get("sortClient");
-                  var numeroBon = null;
-                  Cookies.set("bonEnCours", numeroBon, { sameSite: "strict" });
-                  $("#ficheReparation").trigger("click");
-                }
-              );
-          },
-        });
-      }
-    );
+    });
   });
 
+
+  // présentation dans l'écran des réparations par client
   $("body").on("click", ".btn-searchClient", function (event) {
     testSession(event);
     var numeroBon = $(this).data("numerobon");
     var idClient = $(this).data("iduser");
     var sortClient = Cookies.get("sortClient");
-    Cookies.set("clientEnCours", idClient, { sameSite: "strict" }); 
+    Cookies.set("clientEnCours", idClient, { sameSite: "strict" });
     $.post(
       "inc/reparations/getFichesReparation4client.inc.php",
       {
@@ -308,7 +309,7 @@ $(function () {
   // afin de leur attribuer une nouvelle fiche de travail
   $("body").on("click", "#btn-findClient4travail", function (event) {
     testSession(event);
-    $.post("inc/selectClient4Travail.inc.php", {}, function (resultat) {
+    $.post("inc/clients/selectClient4Travail.inc.php", {}, function (resultat) {
       $("#modal").html(resultat);
       $("#modalSelectClient").modal("show");
       if ($("#modal .table.listeClients tr.choosen") != null) {
@@ -367,10 +368,9 @@ $(function () {
       function (resultat) {
         $("#unique").html(resultat);
         // si un bon de réparation a été sélectionné
-        if ($('#listeReparations tr.choosen').length != 0) {
-          $('#listeReparations tr.choosen')[0].scrollIntoView();
+        if ($("#listeReparations tr.choosen").length != 0) {
+          $("#listeReparations tr.choosen")[0].scrollIntoView();
         }
-          
       }
     );
   });

@@ -4,9 +4,10 @@
     <u>[{if $profil.civilite == 'F'}Madame{elseif $profil.civilite ==
       'M'}Monsieur{else} 
       {/if} {$profil.prenom} {$profil.nom}]</u>
-    {if $profil.rgpd == 0}<strike>RGPD</strike>
+    <span style="font-size: 12pt">{if $profil.rgpd == 0}<strike>RGPD</strike>
     {else}RGPD ok
     {/if}
+    </span>
   </h2>
 
   <form autocomplete="false" id="formClient">
@@ -15,8 +16,8 @@
         <input type="hidden" value="{$profil.idUser}" name="idClient" id="idClient" />
         <div class="pb-3 col-2">
           <label for="civilite">Genre</label>
-          <input name="civilite" id="civilite" class="form-control" type="text" value="{if $profil.civilite == 'F'}Madame 
-          {elseif $profil.civilite == 'M'}Monsieur 
+          <input name="civilite" id="civilite" class="form-control" type="text" value="{if $profil.civilite == 'F'}Madame
+          {elseif $profil.civilite == 'M'}Monsieur
           {elseif $profil.civilite == 'X'}MX
           {else}-
           {/if}" />
@@ -87,7 +88,7 @@
     </div>
   </form>
   <button type="button" id="delClient" class="btn btn-danger text-truncate w-100">
-    Supprimer ce client
+    <i class="fa fa-times"></i> Supprimer ce client
   </button>
 
 {else}

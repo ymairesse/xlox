@@ -2,14 +2,14 @@
 
 session_start();
 
-require_once '../config.inc.php';
+require_once '../../config.inc.php';
 
 // ressources principales toujours nécessaires: classes Application, User, Smarty, 
-include 'entetes.inc.php';
+include '../entetes.inc.php';
 
 $idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
 
-$nbReparations = $User->getDependancesBons($idClient);
+$nbReparations = $Reparation->getDependancesBons($idClient);
 
 $delete = 'true';
 $raisons = array();

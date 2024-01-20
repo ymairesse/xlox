@@ -108,7 +108,7 @@
       <div class="input-group mb-3">
         
         <button style="width:20%" type="button" class="btn btn-sm btn-outline-secondary showHiddenMdp"><i class="fa fa-eye"></i></button>
-        <span class="hiddenMdp openModalTravail" style="width:80%; padding-left: 5px;">{$travail.mdp|default:''}</span>
+        <span class="hiddenMdp openModalTravail" id="mdp_{$numeroBon}" style="width:80%; padding-left: 5px;">{$travail.mdp|default:''}</span>
 
       </div>
     </div>

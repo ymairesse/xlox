@@ -29,7 +29,7 @@ $identiteClient = $User->getDataUser($idClient);
 
     
 // liste de toutes les fiches de travail, y compris terminés, pour le client en cours
-$listeBons = $User->getListeBonsReparation($idClient);
+$listeBons = $Reparation->getListeBonsReparation($idClient);
 
 // recherche des accessoires déposés pour chaque fiche de travail
 $allAccessoires = $User->getAllAccessoires();
@@ -37,7 +37,7 @@ $listeNumerosBons = array_keys($listeBons);
 
 $accessoires4Bons = array();
 foreach ($listeNumerosBons as $noBon) {
-    $accessoires4Bons[$noBon] = $User->getAccessoires4bon($noBon);
+    $accessoires4Bons[$noBon] = $Reparation->getAccessoires4bon($noBon);
 }
 
 $smarty->assign('listeClients', $listeClients);
@@ -54,6 +54,7 @@ $smarty->assign('listeAccessoires', $accessoires4Bons);
 
 // ne pas ré-indiquer le nom  du client sur la fiche $formTravail
 $smarty->assign('nomClient', false);
+$smarty->assign('choice', 'listeClients');
 
 // il y aura deux parties dans le document: 
 // à gauche: la liste des clients avec travail

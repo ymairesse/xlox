@@ -17,12 +17,12 @@ if ($User == null) {
 
 $numeroBon = isset($_GET['numeroBon']) ? $_GET['numeroBon'] : Null;
 
-$client = $User->getClient4bon($numeroBon);
+$client = $Reparation->getClient4bon($numeroBon);
 $idUser = $client['idUser'];
 
-$dataBon = $User->getDataBon($idUser, $numeroBon);
+$dataBon = $Reparation->getDataBon($idUser, $numeroBon);
 
-$accessoiresBon = $User->getAccessoires4bon($numeroBon);
+$accessoiresBon = $Reparation->getAccessoires4bon($numeroBon);
 
 
 $dataBon['dateEntree'] = Application::datePHP($dataBon['dateEntree']);
