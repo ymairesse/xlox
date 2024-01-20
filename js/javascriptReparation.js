@@ -47,6 +47,7 @@ $(function () {
         sortClient: sortClient,
       },
       function (resultat) {
+        console.log(numeroBon);
         $("#unique").html(resultat);
         $('.nav-link[data-numerobon="' + numeroBon + '"]').trigger("click");
         if ($("table.listeClients tr.choosen") != null) {
@@ -365,7 +366,11 @@ $(function () {
       },
       function (resultat) {
         $("#unique").html(resultat);
-        $('#listeReparations tr.choosen')[0].scrollIntoView();
+        // si un bon de réparation a été sélectionné
+        if ($('#listeReparations tr.choosen').length != 0) {
+          $('#listeReparations tr.choosen')[0].scrollIntoView();
+        }
+          
       }
     );
   });
