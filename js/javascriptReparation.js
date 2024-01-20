@@ -47,7 +47,6 @@ $(function () {
         sortClient: sortClient,
       },
       function (resultat) {
-        console.log(numeroBon);
         $("#unique").html(resultat);
         $('.nav-link[data-numerobon="' + numeroBon + '"]').trigger("click");
         if ($("table.listeClients tr.choosen") != null) {
