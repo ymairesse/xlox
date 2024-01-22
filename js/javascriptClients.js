@@ -5,7 +5,7 @@ function restoreSelecteurClients4gestion(
   mode
 ) {
   $.post(
-    "inc/refreshSelecteurClients.inc.php",
+    "inc/clients/refreshSelecteurClients.inc.php",
     {
       idClient: idClient,
       sortClient: sortClient,
@@ -46,7 +46,7 @@ $(function () {
       function (resultat) {
         $("#unique").html(resultat);
         if ($('table.listeClients tr.choosen').length != 0)
-          $('table.listeClients tr.choosen')[0].scrollIntoView();
+          $('table.listeClients tr.choosen')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     );
   });
@@ -54,7 +54,7 @@ $(function () {
   $('body').on('click', 'h5.boutonsTri', function(){
     var ceci = $(this);
     if (ceci.siblings(".tableClients").find('tr.choosen').length > 0)
-      ceci.siblings(".tableClients").find('tr.choosen')[0].scrollIntoView();
+      ceci.siblings(".tableClients").find('tr.choosen')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
   })
 
   // ------------------------------------------------------
@@ -312,7 +312,7 @@ $(function () {
       .find("button.clientParDate")
       .addClass("btn-primary");
     $.post(
-      "inc/refreshSelecteurClients.inc.php",
+      "inc/clients/refreshSelecteurClients.inc.php",
       {
         idClient: idClient,
         sortClient: sortClient,
@@ -320,6 +320,8 @@ $(function () {
       },
       function (resultat) {
         conteneur.html(resultat);
+        if ($('table.listeClients tr.choosen').length != 0)
+          $('table.listeClients tr.choosen')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     );
   });
@@ -346,7 +348,7 @@ $(function () {
       .addClass("btn-primary");
 
     $.post(
-      "inc/refreshSelecteurClients.inc.php",
+      "inc/clients/refreshSelecteurClients.inc.php",
       {
         idClient: idClient,
         sortClient: sortClient,
@@ -354,6 +356,8 @@ $(function () {
       },
       function (resultat) {
         conteneur.html(resultat);
+        if ($('table.listeClients tr.choosen').length != 0)
+          $('table.listeClients tr.choosen')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     );
   });
@@ -378,7 +382,7 @@ $(function () {
       .find("button.clientAlphaDesc")
       .addClass("btn-primary");
     $.post(
-      "inc/refreshSelecteurClients.inc.php",
+      "inc/clients/refreshSelecteurClients.inc.php",
       {
         idClient: idClient,
         sortClient: sortClient,
@@ -386,6 +390,8 @@ $(function () {
       },
       function (resultat) {
         conteneur.html(resultat);
+        if ($('table.listeClients tr.choosen').length != 0)
+          $('table.listeClients tr.choosen')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     );
   });

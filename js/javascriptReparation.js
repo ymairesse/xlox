@@ -1,27 +1,4 @@
 $(function () {
-  //
-  // idClient = identifiant du client en cours
-  // sortClient = type de tri ('parDate', 'AlphaAsc', 'AlphaDesc')
-  // mode = utilisation dans la liste des réparations ou dans la liste des clients
-  // travailEnCours = les utilisateurs ont un travail en cours (true) ou sans importance (false)
-  //
-  function restoreSelecteurClients(idClient, sortClient, mode, travailEnCours) {
-    $.post(
-      "inc/refreshSelecteurClients.inc.php",
-      {
-        idClient: idClient,
-        sortClient: sortClient,
-        mode: mode,
-        travailEnCours: travailEnCours,
-      },
-      function (resultat) {
-        $("#selectClients").html(resultat);
-        clearForm($("#formClient"));
-        // cas où le client idClient a été supprimé
-        $("listeClients tr.choosen").trigger("click");
-      }
-    );
-  }
 
   // Actions sur les fiches de travail ---------------------------------
   // -------------------------------------------------------------------
@@ -50,7 +27,7 @@ $(function () {
         $("#unique").html(resultat);
         $('.nav-link[data-numerobon="' + numeroBon + '"]').trigger("click");
         if ($("table.listeClients tr.choosen") != null) {
-          $("table.listeClients tr.choosen")[0].scrollIntoView();
+          $("table.listeClients tr.choosen")[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       }
     );
@@ -118,7 +95,7 @@ $(function () {
   // Mise en vue de la réparation en cours actuellement sélectionnée
   // ------------------------------------------------------------------
   $("body").on("click", ".scrollReparations", function () {
-    $("#listeReparations tr.choosen")[0].scrollIntoView();
+    $("#listeReparations tr.choosen")[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 
   // sélection d'une fiche de travail dans les onglets -----------------
@@ -222,7 +199,7 @@ $(function () {
                     );
                     $(
                       '.listeClients tr[data-idclient="' + numeroBon + '"]'
-                    )[0].scrollIntoView();
+                    )[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
                   }
                 );
               } else {
@@ -312,7 +289,7 @@ $(function () {
       $("#modal").html(resultat);
       $("#modalSelectClient").modal("show");
       if ($("#modal .table.listeClients tr.choosen") != null) {
-        $("#modal .table.listeClients tr.choosen")[0].scrollIntoView();
+        $("#modal .table.listeClients tr.choosen")[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     });
   });
@@ -368,7 +345,7 @@ $(function () {
         $("#unique").html(resultat);
         // si un bon de réparation a été sélectionné
         if ($("#listeReparations tr.choosen").length != 0) {
-          $("#listeReparations tr.choosen")[0].scrollIntoView();
+          $("#listeReparations tr.choosen")[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       }
     );

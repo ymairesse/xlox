@@ -19,7 +19,7 @@ $(function () {
         var obj = $('tr[data-idclient="' + idClient + '"]');
         // y a-t-il une ligne correspondant à idClient dans la liste de gauche?
         if (obj.length != 0)
-          $("table.listeClients tr.choosen")[0].scrollIntoView();
+          $("table.listeClients tr.choosen")[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
         var idDevis = Cookies.get("idDevis");
         $('button.nav-link[data-iddevis="' + idDevis + '"]').trigger("click");
       }

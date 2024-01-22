@@ -26,7 +26,7 @@ $(function () {
         var obj = $('tr[data-idclient="' + idClient + '"]');
         // y a-t-il une ligne correspondant à idClient dans la liste de gauche?
         if (obj.length != 0)
-          $("table.listeClients tr.choosen")[0].scrollIntoView();
+          $("table.listeClients tr.choosen")[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     );
   });
@@ -50,7 +50,7 @@ $(function () {
             '"]'
         ).trigger("click");
         if ($("table#listeGarantiesAnonymes tr.choosen").length != 0)
-          $("table#listeGarantiesAnonymes tr.choosen")[0].scrollIntoView();
+          $("table#listeGarantiesAnonymes tr.choosen")[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     );
   });
@@ -251,7 +251,7 @@ $(function () {
                       ticketCaisse +
                       '"]'
                   ).trigger("click");
-                  $("table.listeClients tr.choosen")[0].scrollIntoView();
+                  $("table.listeClients tr.choosen")[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
               );
             } else {
@@ -269,7 +269,7 @@ $(function () {
                       '"]'
                   ).trigger("click");
                   if ($('table#listeGarantiesAnonymes tr.choosen').length != 0)
-                    $('table#listeGarantiesAnonymes tr.choosen')[0].scrollIntoView();
+                    $('table#listeGarantiesAnonymes tr.choosen')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
               );
             }
