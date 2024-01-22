@@ -356,9 +356,14 @@
             
           </div>
         </form>
+
       </div>
 
       <div class="modal-footer">
+          <div class="text-sm-start me-auto" style="font-size: 10pt;">
+          {if $dataClient.civilite == 'F'}Mme{elseif $dataClient.civilite == 'M'}M.{else}Mme/M.{/if} 
+          {$dataClient.prenom} {$dataClient.nom}
+          </div>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Annuler
         </button>

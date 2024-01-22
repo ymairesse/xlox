@@ -14,6 +14,7 @@ $smarty->assign('benevole', $benevole);
 $idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
 $numeroBon = isset($_POST['numeroBon']) ? $_POST['numeroBon'] : Null;
 
+$dataClient = $User->getDataUser($idClient);
 
 $dataBon = ($numeroBon != Null) ? $Reparation->getDataBon($idClient, $numeroBon) : Null;
 $dataBon['marque'] = htmlspecialchars($dataBon['marque'], ENT_QUOTES, 'UTF-8');
@@ -32,6 +33,7 @@ $smarty->assign('numeroBon', $numeroBon);
 $smarty->assign('idClient', $idClient);
 
 $smarty->assign('dataBon', $dataBon);
+$smarty->assign('dataClient', $dataClient);
 $smarty->assign('allAccessoires', $allAccessoires);
 $smarty->assign('allMateriel', $allMateriel);
 $smarty->assign('accessoiresBon', $accessoiresBon);
