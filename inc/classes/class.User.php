@@ -181,8 +181,9 @@ class User
                 break;
         }
         $requete = $connexion->prepare($sql);
-
+// echo $sql;
         $requete->bindParam(':travailTermine', $travailTermine, PDO::PARAM_INT);
+// echo ("<br>valeur de travailTermine = ".$travailTermine);
 
         $resultat = $requete->execute();
         $liste = array();
@@ -204,7 +205,6 @@ class User
         Application::DeconnexionPDO($connexion);
 
         return $liste;
-
     }
 
     /**
