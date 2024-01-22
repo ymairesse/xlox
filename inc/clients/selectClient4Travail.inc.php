@@ -9,10 +9,8 @@ require_once '../../config.inc.php';
 // ressources principales toujours nécessaires: classes Application, User, Smarty, 
 include '../entetes.inc.php';
 
-$sortClient = isset($_COOKIE['sortClient']) ? $_COOKIE['sortClient'] : 'alphaAsc';
-$idClient = isset($_COOKIE['clientEnCours']) ? $_COOKIE['clientEnCours'] : Null;
-
-$mode = 'modalSelect';
+$sortClient = isset($_POST['sortClient']) ? $_POST['sortClient'] : 'alphaAsc';
+$idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
 
 $listeClients = $User->getListeUsers(array('client'), $sortClient);
 
@@ -25,6 +23,5 @@ if ($idClient == Null) {
 $smarty->assign('listeClients', $listeClients);
 $smarty->assign('idClient', $idClient);
 $smarty->assign('sortClient', $sortClient);
-$smarty->assign('mode', $mode);
 
 $smarty->display('clients/modal/modalSelectClient.tpl');

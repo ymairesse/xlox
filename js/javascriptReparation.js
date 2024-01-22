@@ -1,5 +1,4 @@
 $(function () {
-
   // Actions sur les fiches de travail ---------------------------------
   // -------------------------------------------------------------------
 
@@ -27,7 +26,10 @@ $(function () {
         $("#unique").html(resultat);
         $('.nav-link[data-numerobon="' + numeroBon + '"]').trigger("click");
         if ($("table.listeClients tr.choosen") != null) {
-          $("table.listeClients tr.choosen")[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          $("table.listeClients tr.choosen")[0].scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
         }
       }
     );
@@ -95,7 +97,10 @@ $(function () {
   // Mise en vue de la réparation en cours actuellement sélectionnée
   // ------------------------------------------------------------------
   $("body").on("click", ".scrollReparations", function () {
-    $("#listeReparations tr.choosen")[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    $("#listeReparations tr.choosen")[0].scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
   });
 
   // sélection d'une fiche de travail dans les onglets -----------------
@@ -153,12 +158,11 @@ $(function () {
   $("body").on("click", "#btn-saveBon", function (event) {
     testSession(event);
     if ($("#modalFormBon").valid()) {
-      var numeroBon = $("#modalFormBon input#numeroBon").val();
+      // var numeroBon = $("#modalFormBon input#numeroBon").val();
+      // L'identifiant du client se trouve dans le formulaire modal
       var idClient = $("#modalFormBon input#idClient").val();
-      // faut-il raffraîchir la liste des clients?
 
       var formulaire = $("#modalFormBon").serialize();
-
       $.post(
         "inc/reparations/saveBon.inc.php",
         {
@@ -178,7 +182,7 @@ $(function () {
               var numeroBon = Cookies.get("bonEnCours");
               // rafraîchir l'écran par "fiches clients" ou "par fiches de travail"
 
-              // s'il y a un tableau des clients à l'écran
+              // s'il y a un tableau des clients à l'écran en zone gauche
               if ($("table.listeClients").length != 0) {
                 // la liste des clients est affichée
                 var sortClient = Cookies.get("sortClient");
@@ -193,18 +197,24 @@ $(function () {
                   },
                   function (resultat) {
                     $("#unique").html(resultat);
-
+                    // sélection de l'onglet de la fiche de travail
                     $('.nav-link[data-numerobon="' + numeroBon + '"]').trigger(
                       "click"
                     );
-                    $(
-                      '.listeClients tr[data-idclient="' + numeroBon + '"]'
-                    )[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // y a-t-il une ligne correspondant à idClient dans la liste de gauche?
+                    var obj = $('tr[data-idclient="' + idClient + '"]');
+                    if (obj.length != 0) {
+                      obj[0].scrollIntoView({
+                        behavior: "smooth",
+                        block: "center",
+                      });
+                    }
                   }
                 );
               } else {
                 // c'est la liste la liste des fiches de réparations disponible
                 // à gauche
+                console.log(numeroBon);
                 $.post(
                   "inc/reparations/getListeBons.inc.php",
                   {
@@ -213,6 +223,16 @@ $(function () {
                   },
                   function (resultat) {
                     $("#unique").html(resultat);
+                    $('#listeReparations tr[data-numerobon="154"]');
+                    var obj = $(
+                      '#listeReparations tr[data-numerobon="' + numeroBon + '"]'
+                    );
+                    if (obj.length != 0) {
+                      obj[0].scrollIntoView({
+                        behavior: "smooth",
+                        block: "center",
+                      });
+                    }
                   }
                 );
               }
@@ -259,7 +279,6 @@ $(function () {
     });
   });
 
-
   // présentation dans l'écran des réparations par client
   $("body").on("click", ".btn-searchClient", function (event) {
     testSession(event);
@@ -285,13 +304,29 @@ $(function () {
   // afin de leur attribuer une nouvelle fiche de travail
   $("body").on("click", "#btn-findClient4travail", function (event) {
     testSession(event);
-    $.post("inc/clients/selectClient4Travail.inc.php", {}, function (resultat) {
-      $("#modal").html(resultat);
-      $("#modalSelectClient").modal("show");
-      if ($("#modal .table.listeClients tr.choosen") != null) {
-        $("#modal .table.listeClients tr.choosen")[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // quel est le client actuellement sélectionné dans la liste gauche?
+    var idClient = $(".listeClients tr.choosen").data("idclient");
+    var sortClient = Cookies.get("sortClient");
+    $.post(
+      "inc/clients/selectClient4Travail.inc.php",
+      {
+        idClient: idClient,
+        sortClient: sortClient,
+      },
+      function (resultat) {
+        $("#modal").html(resultat);
+        $("#modalSelectClient").modal("show");
+        var obj = $(
+          "#modal .table.listeClients tr[data-idclient='" + idClient + "'"
+        );
+        if (obj.length != 0) {
+          obj[0].scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
       }
-    });
+    );
   });
 
   // un client est sélectionné dans la boîte modale
@@ -345,7 +380,10 @@ $(function () {
         $("#unique").html(resultat);
         // si un bon de réparation a été sélectionné
         if ($("#listeReparations tr.choosen").length != 0) {
-          $("#listeReparations tr.choosen")[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          $("#listeReparations tr.choosen")[0].scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
         }
       }
     );
