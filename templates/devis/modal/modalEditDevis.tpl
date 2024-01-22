@@ -12,7 +12,7 @@
       <div class="modal-header">
         <h1 class="modal-title fs-5 w-100" id="modalEditDevisLabel">
           {if isset($dataDevis.idDevis)} Édition du devis
-          #{$dataDevis.idDevis|number_format:0:'.':' '} {else} Nouveau devis
+          #{$dataDevis.ref} {else} Nouveau devis
           {/if}
         </h1>
 
@@ -45,6 +45,12 @@
                 value="{if isset($dataDevis.ref)}{$dataDevis.ref}{else}{$smarty.now|date_format:'%Y.%m'}...{/if}"
                 readonly
               />
+              
+              {if !(isset($dataDevis.idDevis))}
+              <span class = "help-block">
+              Cette référence sera précisée à l'enregistrement.
+              </span>
+              {/if}
             </div>
 
             <div class="form-group pb-3 col-6">
@@ -88,11 +94,6 @@
       lang: "fr",
       errorElement: "div",
       rules: {
-        idDevis: {
-          required: true,
-          maxlength: 7,
-          number: true,
-        },
         date: {
           required: true,
           date: true,
