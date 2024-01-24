@@ -148,14 +148,14 @@ $(function () {
                     prevClient == undefined ? nextClient : prevClient;
                   Cookies.set("clientEnCours", selectedClient, { sameSite: "strict" });
                   $.post(
-                    "inc/deleteClient.inc.php",
+                    "inc/clients/deleteClient.inc.php",
                     {
                       idClient: clientToDelete,
                     },
                     function () {
                       // retour de la page de gestion des clients
                       $.post(
-                        "inc/getClientsProfiles.inc.php",
+                        "inc/clients/getClientsProfiles.inc.php",
                         {
                           idClient: selectedClient,
                           mode: "gestion",
@@ -182,7 +182,7 @@ $(function () {
     if (isDoubleClicked($(this))) return;
     var idClient = $("input#idClient").val();
     $.post(
-      "inc/editClient.inc.php",
+      "inc/clients/editClient.inc.php",
       {
         idClient: idClient,
       },
@@ -199,7 +199,7 @@ $(function () {
     testSession(event);
     var idClient = null;
     $.post(
-      "inc/editClient.inc.php",
+      "inc/clients/editClient.inc.php",
       {
         idClient: idClient,
       },
@@ -212,9 +212,9 @@ $(function () {
 
   $("body").on("click", "#btn-editClient", function (event) {
     testSession(event);
-    var idClient = $("#listeClients").val();
+    var idClient = $('table.listeClients tr.choosen').data('idclient');
     $.post(
-      "inc/editClient.inc.php",
+      "inc/clients/editClient.inc.php",
       {
         idClient: idClient,
       },
@@ -229,7 +229,7 @@ $(function () {
     testSession();
     var idUser = -1;
     $.post(
-      "inc/editClient.inc.php",
+      "inc/clients/editClient.inc.php",
       {
         idUser: idUser,
       },
@@ -419,7 +419,7 @@ $(function () {
       var prenom = $("#modalFormClient")[0]["prenom"].value;
       var quidam = prenom + " " + nom;
       $.post(
-        "inc/autoSaveClient.inc.php",
+        "inc/clients/autoSaveClient.inc.php",
         {
           formulaire: formulaire,
         },

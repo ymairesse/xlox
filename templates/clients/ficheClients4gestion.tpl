@@ -8,7 +8,7 @@
       id="nouveauClient"
       class="btn btn-warning text-truncate w-100"
     >
-      Nouveau Client
+      <i class="fa fa-plus"></i>  Nouveau Client
     </button>
 
   </div>
