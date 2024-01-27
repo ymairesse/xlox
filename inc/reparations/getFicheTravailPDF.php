@@ -11,7 +11,7 @@ require_once '../../inc/entetes.inc.php';
 
 // si pas d'utilisateur authentifié en SESSION et répertorié dans la BD, on renvoie à l'accueil
 if ($User == null) {
-	header('Location: '.BASEDIR.'/accueil.php');
+	header('Location: '.BASEDIR.'/index.php');
 	exit;
 }
 
