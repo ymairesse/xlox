@@ -83,6 +83,10 @@
     color: red;
   }
 
+  input:read-only {
+    color: #aaa;
+} 
+
   .visu {
     background-color: #ffef007a;
   }

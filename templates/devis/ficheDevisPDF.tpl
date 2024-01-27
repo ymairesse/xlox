@@ -41,7 +41,7 @@
    <div id="cgv" style="font-size: 8pt; width: 98%">
     <p style="font-weight: bold">
       Nous vous remercions pour votre confiance envers Oxfam-Solidarité. Votre
-      choix informatique vous permettra d'économiser votre porte-monnaie; de
+      choix informatique vous permettra d'économiser votre porte-monnaie, de
       mieux respecter l'environnement, mais aussi de contribuer au financement
       des projets Oxfam dans les pays du Sud. Le matériel acheté a été
       complètement vérifié dans nos ateliers informatiques.
@@ -60,10 +60,10 @@
       <li>
         Oxfam-Solidarité a.s.b.l. donne <b>une garantie d'un an à partir de la date
           d'achat</b>. Les cartouches d'encre des imprimantes, les batteries et autres
-        biens de consommation<b> sont exclus de la garantie</b>.
+        biens de consommation<b> sont exclus de la garantie.</b>.
       </li>
       <li>
-        Oxfam Solidarité a.s.b.l. n'est pas responsable du fonctionnement des
+        Oxfam-Solidarité a.s.b.l. n'est pas responsable du fonctionnement des
         périphériques éventuellement installés, à l'exception des périphériques
         fournis au moment de l'achat.
       </li>
@@ -89,11 +89,11 @@
         dans le cas d'une utilisation non conforme de l'ordinateur, un mauvais
         entretien ou une révision, un remodelage, une réparation (méme
         partielle) ou un demontage par des personnes étrangères à
-        Oxfam-Solidanté a.s.b.l. La garantie ne joue pas non plus lorsque les
+        Oxfam-Solidarité a.s.b.l. La garantie ne joue pas non plus lorsque les
         dommages sont la conséquence du raccordement de l'appareil dans un
         environnement qui ne répond pas aux spécifications techniques
         (température, humidité, milieu corrosif ou poussiéreux, variation des
-        tensions electriques)
+        tensions electriques).
       </li>
     </ul>
     <p>
@@ -113,7 +113,7 @@
       <strong>RGPD</strong><br />
       L'entrée en vigueur le 25 mai 2018 de la nouvelle directive relative aux
       données personnelles, nous oblige à obtenir votre consentement pour
-      l'enregistrement de vos coordonnées dans nos systéme informatique. Sans
+      l'enregistrement de vos coordonnées dans nos systémes informatiques. Sans
       accord de votre part, aucune information ne sera sauvegardée.
     </p>
   </div>
@@ -138,7 +138,7 @@
         <td style="width: 40%; text-align: right">
           <h5><strong>Oxfam-Solidarité asbl</strong></h5>
           <p style="font-size: 10pt">
-            Rue des Quatres Vents 60 1080<br />
+            Rue des Quatres-Vents 60 1080<br />
             1080 Bruxelles<br />
             TVA: BE 408.643.875<br />
             https://oxfambelgique.be/
