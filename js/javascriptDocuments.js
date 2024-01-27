@@ -112,10 +112,12 @@ $(function () {
     testSession(event);
     var formulaire = $("#formmodalCondPart").serialize();
     var ticketCaisse = $("#formmodalCondPart input#ticketCaisse").val();
+    var idClient = $('table.listeClients tr.choosen').data('idclient');
     $.post(
       "inc/garanties/saveConditionsPart.inc.php",
       {
         formulaire: formulaire,
+        idClient: idClient
       },
       function (resultatJSON) {
         $("#modalCondPart").modal("hide");
@@ -293,6 +295,7 @@ $(function () {
   $("body").on("click", ".btn-delGarantie", function (event) {
     testSession();
     var ticketCaisse = $(this).data("ticketcaisse");
+    var idClient = $('table.listeClients tr.choosen').data('idclient');
     var title = "Effacement du bon de garantie";
     bootbox.confirm({
       title: title,
@@ -306,6 +309,7 @@ $(function () {
             "inc/garanties/delBonGarantie.inc.php",
             {
               ticketCaisse: ticketCaisse,
+              idClient: idClient
             },
             function (resultat) {
               if (resultat == 1)
@@ -449,6 +453,7 @@ $(function () {
             "inc/garanties/delItemGarantie.inc.php",
             {
               idItem: idItem,
+              idClient: idClient
             },
             function (resultat) {
               // forcer la re-génération de l'ensemble des garanties (à améliorer?)
@@ -538,5 +543,11 @@ $(function () {
     );
   });
 
+  // choix de la langue pour la garantie
+  $('body').on('click', '.choixLang', function(event){
+    testSession(event);
+    var lang = $(this).data('lang');
+    alert(lang);
+  })
   
 });

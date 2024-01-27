@@ -11,8 +11,10 @@ $formulaire = isset($_POST['formulaire']) ? $_POST['formulaire'] : null;
 $form = array();
 parse_str($formulaire, $form);
 
+$idClient = isset($_POST['idClient']) ? $_POST['idClient'] : null;
 // Application::afficher($form, true);
 
 $numeroBon = $Reparation->saveDataBon($form);
+$User->touchUser($idClient);
 
 echo $numeroBon;

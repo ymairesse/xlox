@@ -7,7 +7,9 @@ require_once '../../config.inc.php';
 // ressources principales toujours nécessaires: classes Application, User, Smarty, 
 include '../entetes.inc.php';
 
-$formulaire = isset($_POST['formulaire']) ? $_POST['formulaire'] : null;
+$idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
+$formulaire = isset($_POST['formulaire']) ? $_POST['formulaire'] : Null;
+
 $form = array();
 parse_str($formulaire, $form);
 
@@ -16,6 +18,7 @@ $typeCondPart = ($form['typeCondPart'] != '') ? $form['typeCondPart'] : Null;
 $texte = $form['texte'];
 
 $nb = $Garantie->saveConditionsPart($ticketCaisse, $typeCondPart, $texte);
+$User->touchUser($idClient);
 
 switch ($typeCondPart) {
     case 'CPAS':

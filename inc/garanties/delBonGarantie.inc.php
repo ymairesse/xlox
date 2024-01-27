@@ -8,8 +8,10 @@ require_once '../../config.inc.php';
 include '../entetes.inc.php';
 
 $ticketCaisse = isset($_POST['ticketCaisse']) ? $_POST['ticketCaisse'] : Null;
+$idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
 
 $nbDel = $Garantie->delBonGarantie($ticketCaisse);
+$User->touchUser($idClient);
 
 echo $nbDel;
 

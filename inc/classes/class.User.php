@@ -494,4 +494,64 @@ class User
         return $n;
     }
 
+    /**
+     * modification de la date d'accès à l'utilisateur $idUser
+     * 
+     * @param int $idUser
+     * 
+     * @return int
+     */
+    public function touchUser($idUser) {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'UPDATE '.PFX.'users ';
+        $sql .= 'SET dateAcces = NOW() ';
+        $sql .= 'WHERE idUser = :idUser ';
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+
+        $resultat = $requete->execute();
+
+        $n = 0;
+        if ($resultat) {
+            $n = $requete->rowCount();
+        }
+
+        Application::DeconnexionPDO($connexion);
+
+        return $n;
+    }
+
+    /**
+     * Liste des clients dont l'activité date de plus de x jours
+     * 
+     * @param int $nbJours
+     * 
+     * @return array
+     */
+    public function getInactiveUsers($nbJours) {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'SELECT users.*, dateAcces, DATE_ADD(CURDATE(), INTERVAL -'.$nbJours.' DAY) AS datePivot ';
+        $sql .= 'FROM '.PFX.'users ';
+        $sql .= 'WHERE dateAcces < DATE_ADD(CURDATE(), INTERVAL -'.$nbJours.' DAY) AND droits = "client" ';
+        $sql .= 'ORDER BY dateAcces, nom, prenom ';
+        $requete = $connexion->prepare($sql);
+
+        $liste = array();
+
+        $resultat = $requete->execute();
+
+        if ($resultat){
+            $requete->setFetchMode(PDO::FETCH_ASSOC);
+            while ($ligne = $requete->fetch()){
+                $idClient = $ligne['idClient'];
+                $liste[$idClient] = $ligne;
+            }
+        }
+
+        Application::DeconnexionPDO($connexion);
+
+        return $liste;
+    }
+
 }

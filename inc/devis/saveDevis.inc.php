@@ -18,4 +18,6 @@ $date = isset($form['dateDevis']) ? $form['dateDevis'] : null;
 
 $idDevis = $Devis->saveDevis($idDevis, $idClient, $date);
 
+$User->touchUser($idClient);
+
 echo $idDevis;

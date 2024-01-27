@@ -29,9 +29,7 @@ $(function () {
   // Ajouter un devis au client actuellement actif (sélecteur des clients)
   $("body").on("click", "#btn-addDevis", function (event) {
     testSession(event);
-    var idClient = $('.listeClients[data-mode="devis"] tr.choosen').data(
-      "idclient"
-    );
+    var idClient = $(this).data('idclient');
     $.post(
       "inc/devis/editDevis.inc.php",
       {
@@ -72,12 +70,15 @@ $(function () {
         "inc/devis/saveDevis.inc.php",
         {
           formulaire: formulaire,
+          idClient: idClient
         },
         function (resultat) {
           $("#modalEditDevis").modal("hide");
           $('.listeClients tr[data-idclient="' + idClient + '"]').trigger(
             "click"
           );
+          // actualiser la date d'accès à la fiche client
+          $('button.clientParDate').trigger('click');
         }
       );
     }

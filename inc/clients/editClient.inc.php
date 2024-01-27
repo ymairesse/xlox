@@ -12,7 +12,12 @@ $smarty->assign('benevole', $benevole);
 
 // fiche personnelle
 $idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
-$dataClient = $idClient != Null ? $User->getDataUser($idClient) : Null;
+
+if ($idClient != Null) {
+    $dataClient = $User->getDataUser($idClient);
+    $User->touchUser($idClient);
+}
+else $dataClient = Null;
 
 $smarty->assign('idClient', $idClient);
 $smarty->assign('dataClient', $dataClient);

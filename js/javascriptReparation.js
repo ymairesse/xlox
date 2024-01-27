@@ -167,6 +167,7 @@ $(function () {
         "inc/reparations/saveBon.inc.php",
         {
           formulaire: formulaire,
+          idClient: idClient
         },
         function (resultat) {
           var numeroBon = resultat;
@@ -201,6 +202,8 @@ $(function () {
                     $('.nav-link[data-numerobon="' + numeroBon + '"]').trigger(
                       "click"
                     );
+                    // actualiser la liste des clients par ordre de dates
+                    $('button.clientParDate').trigger('click');
                     // y a-t-il une ligne correspondant à idClient dans la liste de gauche?
                     var obj = $('tr[data-idclient="' + idClient + '"]');
                     if (obj.length != 0) {
@@ -212,9 +215,7 @@ $(function () {
                   }
                 );
               } else {
-                // c'est la liste la liste des fiches de réparations disponible
-                // à gauche
-                console.log(numeroBon);
+                // c'est la liste des fiches de réparations disponible à gauche
                 $.post(
                   "inc/reparations/getListeBons.inc.php",
                   {
@@ -255,7 +256,7 @@ $(function () {
       callback: function (result) {
         if (result == true) {
           $.post(
-            "inc/deleteBon.inc.php",
+            "inc/reparations/deleteBon.inc.php",
             {
               numeroBon: numeroBon,
               idClient: idClient,
@@ -267,7 +268,7 @@ $(function () {
                 if (choice == "listeBons")
                   $("#reparations4bons").trigger("click");
                 else $("#ficheReparation").trigger("click");
-                boobtox.alert({
+                bootbox.alert({
                   title: "Effacement",
                   message: "Bon de réparation n° " + numeroBon + "supprimé",
                 });

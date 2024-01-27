@@ -17,16 +17,20 @@ $numeroBon = isset($_POST['numeroBon']) ? $_POST['numeroBon'] : Null;
 $dataClient = $User->getDataUser($idClient);
 
 $dataBon = ($numeroBon != Null) ? $Reparation->getDataBon($idClient, $numeroBon) : Null;
-$dataBon['marque'] = htmlspecialchars($dataBon['marque'], ENT_QUOTES, 'UTF-8');
-$dataBon['modele'] = htmlspecialchars($dataBon['modele'], ENT_QUOTES, 'UTF-8');
-$dataBon['mdp'] = htmlspecialchars($dataBon['mdp'], ENT_QUOTES, 'UTF-8');
-$dataBon['probleme'] = htmlspecialchars($dataBon['probleme'], ENT_QUOTES, 'UTF-8');
-$dataBon['etat'] = htmlspecialchars($dataBon['etat'], ENT_QUOTES, 'UTF-8');
-$dataBon['devis'] = htmlspecialchars($dataBon['devis'], ENT_QUOTES, 'UTF-8');
-$dataBon['remarque'] = htmlspecialchars($dataBon['remarque'], ENT_QUOTES, 'UTF-8');
+if ($dataBon != Null) {
+    $dataBon['marque'] = htmlspecialchars($dataBon['marque'], ENT_QUOTES, 'UTF-8');
+    $dataBon['modele'] = htmlspecialchars($dataBon['modele'], ENT_QUOTES, 'UTF-8');
+    $dataBon['mdp'] = htmlspecialchars($dataBon['mdp'], ENT_QUOTES, 'UTF-8');
+    $dataBon['probleme'] = htmlspecialchars($dataBon['probleme'], ENT_QUOTES, 'UTF-8');
+    $dataBon['etat'] = htmlspecialchars($dataBon['etat'], ENT_QUOTES, 'UTF-8');
+    $dataBon['devis'] = htmlspecialchars($dataBon['devis'], ENT_QUOTES, 'UTF-8');
+    $dataBon['remarque'] = htmlspecialchars($dataBon['remarque'], ENT_QUOTES, 'UTF-8');
+}
 
 $accessoiresBon = ($numeroBon != Null) ? $Reparation->getAccessoires4bon($numeroBon) : Null;
+// liste de tous les accessoies possibles
 $allAccessoires = $User->getAllAccessoires();
+// liste de tous les types de matériel en réparation possibles
 $allMateriel = $User->getAllMateriel();
 
 $smarty->assign('numeroBon', $numeroBon);
