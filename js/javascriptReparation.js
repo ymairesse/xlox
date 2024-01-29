@@ -167,7 +167,7 @@ $(function () {
         "inc/reparations/saveBon.inc.php",
         {
           formulaire: formulaire,
-          idClient: idClient
+          idClient: idClient,
         },
         function (resultat) {
           var numeroBon = resultat;
@@ -203,7 +203,7 @@ $(function () {
                       "click"
                     );
                     // actualiser la liste des clients par ordre de dates
-                    $('button.clientParDate').trigger('click');
+                    $("button.clientParDate").trigger("click");
                     // y a-t-il une ligne correspondant à idClient dans la liste de gauche?
                     var obj = $('tr[data-idclient="' + idClient + '"]');
                     if (obj.length != 0) {
@@ -396,10 +396,13 @@ $(function () {
   $("body").on("click", ".btn-avancement", function (event) {
     testSession(event);
     var numeroBon = $(this).data("numerobon");
+    var idClient = $("table.listeClients tr.choosen").data("idclient");
+
     $.post(
       "inc/reparations/getModalAvancement.inc.php",
       {
         numeroBon: numeroBon,
+        idClient: idClient,
       },
       function (resultat) {
         $("#modal").html(resultat);
@@ -427,6 +430,8 @@ $(function () {
           $('.btn-avancement[data-numerobon="' + numeroBon + '"] .idAv').text(
             nAv
           );
+          // actualiser la liste des clients par ordre de dates
+          $("button.clientParDate").trigger("click");
         }
       );
     }
@@ -437,15 +442,18 @@ $(function () {
     var ceci = $(this);
     var idAvancement = $(this).data("idavancement");
     var numeroBon = $(this).data("numerobon");
+    var idClient = $(this).data("idclient");
+
     bootbox.confirm({
       title: "Effacer cette mention",
       message: "Veuillez confirmer l'effacement définitif de cette mention",
       callback: function (result) {
         if (result == true) {
           $.post(
-            "inc/delAvancement.inc.php",
+            "inc/reparations/delAvancement.inc.php",
             {
               idAvancement: idAvancement,
+              idClient: idClient,
             },
             function (resultat) {
               if (resultat == 1) {
@@ -455,6 +463,8 @@ $(function () {
                 $(
                   '.btn-avancement[data-numerobon="' + numeroBon + '"] .idAv'
                 ).text(nAv);
+                // actualiser la liste des clients par ordre de dates
+                $("button.clientParDate").trigger("click");
               }
             }
           );

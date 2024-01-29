@@ -39,6 +39,7 @@
         class="btn btn-danger btn-sm btn-delAvancement"
         data-idavancement="{$idAvancement}"
         data-numerobon="{$numeroBon}"
+        data-idclient="{$idClient}"
       >
         <i class="fa fa-times"></i>
       </button>

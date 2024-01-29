@@ -523,7 +523,7 @@ class User
     }
 
     /**
-     * Liste des clients dont l'activité date de plus de x jours
+     * Liste des clients dont l'activité date de plus de $nbJours jours
      * 
      * @param int $nbJours
      * 

@@ -25,12 +25,13 @@
             id="tableauAvancement"
             style="max-height: 20em; overflow: auto"
           >
-            {include file='inc/tableAvancement.tpl'}
+            {include file='reparations/inc/tableAvancement.tpl'}
           </div>
 
           <div class="col-lg-4 col">
             <form id="form-avancement">
               <input type="hidden" name="numeroBon" value="{$numeroBon}" />
+              <input type="hidden" name="idClient" value="{$idClient}" />
 
               <div class="mb-3">
                 <label for="date" class="form-label">Date & heure</label>
