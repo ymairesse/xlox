@@ -16,7 +16,9 @@ $md5passwd = md5($passwd);
 
 $User = new User($identifiant, $md5passwd);
 
-if ($User != false) {
+$identite = $User->getUser();
+
+if ($identite != false) {
     $user = $User->getUser();
 
     $_SESSION[APPLICATION] = serialize($User);

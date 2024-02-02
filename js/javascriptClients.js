@@ -26,6 +26,23 @@ function restoreSelecteurClients4gestion(
 
 $(function () {
 
+  $('body').on('click', '#visuChamps', function() {
+    var type = $(this).data('type');
+    $('input').removeClass('visu').removeClass('contact');
+    switch (type) {
+      case 'reparation':
+        $('.reparation').addClass('visu').addClass('contact');
+        break;
+      case 'devis':
+        $('.devis').addClass('visu');
+        break;
+      case 'facture': 
+        $('.facture').addClass('visu').addClass('contact');
+        break;
+    }
+  })
+
+
   //----------------------------------------------------------------
   // gestion des clients
   //----------------------------------------------------------------
@@ -442,5 +459,13 @@ $(function () {
       );
     }
   });
+
+
+  
+
+  $('body').on('click', '#cloture', function(){
+    // var nbJoursCloture = (Cookies.get('nbJoursCloture') != undefined) ? Cookies.get('nbJoursCloture') : 30;
+    
+  })
 
 });
