@@ -112,7 +112,8 @@ $(function () {
           passwd: passwd,
         },
         function (resultat) {
-          $("#menu").html(resultat);
+          if (resultat != 'ko')
+            $("#menu").html(resultat);
           $("#modalLogin").modal("hide");
           var loggedUser = $("#loggedUser").text();
           var title = "Connexion";
@@ -122,6 +123,9 @@ $(function () {
             bootbox.alert({
               title: title,
               message: message,
+              callback: function(){
+                window.location.assign('index.php');
+              }
             });
           }
         }

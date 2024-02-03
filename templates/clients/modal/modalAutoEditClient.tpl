@@ -74,34 +74,26 @@
                 id="civilite"
                 class="form-control reparation facture devis"
               >
-                <option value="">Genre</option>
-                <option class="nonX" data-lang="fr" value="F">Madame</option>
-                <option class="nonX d-none" data-lang="nl" value="F">
-                  Mevrouw
-                </option>
-                <option class="nonX d-none" data-lang="gb" value="F">
-                  Mrs
-                </option>
-                <option class="nonX d-none" data-lang="ukr" value="F">
-                  Мадам.
-                </option>
-                <option class="nonX d-none" data-lang="ru" value="F">
-                  мадам
-                </option>
-                <option class="nonX" data-lang="fr" value="M">Monsieur</option>
-                <option class="nonX d-none" data-lang="nl" value="M">
+                <!-- les options d-none ne sont pas affichées a priori -->
+                <option data-lang="fr" value="">Genre</option>
+ 
+                <option data-lang="fr" value="F">Madame</option>
+                <option class="d-none" data-lang="nl" value="F">Mevrouw</option>
+                <option class="d-none" data-lang="gb" value="F">Mrs</option>
+                <option class="d-none" data-lang="ukr" value="F">Мадам.</option>
+                <option class="d-none" data-lang="ru" value="F">мадам</option>
+                <option data-lang="fr" value="M">Monsieur</option>
+                <option class="d-none" data-lang="nl" value="M">
                   Mijnheer
                 </option>
-                <option class="nonX d-none" data-lang="gb" value="M">
-                  Mr.
-                </option>
-                <option class="nonX d-none" data-lang="ukr" value="M">
-                  Пане.
-                </option>
-                <option class="nonX d-none" data-lang="ru" value="M">
-                  Г-н.
-                </option>
-                <option value="X">MX</option>
+                <option class="d-none" data-lang="gb" value="M">Mr.</option>
+                <option class="d-none" data-lang="ukr" value="M">Пане.</option>
+                <option class="d-none" data-lang="ru" value="M">Г-н.</option>
+                <option value="X" data-lang="fr">MX</option>
+                <option value="X" class="d-none" data-lang="nl">MX</option>
+                <option value="X" class="d-none" data-lang="gb">MX</option>
+                <option value="X" class="d-none" data-lang="ukr">MX</option>
+                <option value="X" class="d-none" data-lang="ru">MX</option>
               </select>
             </div>
 
@@ -157,7 +149,7 @@
               </label>
               <input
                 type="text"
-                class="form-control contact phone devis facture reparation"
+                class="form-control contact phone facture reparation"
                 name="gsm"
                 id="gsm"
                 value="{$dataClient.gsm|default:''}"
@@ -180,7 +172,7 @@
               </label>
               <input
                 type="text"
-                class="form-control contact phone devis facture reparation"
+                class="form-control contact phone facture reparation"
                 name="telephone"
                 id="telephone"
                 value="{$dataClient.telephone|default:''}"
@@ -203,7 +195,7 @@
               </label>
               <input
                 type="mail"
-                class="form-control contact devis facture reparation"
+                class="form-control contact facture reparation"
                 name="mail"
                 id="mail"
                 value="{$dataClient.mail|default:''}"
@@ -298,6 +290,7 @@
                   id="tva"
                   name="tva"
                   value="{$dataClient.tva|default:''}"
+                  placeholder="Numéro de TVA"
                 />
               </div>
             </div>
@@ -311,20 +304,27 @@
                   class="form-check-label reparation facture devis"
                   id="lblrgpd"
                   for="rgpd"
-                  >J'accepte que mes données personnelles soient conservées pour
-                  usage ultérieur
-                  <button
-                    type="button"
-                    class="btn btn-primary btn-sm info-rgpd"
-                    data-bs-toggle="tooltip"
-                    data-bs-title="<strong>Oxfam Informatique</strong> s'engage à n'utiliser vos informations que pour des raisons d'usages internes au magasin ou, si nécessaire, aux services techniques de Oxfam. En aucune cas, vos informations ne seront transmises à des tiers."
-                    data-bs-html="true"
-                    style="height: 14pt; font-size: 60%; padding: 0 5px"
-                  >
-                    <i class="fa fa-info-circle" aria-hidden="true"></i>
-                  </button>
+                  >J'accepte que mes données personnelles soient conservées le
+                  temps nécessaire au service fourni par Oxfam asbl.
                 </label>
               </div>
+            </div>
+            <div class="pb-3 col-12">
+              <button
+                type="button"
+                id="infoRgpd"
+                class="btn btn-primary w-100 text-start"
+                style="font-size: 80%"
+              >
+                <i class="fa fa-info-circle"> </i>
+                <span id="textRgpd"
+                  ><strong> Oxfam Informatique</strong> s'engage à n'utiliser
+                  vos informations que pour des raisons d'usages internes au
+                  magasin ou, si nécessaire, aux services techniques de Oxfam.
+                  En aucune cas, vos informations ne seront transmises à des
+                  tiers.</span
+                >
+              </button>
             </div>
           </div>
         </form>
@@ -333,7 +333,12 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Annuler
         </button>
-        <button type="button" class="btn btn-primary" id="btn-autoSaveClient">
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="btn-autoSaveClient"
+          disabled
+        >
           Enregistrer
         </button>
       </div>
@@ -378,26 +383,76 @@
 
   var rgpd = [];
   rgpd["fr"] =
-    "J'accepte que mes données personnelles soient conservées pour usage ultérieur";
+    "J'accepte que mes données personnelles soient conservées le temps nécessaire au service fourni par Oxfam asbl.";
   rgpd["nl"] =
-    "Ik ga ermee akkoord dat mijn persoonlijke gegevens worden opgeslagen voor toekomstig gebruik";
-  rgpd["gb"] = "I agree to my personal data being stored for future use";
+    "Ik ga ermee akkoord dat mijn persoonlijke gegevens bewaard worden zolang dat nodig is voor de dienstverlening van Oxfam vzw.";
+  rgpd["gb"] =
+    "I agree to my personal data being stored for as long as is necessary for the service provided by Oxfam asbl.";
   rgpd["ukr"] =
-    "Я згоден на збереження моїх персональних даних для подальшого використання";
+    "Я погоджуюсь, що мої персональні дані зберігатимуться стільки, скільки це необхідно для надання послуг, що надаються Oxfam asbl.";
   rgpd["ru"] =
-    "Я согласен на хранение моих персональных данных для дальнейшего использования";
+    "Я согласен на то, что мои персональные данные будут храниться столько, сколько необходимо для оказания услуг, предоставляемых Oxfam asbl.";
+
+  var infoRgpd = [];
+  infoRgpd["fr"] =
+    "<strong>Oxfam Informatique</strong> s'engage à n'utiliser vos informations que pour des raisons d'usages internes au magasin ou, si nécessaire, aux services techniques de Oxfam. En aucune cas, vos informations ne seront transmises à des tiers.";
+  infoRgpd["nl"] =
+    "<strong>Oxfam Informatique</strong> verbindt zich ertoe uw gegevens uitsluitend te gebruiken voor intern gebruik door de winkel of, indien nodig, door de technische diensten van Oxfam. Uw gegevens worden in geen geval doorgegeven aan derden.";
+
+  infoRgpd["gb"] =
+    "<strong>Oxfam Informatique</strong> undertakes to use your information only for internal use by the shop or, if necessary, by Oxfam's technical services. Under no circumstances will your information be passed on to third parties.";
+
+  infoRgpd["ukr"] =
+    "<strong>Oxfam Informatique</strong> зобов'язується використовувати вашу інформацію лише для внутрішнього використання магазином або, за необхідності, технічними службами Oxfam. За жодних обставин ваша інформація не буде передана третім особам.";
+
+  infoRgpd["ru"] =
+    "<strong>Oxfam Informatique</strong> обязуется использовать вашу информацию только для внутреннего использования магазином или, при необходимости, техническими службами Oxfam. Ни при каких обстоятельствах ваша информация не будет передана третьим лицам.";
+
+  var civilite1 = [];
+  civilite1['fr'] = "Genre";
+  civilite1['nl'] = "Gender";
+  civilite1['gb'] = "Gender";
+  civilite1['ukr'] = "стать";
+  civilite1['ru'] = "пол";
 
   $(document).ready(function () {
     // refreshCaptcha();
 
+    $("#rgpd").on("change", function () {
+      var info = $(this).is(":checked");
+      $("#btn-autoSaveClient").prop("disabled", !info);
+    });
+
     $("#lang").on("change", function () {
       var lang = $(this).val();
-      $("label span, .nonX").addClass("d-none");
+      // cacher les contenus de tous les éléments "span" contenus dans des "label"
+      $("label span").addClass("d-none");
+      $("#civilite option").addClass("d-none");
+      // rétablir ceux dont la langue a été sélectionnée
       $(
         'label [data-lang="' + lang + '"], option[data-lang="' + lang + '"]'
       ).removeClass("d-none");
       $("#lblrgpd").text(rgpd[lang]);
+      $("#textRgpd").html(infoRgpd[lang]);
+      $("input:text").each(function (index) {
+        if ($(this).prev().is("label")) {
+          var leTexte = $(this)
+            .prev("label")
+            .find('span[data-lang="' + lang + '"]')
+            .text();
+        } else
+          var leTexte = $(this)
+            .closest(".form-group")
+            .find('span[data-lang="' + lang + '"]')
+            .text();
+        $(this).attr("placeholder", leTexte);
+
+        var texteOption = civilite1[lang];
+        $('#civilite option').first().text(texteOption);
+      });
     });
+
+    // $('#nom').prev('label').find('span[data-lang="ukr"]').text()
 
     $("input#captcha").on("keyup", function (event) {
       var captcha = $("#captcha").val();
@@ -412,6 +467,14 @@
           // else $('#btn-autoSaveClient').prop('disabled', true);
         }
       );
+    });
+
+    $("#infoRgpd").click(function () {
+      var texte = $("#textRgpd").html();
+      bootbox.alert({
+        title: "RGPD",
+        message: texte,
+      });
     });
 
     $("#recaptcha").click(function () {
