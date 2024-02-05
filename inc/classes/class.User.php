@@ -32,7 +32,7 @@ class User
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT * ';
         $sql .= 'FROM ' . PFX . 'users ';
-        $sql .= 'WHERE (mail = :identifiant OR pseudo = :identifiant) AND md5passwd = :md5passwd ';
+        $sql .= 'WHERE (mail = :identifiant OR pseudo = :identifiant) AND md5passwd = :md5passwd AND droits != "client" ';
 
         $requete = $connexion->prepare($sql);
 
