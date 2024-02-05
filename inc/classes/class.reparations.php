@@ -344,7 +344,7 @@ class Reparation
      *
      * @return array
      */
-    public function getListeReparations($termine = false)
+    public function getListeReparations($termine = 0)
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT type, civilite, nom, prenom, numeroBon, bons.idUser, typeMateriel, ';
