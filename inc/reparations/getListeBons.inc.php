@@ -7,13 +7,19 @@ require_once '../../config.inc.php';
 // ressources principales toujours nécessaires: classes Application, User, Smarty, 
 include '../entetes.inc.php';
 
-$termine = isset($_POST['termine']) ? $_POST['termine'] : false;
+$termine = isset($_POST['termine']) ? $_POST['termine'] : 0;
 $bonEnCours = isset($_POST['bonEnCours']) ? $_POST['bonEnCours'] : Null;
 
-$numeroBon = $bonEnCours;
 
 // informations pour le sélecteur de gauche
 $listeReparations = $Reparation->getListeReparations($termine);
+if (in_array($bonEnCours, array_keys($listeReparations))) {
+    $numeroBon = $bonEnCours;
+} else {
+    reset($listeReparations);
+    $numeroBon = key($listeReparations);
+}
+
 $smarty->assign('listeReparations', $listeReparations);
 $smarty->assign('numeroBon', $numeroBon);
 
@@ -34,6 +40,7 @@ $smarty->assign('allAccessoires', $allAccessoires);
 $smarty->assign('dataClient', $dataClient);
 
 $smarty->assign('travail', $travail);
+$smarty->assign('travailTermine', $termine);
 
 // ré-indiquer le nom  du client sur la fiche $formTravail
 $smarty->assign('nomClient', true);

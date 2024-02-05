@@ -374,7 +374,7 @@ $(function () {
     $.post(
       "inc/reparations/getListeBons.inc.php",
       {
-        termine: false,
+        termine: 0,
         bonEnCours: bonEnCours,
       },
       function (resultat) {
@@ -390,6 +390,28 @@ $(function () {
     );
   });
 
+  // ouverture de la liste des réparations terminées
+  $("body").on("click", "#reparationsArchives", function (event) {
+    testSession(event);
+    var bonEnCours = Cookies.get("bonEnCours");
+    $.post(
+      "inc/reparations/getListeBons.inc.php",
+      {
+        termine: 1,
+        bonEnCours: bonEnCours,
+      },
+      function (resultat) {
+        $("#unique").html(resultat);
+        // si un bon de réparation a été sélectionné
+        if ($("#listeReparations tr.choosen").length != 0) {
+          $("#listeReparations tr.choosen")[0].scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+      }
+    );
+  });
   // Avancement du travail
   // ------------------------------------------------
 
