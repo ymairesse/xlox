@@ -26,7 +26,10 @@ $(function () {
         var obj = $('tr[data-idclient="' + idClient + '"]');
         // y a-t-il une ligne correspondant à idClient dans la liste de gauche?
         if (obj.length != 0)
-          $("table.listeClients tr.choosen")[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          $("table.listeClients tr.choosen")[0].scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
       }
     );
   });
@@ -50,7 +53,10 @@ $(function () {
             '"]'
         ).trigger("click");
         if ($("table#listeGarantiesAnonymes tr.choosen").length != 0)
-          $("table#listeGarantiesAnonymes tr.choosen")[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          $("table#listeGarantiesAnonymes tr.choosen")[0].scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
       }
     );
   });
@@ -112,12 +118,12 @@ $(function () {
     testSession(event);
     var formulaire = $("#formmodalCondPart").serialize();
     var ticketCaisse = $("#formmodalCondPart input#ticketCaisse").val();
-    var idClient = $('table.listeClients tr.choosen').data('idclient');
+    var idClient = $("table.listeClients tr.choosen").data("idclient");
     $.post(
       "inc/garanties/saveConditionsPart.inc.php",
       {
         formulaire: formulaire,
-        idClient: idClient
+        idClient: idClient,
       },
       function (resultatJSON) {
         $("#modalCondPart").modal("hide");
@@ -253,7 +259,10 @@ $(function () {
                       ticketCaisse +
                       '"]'
                   ).trigger("click");
-                  $("table.listeClients tr.choosen")[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  $("table.listeClients tr.choosen")[0].scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                  });
                 }
               );
             } else {
@@ -270,8 +279,13 @@ $(function () {
                       ticketCaisse +
                       '"]'
                   ).trigger("click");
-                  if ($('table#listeGarantiesAnonymes tr.choosen').length != 0)
-                    $('table#listeGarantiesAnonymes tr.choosen')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  if ($("table#listeGarantiesAnonymes tr.choosen").length != 0)
+                    $(
+                      "table#listeGarantiesAnonymes tr.choosen"
+                    )[0].scrollIntoView({
+                      behavior: "smooth",
+                      block: "center",
+                    });
                 }
               );
             }
@@ -295,7 +309,7 @@ $(function () {
   $("body").on("click", ".btn-delGarantie", function (event) {
     testSession();
     var ticketCaisse = $(this).data("ticketcaisse");
-    var idClient = $('table.listeClients tr.choosen').data('idclient');
+    var idClient = $("table.listeClients tr.choosen").data("idclient");
     var title = "Effacement du bon de garantie";
     bootbox.confirm({
       title: title,
@@ -309,7 +323,7 @@ $(function () {
             "inc/garanties/delBonGarantie.inc.php",
             {
               ticketCaisse: ticketCaisse,
-              idClient: idClient
+              idClient: idClient,
             },
             function (resultat) {
               if (resultat == 1)
@@ -329,10 +343,8 @@ $(function () {
                   .prev()
                   .data("ticketcaisse");
                 // s'il n'y a pas de précédente, on choisit la suivante
-                if (prevGarantie == undefined){
-                  prevGarantie = $(
-                    "table#listeGarantiesAnonymes tr.choosen"
-                  )
+                if (prevGarantie == undefined) {
+                  prevGarantie = $("table#listeGarantiesAnonymes tr.choosen")
                     .next()
                     .data("ticketcaisse");
                 }
@@ -453,7 +465,7 @@ $(function () {
             "inc/garanties/delItemGarantie.inc.php",
             {
               idItem: idItem,
-              idClient: idClient
+              idClient: idClient,
             },
             function (resultat) {
               // forcer la re-génération de l'ensemble des garanties (à améliorer?)
@@ -493,34 +505,33 @@ $(function () {
   // -----------------------------------------------------------------
   // sélection d'un article issu de la table du stock
   // -----------------------------------------------------------------
-  $("body").on("change", ".modalSelectMarchandise", function (event) {
+  $("body").on("change", "#selectMarchandises", function (event) {
     testSession(event);
     var ceci = $(this);
-    var idMateriel = $("#marchandises option:selected").val();
-    $.post(
-      "inc/garanties/getMateriel4id.inc.php",
-      {
-        idMateriel: idMateriel,
-      },
-      function (resultatJSON) {
-        var resultat = JSON.parse(resultatJSON);
-        var texte =
-          resultat["marque"] +
-          " " +
-          resultat["modele"] +
-          " " +
-          resultat["caracteristiques"];
-        var prix = resultat["prix"];
+    var idMateriel = $("#selectMarchandises option:selected").val();
+    if (idMateriel != "") {
+      $.post(
+        "inc/garanties/getMateriel4id.inc.php",
+        {
+          idMateriel: idMateriel,
+        },
+        function (resultatJSON) {
+          var resultat = JSON.parse(resultatJSON);
+          var texte =
+            resultat["marque"] +
+            " " +
+            resultat["modele"] +
+            " " +
+            resultat["caracteristiques"];
+          var prix = resultat["prix"];
 
-        $("#materiel").val(texte);
-        $("#prix").val(prix);
+          $("#materiel").val(texte);
+          $("#prix").val(prix);
 
-        ceci
-          .closest(".form-group")
-          .find(".modalSelectMarchandise")
-          .toggle("slow");
-      }
-    );
+          $("input#materiel").trigger("focus");
+        }
+      );
+    }
   });
 
   // -----------------------------------------------------------
@@ -544,10 +555,9 @@ $(function () {
   });
 
   // choix de la langue pour la garantie
-  $('body').on('click', '.choixLang', function(event){
+  $("body").on("click", ".choixLang", function (event) {
     testSession(event);
-    var lang = $(this).data('lang');
+    var lang = $(this).data("lang");
     alert(lang);
-  })
-  
+  });
 });
