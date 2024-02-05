@@ -78,7 +78,7 @@
               >
               <input
                 type="text"
-                class="form-control contact phone devis facture reparation"
+                class="form-control phone devis facture reparation"
                 name="gsm"
                 id="gsm"
                 value="{$dataClient.gsm|default:''}"
@@ -94,7 +94,7 @@
               >
               <input
                 type="text"
-                class="form-control contact phone devis facture reparation"
+                class="form-control phone devis facture reparation"
                 name="telephone"
                 id="telephone"
                 value="{$dataClient.telephone|default:''}"
@@ -109,7 +109,7 @@
               >
               <input
                 type="mail"
-                class="form-control contact devis facture reparation"
+                class="form-control devis facture reparation"
                 name="mail"
                 id="mail"
                 value="{$dataClient.mail|default:''}"
@@ -234,16 +234,16 @@
 
     $('.visuChamps').on('click', function(){
       var type = $(this).data('type');
-      $('input').removeClass('visu');
+      $('input').removeClass('visu').removeClass('contact');
       switch (type) {
         case 'reparation':
-          $('.reparation').addClass('visu');
+          $('.reparation').addClass('visu').addClass('contact');
           break;
         case 'devis':
           $('.devis').addClass('visu');
           break;
         case 'facture': 
-          $('.facture').addClass('visu');
+          $('.facture').addClass('visu').addClass('contact');
           break;
       }
     })
