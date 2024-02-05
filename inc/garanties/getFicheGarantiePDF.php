@@ -55,7 +55,7 @@ $html2pdf = new Html2Pdf('P','A4','fr');
 $html2pdf->WriteHTML($fichePDF);
 $horodatage = date('Y/m');
 // ajouter underscore pour séparer du numéro de ticket de caisse
-$nomClient = ($dataClient['nom'] != '') ? $dataClient['nom'].'_' : '';
+$nomClient = ($dataClient['nom'] != '') ? $dataClient['nom'] : '';
 $nomClient = str_replace(' ', '', $nomClient);
 
 // création éventuelle du répertoire /année/mois
@@ -78,4 +78,4 @@ if ($condPart['typeCondPart'] == 'CPAS') {
 }
 
 // le fichier est enregistré ET présenté dans le navigateur
-$html2pdf->Output(INSTALL_DIR."/pdf/garanties/".$horodatage."/".$ssDestination."/".$nomClient.$ticketCaisse.".pdf", 'FD');
+$html2pdf->Output(INSTALL_DIR."/pdf/garanties/".$horodatage."/".$ssDestination."/".$ticketCaisse."_".$nomClient.".pdf", 'FD');
