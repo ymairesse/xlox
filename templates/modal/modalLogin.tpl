@@ -78,10 +78,9 @@
 
 <script>
   $(document).ready(function () {
-
-    $('#modalLogin').on('shown.bs.modal', function() {
-  $('#identifiant').focus();
-})
+    $("#modalLogin").on("shown.bs.modal", function () {
+      $("#identifiant").focus();
+    });
 
     $("#btn-view").click(function () {
       if ($("input#passwd").prop("type") == "password")

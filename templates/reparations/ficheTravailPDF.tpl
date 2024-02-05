@@ -61,7 +61,7 @@
     {if $client.rgpd == 1}
   <p style="font-size: small">
     J'accepte que mes données personnelles soient conservées pour usage
-    ultérieur
+    ultérieur interne au magasin et/ou aux services techniques de Oxfam asbl
   </p>
   {/if}
 
@@ -176,7 +176,7 @@
     </tr>
   </table>
 
-  <table style="width:100%">
+    <table style="width:100%">
     <tr>
       <td style="width:15%">
         <strong>Client prévenu</strong>
@@ -196,8 +196,9 @@
     </tr>
 
   </table>
-  
 
+  <p>Le matériel non retiré par le client dans un délai de trois mois au-delà de la date de réparation sera considéré comme abandonné par son propriétaire.</p>
+  
 </page>
 
 <style type="text/css">
