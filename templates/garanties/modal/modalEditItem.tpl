@@ -40,21 +40,8 @@
             <div class="form-group pb-3 col-8">
               <label class="w-100" for="materiel"
                 >Marchandise
-                <div class="btn-group float-end">
-                  <button
-                    type="button"
-                    class="btn btn-primary btn-sm py-0"
-                    id="btn-modalShowMarchandises"
-                    data-type="marchandise"
-                  >
-                    choix <i class="fa fa-question"></i>
-                  </button>
-                </div>
+   
               </label>
-
-              <div class="modalSelectMarchandise" style="display: none">
-                // ici la collection de articles possibles
-              </div>
 
               <input
                 type="text"
@@ -65,6 +52,10 @@
                 value="{$dataItem.materiel|default:''}"
                 placeholder="Dénomination du matériel"
               />
+
+              <div class="modalSelectMarchandise">
+                {include file="garanties/inc/tableMarchandises.tpl"}
+              </div>
             </div>
 
             <div class="form-group pb-3 col-4">
