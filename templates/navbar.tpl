@@ -60,6 +60,12 @@
                 cours
               </a>
             </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a href="#" class="dropdown-item" id="reparationsArchives">
+                <i class="fa fa-search" aria-hidden="true"></i> Réparations terminées
+              </a>
+            </li>
           </ul>
         </li>
 
@@ -136,6 +142,12 @@
               <a href="#" id="gestionStock" class="dropdown-item"
                 ><i class="fa fa-desktop" aria-hidden="true"></i>
                 Gestion du stock
+              </a>
+            </li>
+            <li>
+              <a href="#" id="cloture" class="dropdown-item">
+                <i class="fa fa-window-close" aria-hidden="true"></i>
+                Clôture clients
               </a>
             </li>
             <li><hr class="dropdown-divider" /></li>

@@ -30,7 +30,7 @@ if ($dataBon != Null) {
 $accessoiresBon = ($numeroBon != Null) ? $Reparation->getAccessoires4bon($numeroBon) : Null;
 // liste de tous les accessoies possibles
 $allAccessoires = $User->getAllAccessoires();
-// liste de tous les types de matériel en réparation possibles
+// liste de tous les types de matériel en réparation possibles  
 $allMateriel = $User->getAllMateriel();
 
 $smarty->assign('numeroBon', $numeroBon);
