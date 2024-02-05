@@ -27,7 +27,6 @@
             </div>
           </div>
 
-  
           <div class="row">
             <div class="col-1">
               <button
@@ -52,7 +51,7 @@
               />
             </div>
           </div>
-   
+
           <!--
           <button
             type="button"
@@ -64,10 +63,14 @@
         --></form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="btn-modalLogin" tabindex="3">
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="btn-modalLogin"
+          tabindex="3"
+        >
           Connexion
         </button>
-
       </div>
     </div>
   </div>
@@ -75,6 +78,11 @@
 
 <script>
   $(document).ready(function () {
+
+    $('#modalLogin').on('shown.bs.modal', function() {
+  $('#identifiant').focus();
+})
+
     $("#btn-view").click(function () {
       if ($("input#passwd").prop("type") == "password")
         $("input#passwd").prop("type", "text");
