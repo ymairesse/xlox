@@ -8,4 +8,4 @@ require_once 'entetes.inc.php';
 
 session_destroy();
 
-header('Location: '.BASEDIR.'/index.php');
+header('Location: ../index.php');
