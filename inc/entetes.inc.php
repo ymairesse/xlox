@@ -28,4 +28,4 @@ $smarty->template_dir = INSTALL_DIR."/templates";
 $smarty->compile_dir = INSTALL_DIR."/templates_c";
 // -------------------------------------------------------------
 
-$smarty->assign('BASEDIR', BASEDIR);
+// $smarty->assign('BASEDIR', BASEDIR);
