@@ -148,6 +148,18 @@ h5.scrollReparations {
     text-decoration-line: line-through;
 }
 
-.badge.btn-searchClient{
-    margin-right: 0.5em;;
+.badge.btn-searchClient {
+    margin-right: 0.5em;
+    ;
+}
+
+.texteCondPart {
+    height: 7em;
+    background-color: #ffc0cb;
+    overflow: auto;
+}
+
+.texteCondPart .col-6,
+.texteCondPart .col-12 {
+    border-bottom: 1px solid #bbb;
 }
