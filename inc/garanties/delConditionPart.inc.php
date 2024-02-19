@@ -10,4 +10,3 @@ include '../entetes.inc.php';
 $ticketCaisse = isset($_POST['ticketCaisse']) ? $_POST['ticketCaisse'] : null;
 
 $nb = $Garantie->delConditionPart($ticketCaisse);
-
