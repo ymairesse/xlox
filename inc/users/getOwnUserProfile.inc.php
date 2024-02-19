@@ -13,8 +13,6 @@ include '../entetes.inc.php';
 $dataUser = $User->getUser();
 $idUser = $dataUser['idUser'];
 
-// Application::afficher(array($dataUser, $idUser), true);
-
 $smarty->assign('dataUser', $dataUser);
 $smarty->assign('idUser', $idUser);
 

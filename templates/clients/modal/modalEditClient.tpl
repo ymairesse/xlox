@@ -13,39 +13,6 @@
       <div class="modal-header">
         <h1 class="modal-title fs-5 w-100" id="modalEditClientLabel">
           Fiche Client
-          <div class="btn-group float-end">
-            <select name="lang" id="lang">
-              <option value="fr" selected>FR</option>
-              <option value="nl">NL</option>
-              <option value="gb">EN</option>
-              <option value="ukr">UKR</option>
-              <option value="ru">RU</option>
-            </select>
-            <button
-              class="btn btn-warning btn-sm py-0 visuChamps"
-              data-type="reparation"
-              data-bs-toggle="tooltip"
-              data-bs-title="Pour une réparation"
-            >
-              Réparation
-            </button>
-            <button
-              class="btn btn-success btn-sm py-0 visuChamps"
-              data-type="devis"
-              data-bs-toggle="tooltip"
-              data-bs-title="Pour un devis"
-            >
-              Devis
-            </button>
-            <button
-              class="btn btn-danger btn-sm py-0 visuChamps"
-              data-type="facture"
-              data-bs-toggle="tooltip"
-              data-bs-title="Pour une facture"
-            >
-              Facture
-            </button>
-          </div>
         </h1>
         <button
           type="button"
@@ -76,34 +43,15 @@
               >
                 <!-- les options d-none ne sont pas affichées a priori -->
                 <option data-lang="fr" value="">Genre</option>
- 
                 <option data-lang="fr" value="F">Madame</option>
-                <option class="d-none" data-lang="nl" value="F">Mevrouw</option>
-                <option class="d-none" data-lang="gb" value="F">Mrs</option>
-                <option class="d-none" data-lang="ukr" value="F">Мадам.</option>
-                <option class="d-none" data-lang="ru" value="F">мадам</option>
                 <option data-lang="fr" value="M">Monsieur</option>
-                <option class="d-none" data-lang="nl" value="M">
-                  Mijnheer
-                </option>
-                <option class="d-none" data-lang="gb" value="M">Mr.</option>
-                <option class="d-none" data-lang="ukr" value="M">Пане.</option>
-                <option class="d-none" data-lang="ru" value="M">Г-н.</option>
-                <option value="X" data-lang="fr">MX</option>
-                <option value="X" class="d-none" data-lang="nl">MX</option>
-                <option value="X" class="d-none" data-lang="gb">MX</option>
-                <option value="X" class="d-none" data-lang="ukr">MX</option>
-                <option value="X" class="d-none" data-lang="ru">MX</option>
+                <option data-lang="fr" value="X">MX</option>
               </select>
             </div>
 
             <div class="form-group pb-3 col-5">
               <label for="nom">
                 <span data-lang="fr">Nom</span>
-                <span data-lang="nl" class="d-none">Naam</span>
-                <span data-lang="gb" class="d-none">Family Name</span>
-                <span data-lang="ukr" class="d-none">прізвище</span>
-                <span data-lang="ru" class="d-none">фамилия</span>
               </label>
               <input
                 type="text"
@@ -119,10 +67,6 @@
             <div class="form-group pb-3 col-5">
               <label for="prenom">
                 <span data-lang="fr">Prénom</span>
-                <span data-lang="nl" class="d-none">Voornaam</span>
-                <span data-lang="gb" class="d-none">First Name</span>
-                <span data-lang="ukr" class="d-none">ім'я та прізвище</span>
-                <span data-lang="ru" class="d-none">имя</span>
               </label>
               <input
                 type="text"
@@ -142,10 +86,6 @@
               <label for="gsm"
                 ><i class="fa fa-mobile" aria-hidden="true"></i>
                 <span data-lang="fr">GSM</span>
-                <span data-lang="nl" class="d-none">GSM</span>
-                <span data-lang="gb" class="d-none">Mobile phone</span>
-                <span data-lang="ukr" class="d-none">Мобільний телефон</span>
-                <span data-lang="ru" class="d-none">Мобильный телефон</span>
               </label>
               <input
                 type="text"
@@ -165,10 +105,6 @@
               <label for="telephone"
                 ><i class="fa fa-phone" aria-hidden="true"></i>
                 <span data-lang="fr">Téléphone</span>
-                <span data-lang="nl" class="d-none">Telefoon</span>
-                <span data-lang="gb" class="d-none">Telephone</span>
-                <span data-lang="ukr" class="d-none">Телефон</span>
-                <span data-lang="ru" class="d-none">Телефон</span>
               </label>
               <input
                 type="text"
@@ -188,10 +124,6 @@
               <label for="mail"
                 ><i class="fa fa-send" aria-hidden="true"></i>
                 <span data-lang="fr">Mail</span>
-                <span data-lang="nl" class="d-none">Mail</span>
-                <span data-lang="gb" class="d-none">Mail</span>
-                <span data-lang="ukr" class="d-none">пошта</span>
-                <span data-lang="ru" class="d-none">почта</span>
               </label>
               <input
                 type="mail"
@@ -210,10 +142,6 @@
             >
               <label for="adresse">
                 <span data-lang="fr">Adresse</span>
-                <span data-lang="nl" class="d-none">Adres</span>
-                <span data-lang="gb" class="d-none">Address</span>
-                <span data-lang="ukr" class="d-none">Адреса</span>
-                <span data-lang="ru" class="d-none">Адрес</span>
               </label>
               <input
                 type="text"
@@ -232,10 +160,6 @@
             >
               <label for="cpost">
                 <span data-lang="fr">Code postal</span>
-                <span data-lang="nl" class="d-none">Postcode</span>
-                <span data-lang="gb" class="d-none">Zip code</span>
-                <span data-lang="ukr" class="d-none">Поштовий індекс</span>
-                <span data-lang="ru" class="d-none">Почтовый индекс</span>
               </label>
               <input
                 type="text"
@@ -254,10 +178,6 @@
             >
               <label for="commune">
                 <span data-lang="fr">Commune</span>
-                <span data-lang="nl" class="d-none">Gemeente</span>
-                <span data-lang="gb" class="d-none">Municipality</span>
-                <span data-lang="ukr" class="d-none">Муніципалітет</span>
-                <span data-lang="ru" class="d-none">Адрес</span>
               </label>
               <input
                 type="text"
@@ -272,10 +192,6 @@
             <div class="form-group pb-3 col-12">
               <label for="tva">
                 <span data-lang="fr">Numéro de TVA</span>
-                <span data-lang="nl" class="d-none">BTW nummer</span>
-                <span data-lang="gb" class="d-none">VAT number</span>
-                <span data-lang="ukr" class="d-none">Номер ПДВ</span>
-                <span data-lang="ru" class="d-none">Номер НДС</span>
               </label>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -336,8 +252,10 @@
         <button
           type="button"
           class="btn btn-primary"
-          id="btn-autoSaveClient"
+          id="btn-saveClient"
+          {if ($dataClient.rgpd != 1)}
           disabled
+          {/if}
         >
           Enregistrer
         </button>
@@ -357,11 +275,6 @@
 </style>
 
 <script>
-  // function refreshCaptcha(){
-  //   var image = $('#captcha_image');
-  //   var source = image.attr('src');
-  //   $('#captcha_image').attr('src', source.substring(0, source.lastIndexOf("?")) + "?rand=" + Math.random()*1000);
-  // }
 
   function phoneFormatter() {
     $(".phone").on("input", function () {
@@ -381,92 +294,11 @@
     });
   }
 
-  var rgpd = [];
-  rgpd["fr"] =
-    "J'accepte que mes données personnelles soient conservées le temps nécessaire au service fourni par Oxfam asbl.";
-  rgpd["nl"] =
-    "Ik ga ermee akkoord dat mijn persoonlijke gegevens bewaard worden zolang dat nodig is voor de dienstverlening van Oxfam vzw.";
-  rgpd["gb"] =
-    "I agree to my personal data being stored for as long as is necessary for the service provided by Oxfam asbl.";
-  rgpd["ukr"] =
-    "Я погоджуюсь, що мої персональні дані зберігатимуться стільки, скільки це необхідно для надання послуг, що надаються Oxfam asbl.";
-  rgpd["ru"] =
-    "Я согласен на то, что мои персональные данные будут храниться столько, сколько необходимо для оказания услуг, предоставляемых Oxfam asbl.";
-
-  var infoRgpd = [];
-  infoRgpd["fr"] =
-    "<strong>Oxfam Informatique</strong> s'engage à n'utiliser vos informations que pour des raisons d'usages internes au magasin ou, si nécessaire, aux services techniques de Oxfam. En aucune cas, vos informations ne seront transmises à des tiers.";
-  infoRgpd["nl"] =
-    "<strong>Oxfam Informatique</strong> verbindt zich ertoe uw gegevens uitsluitend te gebruiken voor intern gebruik door de winkel of, indien nodig, door de technische diensten van Oxfam. Uw gegevens worden in geen geval doorgegeven aan derden.";
-
-  infoRgpd["gb"] =
-    "<strong>Oxfam Informatique</strong> undertakes to use your information only for internal use by the shop or, if necessary, by Oxfam's technical services. Under no circumstances will your information be passed on to third parties.";
-
-  infoRgpd["ukr"] =
-    "<strong>Oxfam Informatique</strong> зобов'язується використовувати вашу інформацію лише для внутрішнього використання магазином або, за необхідності, технічними службами Oxfam. За жодних обставин ваша інформація не буде передана третім особам.";
-
-  infoRgpd["ru"] =
-    "<strong>Oxfam Informatique</strong> обязуется использовать вашу информацию только для внутреннего использования магазином или, при необходимости, техническими службами Oxfam. Ни при каких обстоятельствах ваша информация не будет передана третьим лицам.";
-
-  var civilite1 = [];
-  civilite1['fr'] = "Genre";
-  civilite1['nl'] = "Gender";
-  civilite1['gb'] = "Gender";
-  civilite1['ukr'] = "стать";
-  civilite1['ru'] = "пол";
-
   $(document).ready(function () {
-    // refreshCaptcha();
 
     $("#rgpd").on("change", function () {
       var info = $(this).is(":checked");
-      $("#btn-autoSaveClient").prop("disabled", !info);
-    });
-
-    $("#lang").on("change", function () {
-      var lang = $(this).val();
-      // cacher les contenus de tous les éléments "span" contenus dans des "label"
-      $("label span").addClass("d-none");
-      $("#civilite option").addClass("d-none");
-      // rétablir ceux dont la langue a été sélectionnée
-      $(
-        'label [data-lang="' + lang + '"], option[data-lang="' + lang + '"]'
-      ).removeClass("d-none");
-      $("#lblrgpd").text(rgpd[lang]);
-      $("#textRgpd").html(infoRgpd[lang]);
-      $("input:text").each(function (index) {
-        if ($(this).prev().is("label")) {
-          var leTexte = $(this)
-            .prev("label")
-            .find('span[data-lang="' + lang + '"]')
-            .text();
-        } else
-          var leTexte = $(this)
-            .closest(".form-group")
-            .find('span[data-lang="' + lang + '"]')
-            .text();
-        $(this).attr("placeholder", leTexte);
-
-        var texteOption = civilite1[lang];
-        $('#civilite option').first().text(texteOption);
-      });
-    });
-
-    // $('#nom').prev('label').find('span[data-lang="ukr"]').text()
-
-    $("input#captcha").on("keyup", function (event) {
-      var captcha = $("#captcha").val();
-      $.post(
-        "inc/checkCaptcha.inc.php",
-        {
-          captcha: captcha,
-        },
-        function (resultat) {
-          // if (resultat == true)
-          //   $('#btn-autoSaveClient').prop('disabled', false);
-          // else $('#btn-autoSaveClient').prop('disabled', true);
-        }
-      );
+      $("#btn-saveClient").prop("disabled", !info);
     });
 
     $("#infoRgpd").click(function () {
@@ -475,10 +307,6 @@
         title: "RGPD",
         message: texte,
       });
-    });
-
-    $("#recaptcha").click(function () {
-      refreshCaptcha();
     });
 
     $(phoneFormatter);
