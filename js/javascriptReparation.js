@@ -158,11 +158,13 @@ $(function () {
   $("body").on("click", "#btn-saveBon", function (event) {
     testSession(event);
     if ($("#modalFormBon").valid()) {
-      // var numeroBon = $("#modalFormBon input#numeroBon").val();
       // L'identifiant du client se trouve dans le formulaire modal
       var idClient = $("#modalFormBon input#idClient").val();
 
       var formulaire = $("#modalFormBon").serialize();
+      // quel est l'état du travail: terminé ou en cours?
+      var termine = $("#modalFormBon input[name='termine']:checked").val();
+
       $.post(
         "inc/reparations/saveBon.inc.php",
         {
@@ -180,7 +182,6 @@ $(function () {
             title: "Enregistrement",
             message: "Fiche de réparation n° " + numeroBon + " enregistrée",
             callback: function () {
-              var numeroBon = Cookies.get("bonEnCours");
               // rafraîchir l'écran par "fiches clients" ou "par fiches de travail"
 
               // s'il y a un tableau des clients à l'écran en zone gauche
@@ -202,10 +203,10 @@ $(function () {
                     $('.nav-link[data-numerobon="' + numeroBon + '"]').trigger(
                       "click"
                     );
-                    // actualiser la liste des clients par ordre de dates
-                    $("button.clientParDate").trigger("click");
+
                     // y a-t-il une ligne correspondant à idClient dans la liste de gauche?
                     var obj = $('tr[data-idclient="' + idClient + '"]');
+                    // ramener doucement cette ligne en vue
                     if (obj.length != 0) {
                       obj[0].scrollIntoView({
                         behavior: "smooth",
@@ -219,12 +220,11 @@ $(function () {
                 $.post(
                   "inc/reparations/getListeBons.inc.php",
                   {
-                    termine: false,
+                    termine: termine,
                     bonEnCours: numeroBon,
                   },
                   function (resultat) {
                     $("#unique").html(resultat);
-                    $('#listeReparations tr[data-numerobon="154"]');
                     var obj = $(
                       '#listeReparations tr[data-numerobon="' + numeroBon + '"]'
                     );

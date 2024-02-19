@@ -8,11 +8,11 @@ require_once '../../config.inc.php';
 include '../entetes.inc.php';
 
 $idClient = isset($_POST['idClient']) ? $_POST['idClient'] : null;
-$bonGarantie = isset($_POST['bonGarantie']) ? $_POST['bonGarantie'] : null;
 
+// identité du client
 $identiteClient = $User->getDataUser($idClient);
     
-// liste de toutes les fiches de garantiespour le client en cours
+// liste de toutes les fiches de garanties pour le client en cours
 // y compris les marchandises
 // y compris les conditions particulières de vente
 $listeBonsGarantie = $Garantie->getGaranties4Client($idClient);

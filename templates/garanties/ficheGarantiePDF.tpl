@@ -41,7 +41,8 @@
   {include file="garanties/tableauItemsPDF.tpl"}
 
   <div style="font-size: 10pt">
-    {$condPart.texte|default:''|nl2br}
+    
+    {include file="garanties/inc/condPartHRTextPDF.tpl"}
   </div>
 
   <div id="cgv" style="font-size: 7pt; width: 98%">

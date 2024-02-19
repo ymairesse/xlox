@@ -37,29 +37,35 @@
           aria-label="Condition particulière" 
           name="typeCondPart" 
           id="typeCondPart"
-          data-ticketcaisse="{$ticketCaisse}">
-          <option value="">Aucune condition particulière</option>
-          <option value="CPAS"{if $condPart.typeCondPart == 'CPAS'} selected{/if}>Bon CPAS</option>
-          <option value="Facture"{if $condPart.typeCondPart == 'Facture'} selected{/if}>Facture acquitée demandée</option>
+          data-ticketcaisse="{$ticketCaisse}"
+          >
+          <option value="" {if $type != Null}disabled{/if}>Aucune condition particulière</option>
+          <option value="CPAS"{if $type == 'CPAS'} selected{/if} {if ($type != Null) && ($type != 'CPAS')} disabled{/if}>Bon CPAS</option>
+          <option value="Facture"{if $type == 'Facture'} selected{/if} {if ($type != Null) && ($type != 'Facture')} disabled{/if}>Facture acquitée demandée</option>
         </select>
       </div>
 
-          <div class="mb-3">
-            <label for="textCondPart" class="form-label"
-              >Informations complémentaires</label
-            >
-            <textarea
-              class="form-control"
-              name="texte"
-              id="textCondPart"
-              rows="3"
-            >
-{$condPart.texte|default:''}</textarea
-            >
+          <div class="mb-3" id="formCondPart">
+
+              {if $type == 'CPAS'} 
+                {include file="garanties/inc/formCpas.tpl"}
+
+              {elseif $type == 'Facture'}
+
+                {include file="garanties/inc/formFacture.tpl"}
+
+             {/if}
+          
           </div>
+
+
         </form>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-sm me-auto" id="btn-delCondPart" data-ticketcaisse="{$ticketCaisse}">
+          <i class="fa fa-times"></i>
+          Supprimer condition particulière</button>
+     
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Annuler
         </button>
@@ -70,7 +76,8 @@
         >
           Enregistrer
         </button>
-      </div>
+    </div>
+
     </div>
   </div>
 </div>
@@ -84,3 +91,22 @@
     background-color: #ffef007a;
   }
 </style>
+
+<script>
+
+  $(document).ready(function(){
+
+    $('#typeCondPart').on('change', function(){
+      var type = $(this).val();
+      $.post('inc/garanties/getFormCondPart.inc.php', {
+        type: type
+      }, function(resultat) {
+        $('#formCondPart').html(resultat)
+      } 
+      );
+    })
+
+
+  })
+
+</script>

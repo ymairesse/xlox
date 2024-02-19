@@ -10,7 +10,7 @@ require_once '../../inc/entetes.inc.php';
 
 // si pas d'utilisateur authentifié en SESSION et répertorié dans la BD, on renvoie à l'accueil
 if ($User == null) {
-	header('Location: '.BASEDIR.'/index.php');
+	header('Location: ../../index.php');
 	exit;
 }
 
@@ -25,18 +25,25 @@ $smarty->assign('dataClient', $dataClient);
 
 // informations générales sur la garantie 
 $dataGarantie = $Garantie->getDataGarantie($ticketCaisse);
-
-
 $smarty->assign('dataGarantie', $dataGarantie);
 
 // items présents sur la garantie
 $listeItems = $Garantie->getItems4ticketCaisse($ticketCaisse);
 $smarty->assign('listeItems', $listeItems);
 
+
+
+
 // conditions particulières de vente
 $condPart = $Garantie->getConditionsPart($ticketCaisse);
-$smarty->assign('condPart', $condPart);
 
+$type = $condPart['typeCondPart'];
+$texte = $condPart['texte'];
+
+$texte = json_decode($texte, true)[$type];
+
+$smarty->assign('texte', $texte);
+$smarty->assign('type', $type);
 $smarty->assign('ticketCaisse', $ticketCaisse);
 $smarty->assign('idClient', $idClient);
 

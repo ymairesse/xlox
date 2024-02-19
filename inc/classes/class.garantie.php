@@ -82,12 +82,43 @@ class Garantie {
             if ($resultat) {
                 $requete3->setFetchMode(PDO::FETCH_ASSOC);
                 while ($ligne = $requete3->fetch()) {
+                    // le numéro du ticket de caisse
                     $ticketCaisse = $ligne['ticketCaisse'];
+                    $typeCondPart = $ligne['typeCondPart'];
                     $texte = $ligne['texte'];
-                    $listeCondPart[$ticketCaisse] = $ligne;
+                    // le texte est au format json comme enregistré dans la BD
+                    // Exemple: '{"CPAS":{"commune":"Ixelles","date":"2024-02-13","dossier":"s23q43654","montant":"300","remarque":"0000000"}}';
+                    // on le convertit en array PHP
+   
+                    $texte = json_decode($texte, true);
+                    // conversion en array
+                    // array (
+                    //     'CPAS' => 
+                    //     array (
+                    //       'commune' => 'Ixelles',
+                    //       'date' => '2024-02-13',
+                    //       'dossier' => 's23q43654',
+                    //       'montant' => '300',
+                    //       'remarque' => '0000000',
+                    //     ),
+                    //   ),
+                    // On ne garde finalement pas le type conservé dasn $typeCondPart
+
+                    $texte = $texte[$typeCondPart];
+                    // array (
+                    //     'commune' => 'Ixelles',
+                    //     'date' => '2024-02-13',
+                    //     'dossier' => 's23q43654',
+                    //     'montant' => '300',
+                    //     'remarque' => '0000000',
+                    //   ),
+                    $listeCondPart[$ticketCaisse] = array(
+                        'typeCondPart' => $typeCondPart,
+                        'texte' => $texte, 
+                    ); 
                 }
             }
-            // coller les textes des conditions particulières aux bons de garantie
+            // coller les conditions particulières aux bons de garantie
             foreach ($listeBonsGarantie as $ticketCaisse => $unBon){
                 if (isset($listeCondPart[$ticketCaisse])) {
                     $listeBonsGarantie[$ticketCaisse]['condPart'] = $listeCondPart[$ticketCaisse];
@@ -530,7 +561,7 @@ class Garantie {
     $requete = $connexion->prepare($sql);
 
     $requete->bindParam(':ticketCaisse', $ticketCaisse, PDO::PARAM_STR, 10);
-
+    // initialisation -------------------------------
     $condPart = array('ticketCaisse' => $ticketCaisse, 'texte' => '', 'typeCondPart' => '');
 
 

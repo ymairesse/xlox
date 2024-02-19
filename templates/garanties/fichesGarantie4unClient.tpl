@@ -55,8 +55,9 @@
   {/if}
 
   <div class="tab-content row">
-    {if $listeBonsGarantie|count > 0} {foreach from=$listeBonsGarantie
-    key=ticketCaisse item=uneGarantie name=garanties}
+    {if $listeBonsGarantie|count > 0} 
+    
+    {foreach from=$listeBonsGarantie key=ticketCaisse item=uneGarantie name=garanties}
 
     <div
       class="tab-pane {if $smarty.foreach.garanties.index == 0} active{/if}"
@@ -74,7 +75,10 @@
           <!-- emplacement pour reconstruire le tableau des items de garantie -->
 
           {include file='garanties/inc/tableauItems.tpl'} 
+
           {include file='garanties/inc/conditionsParticulieres.tpl'} 
+
+
           {include file='garanties/inc/boutonsEditDelPrint.tpl'}
         </div>
       </form>

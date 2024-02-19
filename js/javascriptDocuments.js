@@ -117,28 +117,76 @@ $(function () {
   $("body").on("click", "#btn-savemodalCondPart", function (event) {
     testSession(event);
     var formulaire = $("#formmodalCondPart").serialize();
+
     var ticketCaisse = $("#formmodalCondPart input#ticketCaisse").val();
+    var typeCondPart = $("#formmodalCondPart select#typeCondPart").val();
     var idClient = $("table.listeClients tr.choosen").data("idclient");
+
     $.post(
       "inc/garanties/saveConditionsPart.inc.php",
       {
         formulaire: formulaire,
         idClient: idClient,
       },
-      function (resultatJSON) {
+      function (resultatTexteBD) {
+        // le texte brut tel qu'enregistré dans la BD
         $("#modalCondPart").modal("hide");
-        var resultat = JSON.parse(resultatJSON);
-        var ticketcaisse = resultat["ticketCaisse"];
-        var texte = resultat["texte"];
-        var condPart = resultat["condPart"];
-        // placer le texte dans le textarea
-        $("textarea").val(texte);
-        // placer le type dans le bouton
-        $('#btn-conditionsPart[data-ticketcaisse="' + ticketCaisse + '"]').text(
-          condPart
+        // exemple de "resultatTexteBD"
+        //
+        // '{"CPAS":{"commune":"Ixelles","date":"2024-02-17","dossier":"S56789","montant":"300","remarque":""}}'
+
+        // ce texte doit encore être rendu "lisible"
+        $.post(
+          "inc/garanties/getHumanCondPart.inc.php",
+          {
+            texte: resultatTexteBD,
+            typeCondPart: typeCondPart,
+          },
+          function (resultat) {
+            // placer le texte dans le div qui va bien
+            $(".texteCondPart[data-ticketcaisse='" + ticketCaisse + "'").html(
+              resultat
+            );
+          }
         );
+
+        $('table.listeClients[data-mode="garantie"] tr.choosen').trigger('click');
+        $("table.listeClients tr.choosen")[0].scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+
       }
     );
+  });
+
+  // --------------------------------------------------------------------
+  // Suppression d'une condition particulière de vente
+  // --------------------------------------------------------------------
+  $("body").on("click", "#btn-delCondPart", function (event) {
+    testSession(event);
+    var ticketCaisse = $(this).data("ticketcaisse");
+    bootbox.confirm({
+      title: "Suppression de la condition particulière",
+      message:
+        "Veuillez confirmer la suppression pour la garantie <strong>#" +
+        ticketCaisse +
+        "</strong>",
+      backdrop: false,
+      callback: function (result) {
+        if (result == true)
+          $.post(
+            "inc/garanties/delConditionPart.inc.php",
+            {
+              ticketCaisse: ticketCaisse,
+            },
+            function (resultat) {
+              $("#modalCondPart").modal("hide");
+              $("table.listeClients tr.choosen").trigger("click");
+            }
+          );
+      },
+    });
   });
 
   // ------------------------------------------------------------------
@@ -183,7 +231,7 @@ $(function () {
     function (event) {
       testSession(event);
       var idClient = $(this).data("idclient");
-      var sortClient = Cookies.get("sortClient");
+      // var sortClient = Cookies.get("sortClient");
 
       // dans le conteneur trouvé ci-dessus et pas dans un autre
       // qui contiendrait aussi la liste des clients
