@@ -11,12 +11,10 @@
         <!-- L'utlisateur actif ne peut modifier son propre profil -->
     {foreach from=$listeUsers key=idOneUser item=user}
 
-        {if $idOneUser != $idUserSelf}
         <tr class="{if $idOneUser == $idUser}choosen{/if}" data-iduser="{$idOneUser}">
             <td>{$user.nom} {$user.prenom}</td>
             <td>{$user.droits}</td>
         </tr>
-        {/if}
 
     {/foreach}
 

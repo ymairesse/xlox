@@ -1,8 +1,10 @@
 <h2>
-  <u
-    >[{if $dataUser.civilite == 'F'}Madame{elseif $dataUser.civilite ==
-    'M'}Monsieur{else}M./Mme {/if} {$dataUser.prenom} {$dataUser.nom}]</u
-  >
+  <u>[{if $dataUser.civilite == 'F'}Madame
+      {elseif $dataUser.civilite == 'M'}Monsieur
+      {else}M./Mme 
+    {/if} 
+    {$dataUser.prenom} {$dataUser.nom}]
+  </u>
 </h2>
 
 <form autocomplete="false" id="formUser">
@@ -17,7 +19,11 @@
         ></label>
         <input type="text" class="form-control modalOpen" name="civilite" id="civilite"
         readonly 
-        value="{if $dataUser.civilite == 'F'}Madame{elseif $dataUser.civilite == 'M'}Monsieur{elseif $dataUser.civilie == 'X'}Mme/M.{else}-{/if}"
+        value="{if $dataUser.civilite == 'F'}Madame
+            {elseif $dataUser.civilite == 'M'}Monsieur
+            {elseif $dataUser.civilite == 'X'}Mme/M.
+            {else}-
+          {/if}"
           placeholder="Civ."
         />
       </div>

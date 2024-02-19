@@ -22,6 +22,7 @@
         ></button>
       </div>
       <div class="modal-body">
+        <h1>test</h1>
 
         <form autocomplete="false" id="modalFormClient">
           <input type="hidden" name="idUser" value="{$dataClient.idUser|default:''}">

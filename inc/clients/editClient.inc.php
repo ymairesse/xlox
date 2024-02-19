@@ -22,4 +22,4 @@ else $dataClient = Null;
 $smarty->assign('idClient', $idClient);
 $smarty->assign('dataClient', $dataClient);
 
-$smarty->display('modal/modalEditClient.tpl');
+$smarty->display('clients/modal/modalEditClient.tpl');
