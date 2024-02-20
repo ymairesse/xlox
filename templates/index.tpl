@@ -12,7 +12,7 @@
       type="text/css"
       media="screen, print"
     />
-
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <script src="bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="js/jquery-3.7.0.min.js"></script>
