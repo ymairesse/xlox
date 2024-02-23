@@ -23,7 +23,7 @@
           class="form-control"
           id="remarque"
           name="remarque"
-          value="{$texte.remarque}"
+          value="{$texte.remarque|default:''}"
           placeholder="Remarque optionnelle"
         />
       </div>

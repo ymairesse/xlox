@@ -561,9 +561,9 @@ class Garantie {
     $requete = $connexion->prepare($sql);
 
     $requete->bindParam(':ticketCaisse', $ticketCaisse, PDO::PARAM_STR, 10);
+
     // initialisation -------------------------------
     $condPart = array('ticketCaisse' => $ticketCaisse, 'texte' => '', 'typeCondPart' => '');
-
 
     $resultat = $requete->execute();
     if ($resultat) {

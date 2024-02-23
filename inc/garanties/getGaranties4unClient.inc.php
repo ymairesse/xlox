@@ -17,7 +17,6 @@ $identiteClient = $User->getDataUser($idClient);
 // y compris les conditions particulières de vente
 $listeBonsGarantie = $Garantie->getGaranties4Client($idClient);
 
-
 $listeNumerosBons = array_keys($listeBonsGarantie);
 
 $smarty->assign('idClient', $idClient);

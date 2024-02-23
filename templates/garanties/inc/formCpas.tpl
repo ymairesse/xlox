@@ -6,7 +6,7 @@
       class="form-control"
       name="commune"
       id="commune"
-      value="{$texte.commune}"
+      value="{$texte.commune|default:''}"
       placeholder="Commune"
     />
   </div>
@@ -18,7 +18,7 @@
       class="form-control"
       id="date"
       name="date"
-      value="{$texte.date}"
+      value="{$texte.date|default:''}"
       placeholder="Date CPAS"
     />
   </div>
@@ -30,7 +30,7 @@
       class="form-control"
       name="dossier"
       id="dossier"
-      value="{$texte.dossier}"
+      value="{$texte.dossier|default:''}"
       placeholder="Référence du dossier CPAS"
     />
   </div>
@@ -42,7 +42,7 @@
       class="form-control"
       id="montant"
       name="montant"
-      value="{$texte.montant}"
+      value="{$texte.montant|default:''}"
       placeholder="Montant alloué"
     />
   </div>
@@ -56,7 +56,7 @@
       class="form-control"
       id="remarque"
       name="remarque"
-      value="{$texte.remarque}"
+      value="{$texte.remarque|default:''}"
       placeholder="Ajouté par le client"
     />
   </div>

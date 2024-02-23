@@ -19,7 +19,7 @@
   <div class="col-9 condPart">
 
     <div class="p-2 texteCondPart" data-ticketcaisse="{$ticketCaisse}">
-      {assign var=texte value=$uneGarantie.condPart.texte} 
+      {assign var=texte value=$uneGarantie.condPart.texte|default:''} 
       
       {include file="garanties/inc/condPartHRText.tpl"}
       
