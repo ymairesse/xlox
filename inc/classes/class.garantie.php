@@ -82,43 +82,14 @@ class Garantie {
             if ($resultat) {
                 $requete3->setFetchMode(PDO::FETCH_ASSOC);
                 while ($ligne = $requete3->fetch()) {
-                    // le numéro du ticket de caisse
-                    $ticketCaisse = $ligne['ticketCaisse'];
                     $typeCondPart = $ligne['typeCondPart'];
+                    $ticketCaisse = $ligne['ticketCaisse'];
                     $texte = $ligne['texte'];
-                    // le texte est au format json comme enregistré dans la BD
-                    // Exemple: '{"CPAS":{"commune":"Ixelles","date":"2024-02-13","dossier":"s23q43654","montant":"300","remarque":"0000000"}}';
-                    // on le convertit en array PHP
-   
-                    $texte = json_decode($texte, true);
-                    // conversion en array
-                    // array (
-                    //     'CPAS' => 
-                    //     array (
-                    //       'commune' => 'Ixelles',
-                    //       'date' => '2024-02-13',
-                    //       'dossier' => 's23q43654',
-                    //       'montant' => '300',
-                    //       'remarque' => '0000000',
-                    //     ),
-                    //   ),
-                    // On ne garde finalement pas le type conservé dasn $typeCondPart
-
-                    $texte = $texte[$typeCondPart];
-                    // array (
-                    //     'commune' => 'Ixelles',
-                    //     'date' => '2024-02-13',
-                    //     'dossier' => 's23q43654',
-                    //     'montant' => '300',
-                    //     'remarque' => '0000000',
-                    //   ),
-                    $listeCondPart[$ticketCaisse] = array(
-                        'typeCondPart' => $typeCondPart,
-                        'texte' => $texte, 
-                    ); 
+                    $formulaire = json_decode($texte, true);
+                    $listeCondPart[$ticketCaisse] = array('typeCondPart' => $typeCondPart, 'formulaire' => $formulaire);
                 }
             }
-            // coller les conditions particulières aux bons de garantie
+            // coller les textes des conditions particulières aux bons de garantie
             foreach ($listeBonsGarantie as $ticketCaisse => $unBon){
                 if (isset($listeCondPart[$ticketCaisse])) {
                     $listeBonsGarantie[$ticketCaisse]['condPart'] = $listeCondPart[$ticketCaisse];
@@ -130,6 +101,87 @@ class Garantie {
         Application::DeconnexionPDO($connexion);
 
         return $listeBonsGarantie;
+    }
+
+    /**
+     * retourne les conditions particulières de vente pour le ticket de caisse $ticketCaisse
+     * 
+     * @param string $ticketCaisse
+     * 
+     * @return array
+     */
+    public function getConditionsPart($ticketCaisse){
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'SELECT ticketCaisse, texte, typeCondPart ';
+        $sql .= 'FROM '.PFX.'bonsGarantieCondPart ';
+        $sql .= 'WHERE ticketCaisse = :ticketCaisse ';
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':ticketCaisse', $ticketCaisse, PDO::PARAM_STR, 10);
+
+        $condPart = array();
+        $resultat = $requete->execute();
+
+        if ($resultat){
+            $requete->setFetchMode(PDO::FETCH_ASSOC);
+            $condPart = $requete->fetch();
+        }
+
+        Application::DeconnexionPDO($connexion);
+
+        return $condPart;
+    }
+
+    /**
+     * Enregistre les informations de conditions particulières de vente
+     * 
+     * @param $form array // contenu du formulaire d'édition
+     * 
+     * @return int
+     */
+    public function saveConditionsPart($ticketCaisse, $typeCondPart, $texte){
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'INSERT INTO '.PFX.'bonsGarantieCondPart ';
+        $sql .= 'SET ticketCaisse = :ticketCaisse, typeCondPart = :typeCondPart, texte = :texte ';
+        $sql .= 'ON DUPLICATE KEY UPDATE ';
+        $sql .=  'texte = :texte ';
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':ticketCaisse', $ticketCaisse, PDO::PARAM_STR, 10);
+        $requete->bindParam(':typeCondPart', $typeCondPart, PDO::PARAM_STR, 7);
+        $requete->bindParam(':texte', $texte, PDO::PARAM_STR);
+
+        $resultat = $requete->execute();
+
+        $nb = $requete->rowCount();
+
+        Application::DeconnexionPDO($connexion);
+
+        return $nb;
+    }
+
+    /**
+     * Suppression de la condition particulière de vente liée au $ticketCaisse
+     * 
+     * @param string $ticketCaisse
+     * 
+     * @return int
+     */
+    public function delConditionPart($ticketCaisse) {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'DELETE FROM '.PFX.'bonsGarantieCondPart ';
+        $sql .= 'WHERE ticketCaisse = :ticketCaisse ';
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':ticketCaisse', $ticketCaisse, PDO::PARAM_STR, 10);
+
+        $resultat = $requete->execute();
+
+        $nb = $requete->rowCount();
+
+        Application::DeconnexionPDO($connexion);
+
+        return $nb;
     }
 
     /**
@@ -545,87 +597,6 @@ class Garantie {
     return $materiel;
   }
 
-  /**
-   * renvoie le texte des conditions particulières pour le ticket de caisse $ticketCaisse
-   * 
-   * @param string $ticketCaisse
-   * @param string $typeCondPart
-   * 
-   * @return string
-   */
-  public function getConditionsPart($ticketCaisse) {
-    $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-    $sql = 'SELECT ticketCaisse, texte, typeCondPart ';
-    $sql .= 'FROM '.PFX.'bonsGarantieCondPart  ';
-    $sql .= 'WHERE ticketCaisse = :ticketCaisse ';
-    $requete = $connexion->prepare($sql);
 
-    $requete->bindParam(':ticketCaisse', $ticketCaisse, PDO::PARAM_STR, 10);
-
-    // initialisation -------------------------------
-    $condPart = array('ticketCaisse' => $ticketCaisse, 'texte' => '', 'typeCondPart' => '');
-
-    $resultat = $requete->execute();
-    if ($resultat) {
-        $requete->setFetchMode(PDO::FETCH_ASSOC);
-        $condPart = $requete->fetch();
-    }
-
-    Application::DeconnexionPDO($connexion);
-
-    return $condPart;
-  }
-
-  /**
-   * Enregistre le $texte des conditions particulières pour le ticket $ticketCaisse
-   * 
-   * @param string $ticketCaisse
-   * @param string $texte
-   * 
-   * @return int (nombre d'insertions)
-   */
-  public function saveConditionsPart($ticketCaisse, $typeCondPart, $texte){
-    $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-    $sql = 'INSERT INTO '.PFX.'bonsGarantieCondPart ';
-    $sql .= 'SET ticketCaisse = :ticketCaisse, typeCondPart = :typeCondPart, texte = :texte ';
-    $sql .= 'ON DUPLICATE KEY UPDATE texte = :texte, typeCondPart = :typeCondPart ';
-    $requete = $connexion->prepare($sql);
-
-    $requete->bindParam(':ticketCaisse', $ticketCaisse, PDO::PARAM_STR, 10);
-    $requete->bindParam(':typeCondPart', $typeCondPart, PDO::PARAM_STR);
-    $requete->bindParam(':texte', $texte, PDO::PARAM_STR);
-
-    $resultat = $requete->execute();
-
-    $rows = $requete->rowCount();
-
-    Application::DeconnexionPDO($connexion);
-
-    return $rows;
-  }
-
-  /**
-   * Effacement de la condition particulière de vente du $ticketCaisse
-   * 
-   * @param string $tickeCaisse
-   * 
-   * @return int
-   */
-  public function delConditionPart($ticketCaisse){
-    $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-    $sql = 'DELETE FROM '.PFX.'bonsGarantieCondPart ';
-    $sql .= 'WHERE ticketCaisse = :ticketCaisse ';
-    $requete = $connexion->prepare($sql);
-
-    $requete->bindParam(':ticketCaisse', $ticketCaisse, PDO::PARAM_STR, 10);
-
-    $resultat = $requete->execute();
-
-    $nb = $requete->rowCount();
-
-    Application::DeconnexionPDO($connexion);
-
-    return $nb;
-  }
 
 }
