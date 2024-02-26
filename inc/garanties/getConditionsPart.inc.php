@@ -9,14 +9,14 @@ include '../entetes.inc.php';
 
 $ticketCaisse = isset($_POST['ticketCaisse']) ? $_POST['ticketCaisse'] : null;
 
+// lecture de la table _bonsGarantieCondPart
 $condPart = $Garantie->getConditionsPart($ticketCaisse);
 
 if ($condPart != false) {
-    $type = $condPart['typeCondPart'];
+    $typeCondPart = $condPart['typeCondPart'];
     $texte = $condPart['texte'];
 
     // À ce moment, la présentation du texte extrait de la BD est du type suivant:
-    // {"CPAS":
     //     {
     //         "commune":"Ixelles",
     //         "date":"2024-02-17",
@@ -24,17 +24,16 @@ if ($condPart != false) {
     //         "montant":"300",
     //         "remarque":"25€ payés par le client"
     //     }
-    // }
 
-    $texte = json_decode($texte, true)[$type];
+    $texte = json_decode($texte, true);
 
-    // il ne reste plus que 
+    // il devient
     //     array (
     //      'commune' => 'Ixelles',
     //      'date' => '2024-02-17',
     //      'dossier' => 'S56789',
     //      'montant' => '300',
-    //      'remarque' => '',
+    //      'remarque' => '25€ payés par le client',
     //      )
     // qui sera injecté dans le formulaire de la boîte modale
     // précautions par l'échappement des caractères spéciaux
@@ -45,11 +44,11 @@ if ($condPart != false) {
     $texte['remarque'] = htmlspecialchars($texte['remarque'], ENT_QUOTES, 'UTF-8');
 }
 else {
-    $type = Null;
+    $typeCondPart = Null;
     $texte = Null;
 }
 
-$smarty->assign('type', $type);
+$smarty->assign('typeCondPart', $typeCondPart);
 $smarty->assign('ticketCaisse', $ticketCaisse);
 $smarty->assign('texte', $texte);
 

@@ -2,7 +2,7 @@
 
     <div class="col-12">
         <label for="facture" class="form-label"
-          >Facture</label
+          >Mention</label
         >
         <input
           type="text"

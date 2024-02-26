@@ -43,6 +43,7 @@
   <div style="font-size: 10pt">
     
     {include file="garanties/inc/condPartHRTextPDF.tpl"}
+    
   </div>
 
   <div id="cgv" style="font-size: 7pt; width: 98%">

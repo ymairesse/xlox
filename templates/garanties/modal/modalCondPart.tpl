@@ -22,50 +22,54 @@
       </div>
 
       <div class="modal-body">
+        
         <form id="formmodalCondPart">
-          <input
-            type="hidden"
-            name="ticketCaisse"
-            id="ticketCaisse"
-            value="{$ticketCaisse}"
-          />
-          <div class="mb-3">
-          <label for="typeCondPart" class="form-label">
-            Conditions particulières de vente
-          </label>
-          <select class="form-select" 
-          aria-label="Condition particulière" 
-          name="typeCondPart" 
-          id="typeCondPart"
-          data-ticketcaisse="{$ticketCaisse}"
-          >
-          <option value="" {if $type != Null}disabled{/if}>Aucune condition particulière</option>
-          <option value="CPAS"{if $type == 'CPAS'} selected{/if} {if ($type != Null) && ($type != 'CPAS')} disabled{/if}>Bon CPAS</option>
-          <option value="Facture"{if $type == 'Facture'} selected{/if} {if ($type != Null) && ($type != 'Facture')} disabled{/if}>Facture acquitée demandée</option>
-        </select>
-      </div>
+            <input
+              type="hidden"
+              name="ticketCaisse"
+              id="ticketCaisse"
+              value="{$ticketCaisse}"
+            />
+            <div class="mb-3">
+            <label for="typeCondPart" class="form-label">
+              Conditions particulières de vente
+            </label>
+            <select class="form-select" 
+            aria-label="Condition particulière" 
+            name="typeCondPart" 
+            id="typeCondPart"
+            data-ticketcaisse="{$ticketCaisse}"
+            >
+            <option value="" {if $typeCondPart != Null}disabled{/if}>Aucune condition particulière</option>
+            <option value="CPAS"{if $typeCondPart == 'CPAS'} selected{/if} {if ($typeCondPart != Null) && ($typeCondPart != 'CPAS')} disabled{/if}>Bon CPAS</option>
+            <option value="Facture"{if $typeCondPart == 'Facture'} selected{/if} {if ($typeCondPart != Null) && ($typeCondPart != 'Facture')} disabled{/if}>Facture</option>
+          </select>
 
           <div class="mb-3" id="formCondPart">
 
-              {if $type == 'CPAS'} 
-                {include file="garanties/inc/formCpas.tpl"}
+            {if $typeCondPart == 'CPAS'} 
 
-              {elseif $type == 'Facture'}
+              {include file="garanties/inc/formCpas.tpl"}
 
-                {include file="garanties/inc/formFacture.tpl"}
+            {elseif $typeCondPart == 'Facture'}
 
-             {/if}
-          
+              {include file="garanties/inc/formFacture.tpl"}
+
+           {/if}
+        
           </div>
 
+        </div>
 
         </form>
+
       </div>
       <div class="modal-footer">
+        {if $typeCondPart != Null}
         <button type="button" class="btn btn-danger btn-sm me-auto" id="btn-delCondPart" data-ticketcaisse="{$ticketCaisse}">
           <i class="fa fa-times"></i>
           Supprimer condition particulière</button>
-     
+        {/if}
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Annuler
         </button>
@@ -105,7 +109,6 @@
       } 
       );
     })
-
 
   })
 

@@ -32,18 +32,16 @@ $listeItems = $Garantie->getItems4ticketCaisse($ticketCaisse);
 $smarty->assign('listeItems', $listeItems);
 
 
-
-
 // conditions particulières de vente
 $condPart = $Garantie->getConditionsPart($ticketCaisse);
 
-$type = $condPart['typeCondPart'];
+$typeCondPart = $condPart['typeCondPart'];
 $texte = $condPart['texte'];
 
-$texte = json_decode($texte, true)[$type];
+$tableau = json_decode($texte, true);
 
-$smarty->assign('texte', $texte);
-$smarty->assign('type', $type);
+$smarty->assign('tableau', $tableau);
+$smarty->assign('typeCondPart', $typeCondPart);
 $smarty->assign('ticketCaisse', $ticketCaisse);
 $smarty->assign('idClient', $idClient);
 

@@ -59,6 +59,7 @@
     
     {foreach from=$listeBonsGarantie key=ticketCaisse item=uneGarantie name=garanties}
 
+    <!-- La première fiche de garantie est active par défaut (pourra être modifié ensuite) -->
     <div
       class="tab-pane {if $smarty.foreach.garanties.index == 0} active{/if}"
       data-ticketcaisse="{$ticketCaisse}"
@@ -74,6 +75,7 @@
         <div class="tableauGarantie" data-ticketcaisse="{$ticketCaisse}">
           <!-- emplacement pour reconstruire le tableau des items de garantie -->
 
+          <!-- le template reçoit $uneGarantie -->
           {include file='garanties/inc/tableauItems.tpl'} 
 
           {include file='garanties/inc/conditionsParticulieres.tpl'} 

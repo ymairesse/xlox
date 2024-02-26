@@ -1,20 +1,20 @@
 <table class="table table-condensed" style="width: 100%">
-  {if $type == 'CPAS'}
+  {if $typeCondPart == 'CPAS'}
   <tr>
-    <td style="width: 50%"><strong>Commune:</strong> {$texte.commune|default:''}</td>
+    <td style="width: 50%"><strong>Commune:</strong> {$tableau.commune|default:''}</td>
     <td style="width: 50%">
-      <strong>Montant alloué: </strong> {$texte.montant|default:''} €
+      <strong>Montant alloué: </strong> {$tableau.montant|default:''} €
     </td>
   </tr>
   <tr>
-    <td style="width: 50%"><strong>Dossier: </strong> {$texte.dossier|default:''}</td>
+    <td style="width: 50%"><strong>Dossier: </strong> {$tableau.dossier|default:''}</td>
     <td style="width: 50%">
-      <strong>Décision du </strong> {$texte.date|date_format:"d/m/Y"|default:''}
+      <strong>Décision du </strong> {$tableau.date|date_format:"d/m/Y"|default:''}
     </td>
   </tr>
   <tr>
     <td colspan="2" style="width: 100%">
-      <strong>Remarque: </strong> {$texte.remarque|default:''}
+      <strong>Remarque: </strong> {$tableau.remarque|default:''}
     </td>
   </tr>
   <tr>
@@ -26,12 +26,12 @@
     </td>
   </tr>
 
-  {elseif $type == 'Facture'}
+  {elseif $typeCondPart == 'Facture'}
   <tr>
-    <td style="width: 100%"><strong>Facture:</strong> {$texte.facture|default:''}</td>
+    <td style="width: 100%"><strong>Facture:</strong> {$tableau.facture|default:''}</td>
   </tr>
   <tr>
-    <td style="width: 100%"><strong>Remarque: </strong> {$texte.remarque|default:''}</td>
+    <td style="width: 100%"><strong>Remarque: </strong> {$tableau.remarque|default:''}</td>
   </tr>
 
   {/if}

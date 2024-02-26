@@ -1,3 +1,43 @@
+<!--
+  L'élément $uneGarantie est du type
+Array
+(
+    [ticketCaisse] => 1007457 
+    [idClient] => 60 
+    [date] => 2024-02-19
+    [items] => Array
+        (
+            [66] => Array
+                (
+                    [id] => 66
+                    [ticketCaisse] => 1007457
+                    [ox] => 
+                    [ref] => 
+                    [materiel] => Fujitsu E736 I3 13.3" 8GB 256GB SSD
+                    [prix] => 150
+                    [remarque] => 
+                )
+
+        )
+
+    [condPart] => Array
+        (
+            [typeCondPart] => CPAS
+            [texte] => Array
+                (
+                    [commune] => Anderlecht
+                    [date] => 2024-02-02
+                    [dossier] => S456789
+                    [montant] => 300
+                    [remarque] => 
+                )
+
+        )
+
+)
+
+-->
+
 <table class="table table-condensed table-striped w-100">
   <thead>
     <tr>
@@ -34,12 +74,12 @@
           <i class="fa fa-scissors" aria-hidden="true"></i>
         </button>
       </td>
-      <td class="materiel">{$unItem.materiel}</td>
-      <td>{$unItem.ox}</td>
-      <td>{$unItem.ref}</td>
-      <td>{$unItem.remarque}</td>
-      <td>{$uneGarantie.date|date_format:"%d/%m/%Y"}</td>
-      <td>{$unItem.prix} {if $unItem.prix != ''}€{/if}</td>
+      <td class="materiel">{$unItem.materiel|default:''}</td>
+      <td>{$unItem.ox|default:''}</td>
+      <td>{$unItem.ref|default:''}</td>
+      <td>{$unItem.remarque|default:''}</td>
+      <td>{$uneGarantie.date|date_format:"%d/%m/%Y"|default:''}</td>
+      <td>{$unItem.prix|default} {if $unItem.prix|default:'' != ''}€{/if}</td>
       <td>
         <button
           type="button"
@@ -52,7 +92,7 @@
       </td>
     </tr>
 
-    {assign var=total value=$total + $unItem.prix} 
+    {assign var=total value=$total + $unItem.prix|default:0} 
     
     {/foreach} 
     

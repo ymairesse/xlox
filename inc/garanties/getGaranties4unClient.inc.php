@@ -12,11 +12,11 @@ $idClient = isset($_POST['idClient']) ? $_POST['idClient'] : null;
 // identité du client
 $identiteClient = $User->getDataUser($idClient);
     
-// liste de toutes les fiches de garanties pour le client en cours
+// liste de tous les bons de garanties pour le client en cours
 // y compris les marchandises
 // y compris les conditions particulières de vente
 $listeBonsGarantie = $Garantie->getGaranties4Client($idClient);
-
+// Application::afficher($listeBonsGarantie);
 $listeNumerosBons = array_keys($listeBonsGarantie);
 
 $smarty->assign('idClient', $idClient);

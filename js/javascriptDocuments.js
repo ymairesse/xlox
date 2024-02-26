@@ -30,6 +30,7 @@ $(function () {
             behavior: "smooth",
             block: "center",
           });
+          $('#tabGaranties li[data-ticketcaisse="' + ticketCaisse + '"]').find('button').trigger('click')
       }
     );
   });
@@ -95,10 +96,10 @@ $(function () {
   // -----------------------------------------------------------------
   // gestion des conditions particulières (bons CPAS,...)
   // -----------------------------------------------------------------
-  $("body").on("click", ".editCondPart", function (event) {
+  $("body").on("click", ".btn-editCondPart", function (event) {
     testSession(event);
-    var ticketCaisse = $(this).data("ticketcaisse");
     if (isDoubleClicked($(this))) return;
+    var ticketCaisse = $(this).data("ticketcaisse");
     $.post(
       "inc/garanties/getConditionsPart.inc.php",
       {
@@ -111,54 +112,71 @@ $(function () {
     );
   });
 
+ 
+
+
   // -----------------------------------------------------------------
   // Enregistrement du texte des cond. Part. pour le $ticketCaisse
   // -----------------------------------------------------------------
-  $("body").on("click", "#btn-savemodalCondPart", function (event) {
+  $('body').on('click', '#btn-savemodalCondPart', function(event){
     testSession(event);
+    if (isDoubleClicked($(this))) return;
     var formulaire = $("#formmodalCondPart").serialize();
+    $.post('inc/garanties/saveConditionsPart.inc.php', {
+      formulaire: formulaire
+    }, function(resultat){
+      $('#modalCondPart').modal('hide');
+      $('table.listeClients tr.choosen').trigger('click');
+    })
 
-    var ticketCaisse = $("#formmodalCondPart input#ticketCaisse").val();
-    var typeCondPart = $("#formmodalCondPart select#typeCondPart").val();
-    var idClient = $("table.listeClients tr.choosen").data("idclient");
+  })
 
-    $.post(
-      "inc/garanties/saveConditionsPart.inc.php",
-      {
-        formulaire: formulaire,
-        idClient: idClient,
-      },
-      function (resultatTexteBD) {
-        // le texte brut tel qu'enregistré dans la BD
-        $("#modalCondPart").modal("hide");
-        // exemple de "resultatTexteBD"
-        //
-        // '{"CPAS":{"commune":"Ixelles","date":"2024-02-17","dossier":"S56789","montant":"300","remarque":""}}'
 
-        // ce texte doit encore être rendu "lisible"
-        $.post(
-          "inc/garanties/getHumanCondPart.inc.php",
-          {
-            texte: resultatTexteBD,
-            typeCondPart: typeCondPart,
-          },
-          function (resultat) {
-            // placer le texte dans le div qui va bien
-            $(".texteCondPart[data-ticketcaisse='" + ticketCaisse + "'").html(
-              resultat
-            );
-          }
-        );
+  // $("body").on("click", "#btn-savemodalCondPart", function (event) {
+  //   testSession(event);
+  //   var formulaire = $("#formmodalCondPart").serialize();
 
-        $('table.listeClients[data-mode="garantie"] tr.choosen').trigger('click');
-        $("table.listeClients tr.choosen")[0].scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
+  //   var ticketCaisse = $("#formmodalCondPart input#ticketCaisse").val();
+  //   var typeCondPart = $("#formmodalCondPart select#typeCondPart").val();
+  //   var idClient = $("table.listeClients tr.choosen").data("idclient");
 
-      }
-    );
-  });
+  //   $.post(
+  //     "inc/garanties/saveConditionsPart.inc.php",
+  //     {
+  //       formulaire: formulaire,
+  //       idClient: idClient,
+  //     },
+  //     function (resultatTexteBD) {
+  //       // le texte brut tel qu'enregistré dans la BD
+  //       $("#modalCondPart").modal("hide");
+  //       // exemple de "resultatTexteBD"
+  //       //
+  //       // '{"CPAS":{"commune":"Ixelles","date":"2024-02-17","dossier":"S56789","montant":"300","remarque":""}}'
+
+  //       // ce texte doit encore être rendu "lisible"
+  //       $.post(
+  //         "inc/garanties/getHumanCondPart.inc.php",
+  //         {
+  //           texte: resultatTexteBD,
+  //           typeCondPart: typeCondPart,
+  //         },
+  //         function (resultat) {
+  //           // placer le texte dans le div qui va bien
+  //           $(".texteCondPart[data-ticketcaisse='" + ticketCaisse + "'").html(
+  //             resultat
+  //           );
+  //         }
+  //       );
+
+  //       $('table.listeClients[data-mode="garantie"] tr.choosen').trigger('click');
+  //       $("table.listeClients tr.choosen")[0].scrollIntoView({
+  //         behavior: "smooth",
+  //         block: "center",
+  //       });
+
+  //     }
+  //   );
+  // });
 
   // --------------------------------------------------------------------
   // Suppression d'une condition particulière de vente
