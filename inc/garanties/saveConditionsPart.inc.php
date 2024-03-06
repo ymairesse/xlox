@@ -15,6 +15,8 @@ parse_str($formulaire, $form);
 $ticketCaisse = $form['ticketCaisse'];
 $typeCondPart = ($form['typeCondPart'] != '') ? $form['typeCondPart'] : Null;
 
+$idClient = ($_POST['idClient'] != '') ? $_POST['idClient'] : Null;
+
 switch ($typeCondPart) {
 
     case 'CPAS': {

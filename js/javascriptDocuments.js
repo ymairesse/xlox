@@ -30,7 +30,9 @@ $(function () {
             behavior: "smooth",
             block: "center",
           });
-          $('#tabGaranties li[data-ticketcaisse="' + ticketCaisse + '"]').find('button').trigger('click')
+        $('#tabGaranties li[data-ticketcaisse="' + ticketCaisse + '"]')
+          .find("button")
+          .trigger("click");
       }
     );
   });
@@ -112,25 +114,29 @@ $(function () {
     );
   });
 
- 
-
-
   // -----------------------------------------------------------------
   // Enregistrement du texte des cond. Part. pour le $ticketCaisse
   // -----------------------------------------------------------------
-  $('body').on('click', '#btn-savemodalCondPart', function(event){
+  $("body").on("click", "#btn-savemodalCondPart", function (event) {
     testSession(event);
     if (isDoubleClicked($(this))) return;
     var formulaire = $("#formmodalCondPart").serialize();
-    $.post('inc/garanties/saveConditionsPart.inc.php', {
-      formulaire: formulaire
-    }, function(resultat){
-      $('#modalCondPart').modal('hide');
-      $('table.listeClients tr.choosen').trigger('click');
-    })
-
-  })
-
+    var idClient = $("table.listeClients tr.choosen").data("idclient");
+    $.post(
+      "inc/garanties/saveConditionsPart.inc.php",
+      {
+        formulaire: formulaire,
+        idClient: idClient,
+      },
+      function (resultat) {
+        $("#modalCondPart").modal("hide");
+        // raffraîchir la vue du bon de garantie
+        $("table.listeClients tr.choosen").trigger("click");
+        // Si nécessaire, régénérer la liste des clients (date du dernier accès)
+        $('.btn-sort.btn-primary').trigger('click');
+      }
+    );
+  });
 
   // $("body").on("click", "#btn-savemodalCondPart", function (event) {
   //   testSession(event);
