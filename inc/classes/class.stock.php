@@ -17,7 +17,7 @@ class Stock {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'SELECT idMateriel, marque, modele, caracteristiques, prix ';
         $sql .= 'FROM '.PFX.'inventaire ';
-        $sql .= 'ORDER BY marque, modele ';
+        $sql .= 'ORDER BY marque, modele, caracteristiques ';
         $requete = $connexion->prepare($sql);
 
         $liste = array();

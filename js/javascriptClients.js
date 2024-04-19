@@ -303,11 +303,6 @@ $(function () {
     }
   });
 
-  // $("body").on("click", "#btn-resetClient", function (event) {
-  //   testSession(event);
-  //   clearForm($("#formClient"));
-  // });
-
   // ---------------------------------------------------------
   // présentation tri par date
   $("body").on("click", ".clientParDate", function (event) {

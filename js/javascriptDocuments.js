@@ -133,7 +133,7 @@ $(function () {
         // raffraîchir la vue du bon de garantie
         $("table.listeClients tr.choosen").trigger("click");
         // Si nécessaire, régénérer la liste des clients (date du dernier accès)
-        $('.btn-sort.btn-primary').trigger('click');
+        $(".btn-sort.btn-primary").trigger("click");
       }
     );
   });
@@ -521,10 +521,8 @@ $(function () {
     testSession(event);
     var ceci = $(this);
     var idItem = ceci.closest("tr").data("iditem");
-    var idBonGarantie = ceci.closest("tr").data("idbongarantie");
     var denomination = ceci.closest("tr").find(".materiel").text();
-    var idClient = ceci.closest("tr").data("idclient");
-
+    
     bootbox.confirm({
       title: "Suppression d'un item",
       message:
@@ -537,19 +535,16 @@ $(function () {
             "inc/garanties/delItemGarantie.inc.php",
             {
               idItem: idItem,
-              idClient: idClient,
             },
             function (resultat) {
-              // forcer la re-génération de l'ensemble des garanties (à améliorer?)
-              $(
-                'table.listeClients tr[data-idclient="' + idClient + '"]'
-              ).trigger("click");
+              ceci.closest('tr').remove();
             }
           );
         }
       },
     });
   });
+
 
   // ------------------------------------------------------------------------------
   // boutons helpers pour l'édition des marchandises dans bon de garantie ou devis

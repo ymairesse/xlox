@@ -22,183 +22,187 @@
 
         <form autocomplete="false" id="modalFormUser">
 
-          <input type="hidden" name="idUser" id="idUser" value="{$dataUser.idUser|default:''}">
-          <div class="row">
-            <div class="pb-3 col-2">
-              <label for="civilite">
-                <i class="fa fa-female" aria-hidden="true"></i> 
-                <i class="fa fa-male" aria-hidden="true"></i> 
-                <i class="fa fa-genderless" aria-hidden="true"></i>
-              </label>
-              <select name="civilite" id="civilite" class="form-control">
-                <option value="">Select</option>
-                <option value="F"{if $dataUser.civilite == 'F'} selected{/if}>Madame</option>
-                <option value="M"{if $dataUser.civilite == 'M'} selected{/if}>Monsieur</option>
-                <option value="X"{if $dataUser.civilite == 'X'} selected{/if}>MX</option>
-              </select>
-              
-            </div>
-            <div class="form-group pb-3 col-5">
-              <label for="nom">
-                  Nom
-              </label>
-              <input
-                type="text"
-                class="form-control"
-                name="nom"
-                id="nom"
-                value="{$dataUser.nom|default:''}"
-                placeholder="Nom"
-              />
-            </div>
-            <div class="form-group pb-3 col-5">
-              <label for="prenom">
-                Prénom
-              </label>
-              <input
-                type="text"
-                class="form-control"
-                name="prenom"
-                id="prenom"
-                value="{$dataUser.prenom|default:''}"
-                placeholder="Prénom"
-              />
-            </div>
+          <form autocomplete="false" id="modalFormUser">
 
-            <div class="form-group pb-3 col-4">
-              <label for="pseudo"><i class="fa fa-user-secret"></i> Alias</label>
-              <input type="text"
-              class="form-control"
-              name="pseudo"
-              id="pseudo"
-              value="{$dataUser.pseudo|default:''}"
-              >
-            </div>
-
-            <div class="form-group pb-3 col-4">
-              <label for="password">M. passe</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text addonMdp"><i class="fa fa-eye"></i></span>
-                  <input type="password" 
-                    class="form-control" 
-                    name="pwd" 
-                    id="pwd" 
-                    autocomplete="false" 
-                    value="" 
-                    placeholder="{if $idUser != ''}Laisser vide si inchangé{else}Au moins 6 caractères{/if}" 
-                    aria-describedby="addonMdp">
+            <input type="hidden" name="idUser" id="idUser" value="{$dataUser.idUser|default:''}">
+            <div class="row">
+              <div class="pb-3 col-2">
+                <label for="civilite">
+                  <i class="fa fa-female" aria-hidden="true"></i> 
+                  <i class="fa fa-male" aria-hidden="true"></i> 
+                  <i class="fa fa-genderless" aria-hidden="true"></i>
+                </label>
+                <select name="civilite" id="civilite" class="form-control">
+                  <option value="">Select</option>
+                  <option value="F"{if $dataUser.civilite == 'F'} selected{/if}>Madame</option>
+                  <option value="M"{if $dataUser.civilite == 'M'} selected{/if}>Monsieur</option>
+                  <option value="X"{if $dataUser.civilite == 'X'} selected{/if}>MX</option>
+                </select>
+                
               </div>
-            </div>
-
-
-            <div class="form-group pb-3 col-4">
-              <label for="droits"><i class="fa fa-user-plus" aria-hidden="true"></i> Droits
-                {if ($self.idUser == $dataUser.idUser)} [non modifiable]{/if}
-              </label>
-              {if ($self.droits != 'root') || ($self.idUser != $dataUser.idUser)}
-              <select name="droits" 
-                id="droits" 
+              <div class="form-group pb-3 col-5">
+                <label for="nom">
+                    Nom
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="nom"
+                  id="nom"
+                  value="{$dataUser.nom|default:''}"
+                  placeholder="Nom"
+                />
+              </div>
+              <div class="form-group pb-3 col-5">
+                <label for="prenom">
+                  Prénom
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="prenom"
+                  id="prenom"
+                  value="{$dataUser.prenom|default:''}"
+                  placeholder="Prénom"
+                />
+              </div>
+  
+              <div class="form-group pb-3 col-4">
+                <label for="pseudo"><i class="fa fa-user-secret"></i> Alias</label>
+                <input type="text"
                 class="form-control"
+                name="pseudo"
+                id="pseudo"
+                value="{$dataUser.pseudo|default:''}"
                 >
-                <option value="oxfam"{if $dataUser.droits == 'oxfam'} selected{/if}>oxfam</option>
-                <option value="root"{if $dataUser.droits == 'root'} selected{/if}>root</option>
-              </select>
-              {else} 
-              <input type="text" id="droits" name="droits" class="form-control" readonly value="{$dataUser.droits}">
-              {/if}
-            </div>
-            
-            
-            
-
-            <div class="form-group pb-3 col-6 col-md-4">
-              <label for="mail">
-                <i class="fa fa-send" aria-hidden="true"></i> Mail
-              </label
-              >
-              <input
-                type="mail"
-                class="form-control"
-                name="mail"
-                id="mail"
-                value="{$dataUser.mail|default:''}"
-                placeholder="Adresse mail"
-              />
-            </div>
-
-            <div class="form-group pb-3 col-6 col-md-4">
-              <label for="gsm"
-                ><i class="fa fa-mobile" aria-hidden="true"></i> 
-                GSM
+              </div>
+  
+              <div class="form-group pb-3 col-4">
+                <label for="password">M. passe</label>
+                <div class="input-group mb-3">
+                  <span class="input-group-text addonMdp"><i class="fa fa-eye"></i></span>
+                    <input type="password" 
+                      class="form-control" 
+                      name="pwd" 
+                      id="pwd" 
+                      autocomplete="false" 
+                      value="" 
+                      placeholder="{if $idUser != ''}Laisser vide si inchangé{else}Au moins 6 caractères{/if}" 
+                      aria-describedby="addonMdp">
+                </div>
+              </div>
+  
+  
+              <div class="form-group pb-3 col-4">
+                <label for="droits"><i class="fa fa-user-plus" aria-hidden="true"></i> Droits
+                  {if ($self.idUser == $dataUser.idUser)} [non modifiable]{/if}
+                </label>
+                {if ($self.droits != 'root') || ($self.idUser != $dataUser.idUser)}
+                <select name="droits" 
+                  id="droits" 
+                  class="form-control"
+                  >
+                  <option value="oxfam"{if $dataUser.droits == 'oxfam'} selected{/if}>oxfam</option>
+                  <option value="root"{if $dataUser.droits == 'root'} selected{/if}>root</option>
+                </select>
+                {else} 
+                <input type="text" id="droits" name="droits" class="form-control" readonly value="{$dataUser.droits}">
+                {/if}
+              </div>
+              
+              
+              
+  
+              <div class="form-group pb-3 col-6 col-md-4">
+                <label for="mail">
+                  <i class="fa fa-send" aria-hidden="true"></i> Mail
                 </label
-              >
-              <input
-                type="text"
-                class="form-control contact phone"
-                name="gsm"
-                id="gsm"
-                value="{$dataUser.gsm|default:''}"
-                placeholder="GSM"
-              />
-            </div>
-
-            <div class="form-group pb-3 col-6 col-md-4">
-              <label for="telephone"
-                ><i class="fa fa-phone" aria-hidden="true"></i> 
-                Téléphone
-                </label
-              >
-              <input
-                type="text"
-                class="form-control contact phone"
-                name="telephone"
-                id="telephone"
-                value="{$dataUser.telephone|default:''}"
-                placeholder="Téléphone"
-              />
-            </div>
-
-          <div class="form-group pb-3 col-6 col-md-5">
-            <label for="adresse">
-              Adresse
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              name="adresse"
-              id="adresse"
-              value="{$dataUser.adresse|default:''}"
-              placeholder="Adresse rue / numéro"
-            />
-          </div>
-
-          <div class="form-group pb-3 col-5 col-md-3">
-            <label for="cpost">
-              Code postal
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              name="cpost"
-              id="cpost"
-              value="{$dataUser.cpost|default:''}"
-              placeholder="Code Postal"
-            />
-          </div>
-          
-            <div class="form-group pb-3 col-7 col-md-4">
-              <label for="commune">
-                Commune
+                >
+                <input
+                  type="mail"
+                  class="form-control"
+                  name="mail"
+                  id="mail"
+                  value="{$dataUser.mail|default:''}"
+                  placeholder="Adresse mail"
+                />
+              </div>
+  
+              <div class="form-group pb-3 col-6 col-md-4">
+                <label for="gsm"
+                  ><i class="fa fa-mobile" aria-hidden="true"></i> 
+                  GSM
+                  </label
+                >
+                <input
+                  type="text"
+                  class="form-control contact phone"
+                  name="gsm"
+                  id="gsm"
+                  value="{$dataUser.gsm|default:''}"
+                  placeholder="GSM"
+                />
+              </div>
+  
+              <div class="form-group pb-3 col-6 col-md-4">
+                <label for="telephone"
+                  ><i class="fa fa-phone" aria-hidden="true"></i> 
+                  Téléphone
+                  </label
+                >
+                <input
+                  type="text"
+                  class="form-control contact phone"
+                  name="telephone"
+                  id="telephone"
+                  value="{$dataUser.telephone|default:''}"
+                  placeholder="Téléphone"
+                />
+              </div>
+  
+            <div class="form-group pb-3 col-6 col-md-5">
+              <label for="adresse">
+                Adresse
               </label>
               <input
                 type="text"
                 class="form-control"
-                name="commune"
-                id="commune"
-                value="{$dataUser.commune|default:''}"
-                placeholder="Commune"
+                name="adresse"
+                id="adresse"
+                value="{$dataUser.adresse|default:''}"
+                placeholder="Adresse rue / numéro"
               />
             </div>
+  
+            <div class="form-group pb-3 col-5 col-md-3">
+              <label for="cpost">
+                Code postal
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                name="cpost"
+                id="cpost"
+                value="{$dataUser.cpost|default:''}"
+                placeholder="Code Postal"
+              />
+            </div>
+            
+              <div class="form-group pb-3 col-7 col-md-4">
+                <label for="commune">
+                  Commune
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="commune"
+                  id="commune"
+                  value="{$dataUser.commune|default:''}"
+                  placeholder="Commune"
+                />
+              </div>
+             
+          </form>
            
         </form>
       </div>

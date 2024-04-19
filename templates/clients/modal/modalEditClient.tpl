@@ -22,7 +22,7 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form autocomplete="false" id="modalFormClient">
+        <form autocomplete="off" id="modalFormClient">
           <input
             type="hidden"
             name="idUser"

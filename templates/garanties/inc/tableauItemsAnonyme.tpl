@@ -1,3 +1,4 @@
+{debug}
 <table class="table table-condensed table-striped w-100">
     <thead>
       <tr>
@@ -20,13 +21,15 @@
       
       {if isset($items)}
       {foreach from=$items key=id item=data} 
-      <tr data-iditem="{$data.id}">
+      <tr data-iditem="{$data.id}"
+        data-ticketcaisse="{$ticketCaisse}"
+        >
         <td>
           <button type="button" class="btn btn-danger btn-sm delItemGarantie" title="Supprimer cet item">
             <i class="fa fa-scissors" aria-hidden="true"></i>
           </button>
         </td>
-        <td>{$data.materiel}</td>
+        <td class="materiel">{$data.materiel}</td>
         <td>{$data.ox}</td>
         <td>{$data.ref}</td>
         <td>{$data.remarque}</td>

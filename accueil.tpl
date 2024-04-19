@@ -9,10 +9,13 @@
 
     <script src="bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/jquery-3.7.0.min.js"></script>
+    <script src="js/jsCookie/src/js.cookie.js"></script>
 
     <script src="js/javascript.js"></script>
 
     <script src="js/bootbox.min.js"></script>
+
+
     <link
       rel="stylesheet"
       href="fa/css/font-awesome.css"
@@ -32,7 +35,7 @@
   </head>
   <body>
 
-    <div class="bg-warning" style="width: 150; height: 100"></div>
+    <div id="modal"></div>
 
     
 
