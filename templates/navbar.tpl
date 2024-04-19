@@ -144,23 +144,25 @@
                 Gestion du stock
               </a>
             </li>
-            <!-- <li>
-              <a href="#" id="cloture" class="dropdown-item">
-                <i class="fa fa-window-close" aria-hidden="true"></i>
-                Clôture clients
-              </a>
-            </li> -->
+
             <li><hr class="dropdown-divider" /></li>
             <li>
               <a class="dropdown-item" id="neverDie" href="#"
                 ><i class="fa fa-spinner" aria-hidden="true"></i> Never die</a
               >
             </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a href="#" class="dropdown-item text-end">
+                <img src="images/favicon.ico" alt="oxfam" width="18px"> Version: {$VERSION}
+              </a>
+            </li>
 
           </ul>
         </li>
 
         {/if}
+
         <li>
           <i id="ajaxLoader" style="display: none" class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
         </li>

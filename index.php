@@ -13,5 +13,7 @@ if ($User != Null)
     else $user = Null;
 
 $smarty->assign('user', $user);
+// numéro de version dans config.ini
+$smarty->assign('VERSION', VERSION);
 
 $smarty->display('index.tpl');
