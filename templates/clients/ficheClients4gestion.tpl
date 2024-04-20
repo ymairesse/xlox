@@ -1,4 +1,3 @@
-{debug}
 <div class="row">
   <div class="col-xl-3 col-12" id="zoneGauche">
 
