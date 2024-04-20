@@ -32,7 +32,7 @@ function clearForm(form) {
 
 function isDoubleClicked(element) {
   //if already clicked return TRUE to indicate this click is not allowed
-  console.log('double click prevented');
+  console.log("double click prevented");
   if (element.data("isclicked")) return true;
   //mark as clicked for 1 second
   element.data("isclicked", true);
@@ -61,7 +61,6 @@ function liveOnOff(onOff) {
 }
 
 $(function () {
-
   bootbox.setDefaults({
     locale: "fr",
     backdrop: true,
@@ -71,15 +70,16 @@ $(function () {
 
   liveOnOff(live);
 
+  $('[data-toggle="tooltip"]').tooltip();
 
-  $(document).ajaxStart(function() {
+  $(document).ajaxStart(function () {
     // Affiche l'image de chargement au début de chaque appel ajax
     $("#ajaxLoader").show();
-});
-$(document).ajaxStop(function() {
+  });
+  $(document).ajaxStop(function () {
     // Cache l'image de chargement à la fin de chaque appel ajax
     $("#ajaxLoader").hide();
-});
+  });
 
   // le bouton #neverDie est une bascule on/off
   $("body").on("click", "#neverDie", function () {
@@ -122,8 +122,7 @@ $(document).ajaxStop(function() {
           passwd: passwd,
         },
         function (resultat) {
-          if (resultat != 'ko')
-            $("#menu").html(resultat);
+          if (resultat != "ko") $("#menu").html(resultat);
           $("#modalLogin").modal("hide");
           var loggedUser = $("#loggedUser").text();
           var title = "Connexion";
@@ -133,9 +132,9 @@ $(document).ajaxStop(function() {
             bootbox.alert({
               title: title,
               message: message,
-              callback: function(){
-                window.location.assign('index.php');
-              }
+              callback: function () {
+                window.location.assign("index.php");
+              },
             });
           }
         }
@@ -147,7 +146,7 @@ $(document).ajaxStop(function() {
   // fermeture de l'application
   // -----------------------------------------------
   $("body").on("click", "#btn-logout", function () {
-    if (isDoubleClicked($(this))) return;   
+    if (isDoubleClicked($(this))) return;
     bootbox.confirm({
       title: "Déconnexion",
       message: "Veuillez confirmer la déconnexion",

@@ -30,7 +30,7 @@
               id="ticketCaisse"
               value="{$ticketCaisse}"
             />
-            <div class="mb-3">
+            <div class="py-3">
             <label for="typeCondPart" class="form-label">
               Conditions particulières de vente
             </label>
@@ -44,6 +44,7 @@
             <option value="CPAS"{if $typeCondPart == 'CPAS'} selected{/if} {if ($typeCondPart != Null) && ($typeCondPart != 'CPAS')} disabled{/if}>Bon CPAS</option>
             <option value="Facture"{if $typeCondPart == 'Facture'} selected{/if} {if ($typeCondPart != Null) && ($typeCondPart != 'Facture')} disabled{/if}>Facture</option>
           </select>
+          </div>
 
           <div class="mb-3" id="formCondPart">
 
@@ -58,8 +59,6 @@
            {/if}
         
           </div>
-
-        </div>
 
         </form>
 

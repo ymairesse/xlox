@@ -21,7 +21,12 @@
 
         <tr data-iddevis="{$idDevis}" data-iditem="{$idItem}" data-idclient="{$idClient}">
           <td>
-            <button type="button" class="btn btn-danger btn-sm delItemDevis" title="Supprimer cet item">
+            <button 
+              type="button" 
+              class="btn btn-danger btn-sm delItemDevis" 
+              title="Supprimer cet item"
+              data-toggle="tooltip"
+              >
               <i class="fa fa-scissors" aria-hidden="true"></i>
             </button>
           </td>
@@ -31,8 +36,14 @@
           
           <td>{$unItem.prix} {if $unItem.prix != ''}€{/if}</td>
           <td>
-            <button type="button" class="btn btn-primary btn-sm btn-editItemDevis w-100" data-idclient="{$idClient}"
-              data-iddevis="{$idDevis}">
+            <button 
+              type="button" 
+              class="btn btn-primary btn-sm btn-editItemDevis w-100" 
+              data-idclient="{$idClient}"
+              data-iddevis="{$idDevis}"
+              title="Modifier cet item"
+              data-toggle="tooltip"
+              >
               <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
             </button>
           </td>
@@ -52,8 +63,13 @@
       <th class="d-flex justify-content-end">Total:</th>
       <th>{$total|default:''} €</th>
       <th>
-        <button type="button" class="btn btn-warning btn-sm w-100 btn-addItemDevis" title="Ajouter un article"
-          data-idclient="{$idClient}" data-iddevis="{$idDevis}">
+        <button 
+          type="button" 
+          class="btn btn-warning btn-sm w-100 btn-addItemDevis" 
+          title="Ajouter un article sur ce devis"
+          data-toggle="tooltip"
+          data-idclient="{$idClient}" 
+          data-iddevis="{$idDevis}">
           <i class="fa fa-plus"></i>
         </button>
       </th>

@@ -5,11 +5,14 @@
     >[{if $profil.civilite == 'F'}Madame{elseif $profil.civilite ==
     'M'}Monsieur{else} {/if} {$profil.prenom} {$profil.nom}]</u
   >
-  <span style="font-size: 12pt"
-    >{if $profil.rgpd == 0}<strike>RGPD</strike>
-    {else}RGPD ok {/if}
-  </span>
-  <button class="btn btn-warning" style="float: right" id="btn-editClient">
+
+  <button
+    class="btn btn-warning"
+    style="float: right"
+    id="btn-editClient"
+    data-toggle="tooltip"
+    title="Modifier la fiche de ce client"
+  >
     <i class="fa fa-pencil" aria-hidden="true"></i> Modifier la fiche client
   </button>
 </h2>
@@ -177,7 +180,13 @@
     </div>
   </div>
 </form>
-<button type="button" id="delClient" class="btn btn-danger text-truncate w-100">
+<button
+  type="button"
+  id="delClient"
+  data-toggle="tooltip"
+  class="btn btn-danger text-truncate w-100"
+  title="Suppression définitive de ce client"
+>
   <i class="fa fa-times"></i> Supprimer ce client
 </button>
 
@@ -186,3 +195,9 @@
 <h1 class="null">Aucun client sélectionné</h1>
 
 {/if}
+
+<script>
+  $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>

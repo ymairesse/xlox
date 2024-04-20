@@ -14,8 +14,18 @@
       class="{if $data.ticketCaisse == $ticketCaisse} choosen{/if}"
       data-ticketcaisse="{$unTicketCaisse}"
     >
-    <td title="{$data.date|date_format:"%d/%m/%Y"}">{$data.date|date_format:"%d/%m/%y"}</td>
-    <td>{$unTicketCaisse|number_format:0:'.':' '}</td>
+    <td 
+      title="Date de la vente:   {$data.date|date_format:'%d/%m/%Y'}"
+      data-toggle="tooltip"
+      >
+      {$data.date|date_format:"%d/%m/%y"}
+    </td>
+    <td       
+      title="Ticket de caisse n° {$unTicketCaisse}"
+      data-toggle="tooltip"
+      >
+      {$unTicketCaisse|number_format:0:'.':' '}
+    </td>
     </tr>
     {/foreach}
   </tbody>
@@ -23,4 +33,21 @@
 
 </div>
 
-<button type="button" class="btn btn-warning w-100" id="btn-addGarantieAnonyme"><i class="fa fa-plus"></i> bon de garantie</button>
+<button 
+  type="button" 
+  class="btn btn-warning w-100" 
+  id="btn-addGarantieAnonyme"
+  data-toggle="tooltip"
+  title="Créer un nouveau bon de garantie"
+  ><i class="fa fa-plus"></i> bon de garantie</button>
+
+<script>
+
+  $(document).ready(function(){
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+  })
+
+
+</script>

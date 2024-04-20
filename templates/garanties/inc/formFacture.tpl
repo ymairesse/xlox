@@ -1,6 +1,6 @@
 <div class="row">
 
-    <div class="col-12">
+    <div class="col-12 pb-3">
         <label for="facture" class="form-label"
           >Mention</label
         >
@@ -14,7 +14,7 @@
         />
       </div>
 
-      <div class="col-12">
+      <div class="col-12 pb-3">
         <label for="remarque" class="form-label"
           >Remarque (optionnel)</label
         >

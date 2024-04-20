@@ -35,12 +35,16 @@
           value={$dataDevis.idDevis|default:''}>
 
           <div class="row">
-            <div class="form-group pb-3 col-6">
+            <div 
+              class="form-group pb-3 col-6" 
+              data-toggle="tooltip" 
+              title="Ne rien mentionner dans ce champ; seule la date est modifiable">
               <label for="refDevis">Référence (non modifiable)</label>
               <input
                 type="text"
                 class="form-control"
-                name=""
+                style="background-color:#ffc0cb;"
+                name="refDevis"
                 id="refDevis"
                 value="{if isset($dataDevis.ref)}{$dataDevis.ref}{else}{$smarty.now|date_format:'%Y.%m'}...{/if}"
                 readonly
@@ -91,6 +95,9 @@
 
 <script>
   $(document).ready(function () {
+
+    $('[data-toggle="tooltip"]').tooltip();
+
     $("#modalFormDevis").validate({
       lang: "fr",
       errorElement: "div",

@@ -44,10 +44,9 @@
 
           <div class="row">
             <div class="form-group pb-3 col-md-3 col-4">
-              <label for="typeMateriel" class="w-100"
+              <label for="typeMateriel"
                 >Type matériel
               </label>
-              <div id="selectMateriel">
                 <select name="typeMateriel" 
                   id="typeMateriel" 
                   class="form-control"
@@ -58,7 +57,6 @@
                   <option value="{$id}"{if isset($dataBon) && ($id == $dataBon.typeMateriel)} selected{/if}>{$materiel}</option>
                   {/foreach}
               </select>
-              </div>
             </div>
 
             <div class="form-group pb-3 col-md-3 col-4">
@@ -97,7 +95,9 @@
 
             <div class="col-md-3 col-6 form-group pb-3">
               <label for="ox">Numero OX</label>
-              <div class="input-group mb-3">
+              <div class="input-group mb-3" 
+                title="Numéro de référence Oxfam" 
+                data-toggle="tooltip">
                 <span class="input-group-text">OX</span>
                 <input
                   type="text"
@@ -134,7 +134,7 @@
 
             <div class="col-6 col-md-6 pb-3">
               <label for="data">Données</label>
-              <div class="btn-group w-100" role="group" aria-label="Data">
+              <div class="btn-group w-100" role="group" aria-label="Data" data-toggle="tooltip" title="Y a-t-il des données à conserver?">
                 <input type="radio" class="btn-check" name="data" id="noData"
                 autocomplete="off" value="0" {if !isset($dataBon.data) ||
                 ($dataBon.data == 0)} checked{/if}>
@@ -174,31 +174,8 @@
 
           <div class="row">
             <div class="col-md-8 pb-3 autoMentions">
-              <label class="w-100" for="probleme"
+              <label class="w-100" for="probleme" data-toggle="tooltip" title="Problème décelé sur l'appareil"
                 >Problème technique
-                <div class="btn-group float-end">
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-warning py-0 btn-editMention"
-                    data-type="probleme"
-                  >
-                    <i class="fa fa-edit"></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-info py-0 btn-moreMentions"
-                    data-type="probleme"
-                  >
-                    <i class="fa fa-plus"></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-primary btn-sm py-0 btn-mentions"
-                    data-type="probleme"
-                  >
-                    <i class="fa fa-question"></i>
-                  </button>
-                </div>
               </label>
               <div
                 class="modalMentions"
@@ -217,7 +194,7 @@
               >
             </div>
 
-            <div class="col-md-4 pb-3">
+            <div class="col-md-4 pb-3" title="État de propreté, dégradation existante,..." data-toggle="tooltip">
               <label for="etat">État à la réception</label>
               <textarea class="form-control" name="etat" id="etat" rows="2">
 {$dataBon.etat|default:''}</textarea
@@ -229,29 +206,6 @@
             <div class="col-6 pb-3 autoMentions">
               <label class="w-100" for="devis"
                 >Solution et devis
-                <div class="btn-group float-end">
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-warning py-0 btn-editMention"
-                    data-type="solution"
-                  >
-                    <i class="fa fa-edit"></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-info py-0 btn-moreMentions"
-                    data-type="solution"
-                  >
-                    <i class="fa fa-plus"></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-primary btn-sm py-0 btn-mentions"
-                    data-type="solution"
-                  >
-                    <i class="fa fa-question"></i>
-                  </button>
-                </div>
               </label>
               <div
                 class="modalMentions"
@@ -397,5 +351,8 @@
     $("#modalFormBon").validate({
       errorClass: "invalide",
     });
+
+    $('[data-toggle="tooltip"]').tooltip();
+
   });
 </script>

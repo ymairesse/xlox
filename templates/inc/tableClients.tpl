@@ -26,6 +26,9 @@
       {if $idOneClient == $idClient}class="choosen"{/if}
       data-idclient="{$idOneClient}"
       data-nom="{$client.nom}"
+      data-toggle="tooltip"
+      data-bs-html="true"
+      title="{$client.civilite} {$client.nom} {$client.prenom}<br>Dernier accès le {$client.date}"
     >
       <td>{$client.nom} {$client.prenom}</td>
       <td

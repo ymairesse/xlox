@@ -1,6 +1,6 @@
 <div class="row">
 
-  <div class="col-6">
+  <div class="col-6 pb-3">
     <label class="form-label" for="commune">Commune</label>
     <input
       type="text"
@@ -12,7 +12,7 @@
     />
   </div>
 
-  <div class="col-6">
+  <div class="col-6 pb-3">
     <label for="date">Date du document CPAS</label>
     <input
       type="date"
@@ -24,7 +24,7 @@
     />
   </div>
 
-  <div class="col-6">
+  <div class="col-6 pb-3">
     <label for="dossier" class="form-label">Dossier</label>
     <input
       type="text"
@@ -36,7 +36,7 @@
     />
   </div>
 
-  <div class="col-6">
+  <div class="col-6 pb3">
     <label for="montant" class="form-label">Montant alloué</label>
     <input
       type="text"
@@ -48,7 +48,7 @@
     />
   </div>
 
-  <div class="col-12">
+  <div class="col-12 pb-3">
     <label for="remarque" class="form-label"
       >Différence payée par le client / remarque</label
     >

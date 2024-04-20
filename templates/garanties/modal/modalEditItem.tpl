@@ -1,4 +1,3 @@
-
 <!-- Modal -->
 <div
   class="modal fade"
@@ -40,7 +39,6 @@
             <div class="form-group pb-3 col-8">
               <label class="w-100" for="materiel"
                 >Marchandise
-   
               </label>
 
               <input

@@ -1,4 +1,6 @@
 $(function () {
+
+  $('[data-toggle="tooltip"]').tooltip();
   //
   // *******************************************************
   // Gestion des garanties

@@ -109,9 +109,10 @@ Array
         <button
           type="button"
           class="btn btn-warning btn-sm w-100 btn-addItem"
-          title="Ajouter un article"
+          title="Ajouter un article à ce devis"
           data-idclient="{$idClient}"
           data-ticketcaisse="{$ticketCaisse}"
+          data-toggle="tooltip"
         >
           <i class="fa fa-plus"></i>
         </button>
@@ -119,3 +120,14 @@ Array
     </tr>
   </tfoot>
 </table>
+
+
+<script>
+
+  $(document).ready(function(){
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+  })
+
+</script>

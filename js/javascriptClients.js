@@ -26,6 +26,8 @@ function restoreSelecteurClients4gestion(
 
 $(function () {
 
+  $('[data-toggle="tooltip"]').tooltip();
+
   $('body').on('click', '#visuChamps', function() {
     var type = $(this).data('type');
     $('input').removeClass('visu').removeClass('contact');

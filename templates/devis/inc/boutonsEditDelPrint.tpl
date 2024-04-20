@@ -3,6 +3,8 @@
     data-iddevis="{$idDevis}"
     data-idclient="{$idClient|default:''}"
     data-ref="{$unDevis.ref}"
+    data-toggle="tooltip"
+    title="Effacer ce devis"
     ><i class="fa fa-times"></i> Supprimer le devis #{$unDevis.ref}</a
   >
 
@@ -11,7 +13,8 @@
     class="btn btn-warning btn-editDevis"
     data-idclient="{$idClient|default:''}"
     data-iddevis="{$idDevis}"
-    title="Édition du devis"
+    data-toggle="tooltip"
+    title="Édition de ce devis"
   >
     <i class="fa fa-edit"></i> Modifier le devis #{$unDevis.ref}
   </a>
@@ -22,7 +25,8 @@
     href="inc/devis/getDevisPDF.php?idDevis={$idDevis}"
     target="_blank"
     data-iddevis="{$idDevis}"
-    title="Impression PDF"
+    data-toggle="tooltip"
+    title="Impression PDF de ce devis"
   >
     <i class="fa fa-print"> </i> Imprimer le devis #{$unDevis.ref}
   </a>

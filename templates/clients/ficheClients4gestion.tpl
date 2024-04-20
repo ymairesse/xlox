@@ -1,3 +1,4 @@
+{debug}
 <div class="row">
   <div class="col-xl-3 col-12" id="zoneGauche">
 
@@ -7,8 +8,10 @@
       type="button"
       id="nouveauClient"
       class="btn btn-warning text-truncate w-100"
+      data-toggle="tooltip" 
+      title="Création d'un nouveau client"
     >
-      <i class="fa fa-plus"></i>  Nouveau Client
+      <i class="fa fa-plus"></i> Nouveau Client
     </button>
 
   </div>
@@ -17,3 +20,13 @@
     {include file='clients/ficheProfilClient.tpl'}
   </div>
 </div>
+
+<script>
+
+$(document).ready(function(){
+
+  $('[data-toggle="tooltip"]').tooltip();
+
+})
+
+</script>

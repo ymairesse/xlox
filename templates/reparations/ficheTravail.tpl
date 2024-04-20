@@ -37,7 +37,13 @@
     </div>
     
     <div class="w-25">
-      <button type="button" class="btn btn-warning w-100 text-truncate" id="btn-addBon" {if $idClient == Null}disabled{/if}>
+      <button 
+      type="button" 
+      class="btn btn-warning w-100 text-truncate" 
+      id="btn-addBon"
+      data-toggle="tooltip"
+      title="Ajouter une fiche de travail pour ce client"
+       {if $idClient == Null}disabled{/if}>
       <i class="fa fa-plus"></i> Ajouter fiche de travail
       </button>
     </div>
@@ -74,3 +80,9 @@
 {/if}
 
 
+<script>
+
+  $(document).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>

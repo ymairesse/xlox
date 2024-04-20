@@ -46,7 +46,8 @@
         class="btn btn-warning w-100"
         id="btn-addDevis"
         data-idclient="{$idClient}"
-        title="Ajouter un devis"
+        title="Ajouter un devis pour ce client"
+        data-toggle="tooltip"
       >
         <i class="fa fa-plus"></i> Devis
       </button>
@@ -93,3 +94,14 @@
   {/if}
   </div>
 </div>
+
+
+<script>
+
+  $(document).ready(function(){
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+  })
+
+</script>

@@ -10,6 +10,8 @@
       type="button"
       class="btn btn-warning w-100 btn-editCondPart"
       data-ticketcaisse="{$ticketCaisse}"
+      data-toggle="tooltip"
+      title="Conditions particulières de vente (CPAS, Facture demandée)"
     >
       <i class="fa fa-edit"></i> 
       {if isset($typeCondPart)} 
@@ -30,12 +32,19 @@
   <div class="col-9 condPart">
     <div class="p-2 texteCondPart" data-ticketcaisse="{$ticketCaisse}">
 
-
         {include file="garanties/inc/condPartHRText.tpl"}
 
-    
-      
     </div>
   </div>
   {/if}
 </div>
+
+<script>
+
+  $(document).ready(function(){
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+  })
+
+</script>

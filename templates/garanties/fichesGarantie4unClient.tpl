@@ -32,7 +32,8 @@
               role="tab"
               aria-controls="ticket_{$ticketCaisse}"
               aria-selected="{if $smarty.foreach.garanties.index == 0}true{else}false{/if}"
-              title="Ticket de caisse {$ticketCaisse}"
+              title="Ticket de caisse numéro {$ticketCaisse}"
+              data-toggle="tooltip"
             >
               #{$ticketCaisse}
             </button>
@@ -46,7 +47,8 @@
         class="btn btn-warning w-100"
         id="btn-addBonGarantie"
         data-idclient="{$idClient}"
-        title="Ajouter un bon de garantie"
+        title="Ajouter un bon de garantie pour ce client"
+        data-toggle="tooltip"
       >
         <i class="fa fa-plus"></i> bon de garantie
       </button>
@@ -93,3 +95,14 @@
     {/if} {/if}
   </div>
 </div>
+
+
+<script>
+
+  $(document).ready(function(){
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+  })
+
+</script>

@@ -216,6 +216,7 @@
         id="avancement_{$numeroBon}"
         data-numerobon="{$numeroBon}"
         title="Avancement du travail"
+        data-toggle="tooltip"
       >
         <i class="fa fa-hand-o-right" aria-hidden="true"></i>
         <span data-numerobon="{$numeroBon}" class="idAv"
@@ -280,18 +281,20 @@
       {if $travail.termine == 1}
       <button
         type="button"
-        title="Travail terminé"
+        title="Le travail est terminé"
         class="btn btn-success w-100 text-truncate openModalTravail"
         id="termine_{$numeroBon}"
+        data-toggle="tooltip"
       >
         Terminé <i class="fa fa-smile-o" aria-hidden="true"></i>
       </button>
       {else}
       <button
         type="button"
-        title="Travail en cours"
+        title="Le travail est en cours"
         class="btn btn-danger w-100 text-truncate openModalTravail"
         id="termine_{$numeroBon}"
+        data-toggle="tooltip"
       >
         En cours <i class="fa fa-meh-o" aria-hidden="true"></i>
       </button>
@@ -317,5 +320,8 @@
       // pour empêcher la prise en compte du clic sur une case à cocher
       return false;
     });
+
+    $('[data-toggle="tooltip"]').tooltip();
+
   });
 </script>

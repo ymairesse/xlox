@@ -43,9 +43,9 @@
               >
                 <!-- les options d-none ne sont pas affichées a priori -->
                 <option data-lang="fr" value="">Genre</option>
-                <option data-lang="fr" value="F">Madame</option>
-                <option data-lang="fr" value="M">Monsieur</option>
-                <option data-lang="fr" value="X">MX</option>
+                <option data-lang="fr" value="F"{if $dataClient.civilite == 'F'} selected{/if}>Madame</option>
+                <option data-lang="fr" value="M"{if $dataClient.civilite == 'M'} selected{/if}>Monsieur</option>
+                <option data-lang="fr" value="X"{if $dataClient.civilite == 'X'} selected{/if}>Madame/Monsieur</option>
               </select>
             </div>
 

@@ -1,4 +1,3 @@
-{debug}
 <table class="table table-condensed table-striped w-100">
     <thead>
       <tr>
@@ -36,7 +35,10 @@
         <td>{$garantie4ticket.date|date_format:"%d/%m/%y"}</td>
         <td>{$data.prix} €</td>
         <td>
-          <button type="button" class="btn btn-primary btn-sm btn-editItem w-100" data-ticketcaisse="{$ticketCaisse}">
+          <button 
+            type="button" 
+            class="btn btn-primary btn-sm btn-editItem w-100" 
+            data-ticketcaisse="{$ticketCaisse}">
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
           </button>
         </td>
@@ -57,8 +59,8 @@
               <button
               type="button"
               class="btn btn-warning btn-sm w-100 btn-addItem"
-              title="Ajouter un article"
-
+              title="Ajouter un article sur ce bon de garantie"
+              data-toggle="tooltip"
               data-ticketcaisse="{$ticketCaisse}"
             >
               <i class="fa fa-plus"></i>
@@ -70,3 +72,13 @@
     </tfoot>
 
 </table>
+
+<script>
+
+  $(document).ready(function(){
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+  })
+
+</script>

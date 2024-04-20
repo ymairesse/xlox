@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" href="index.php"
-      ><img src="images/computershop.png" alt="ComputerShop"
+      ><img src="images/computershop.png" alt="ComputerShop" data-toggle="tooltip" title="test"
     /></a>
     <button
       class="navbar-toggler"

@@ -13,3 +13,14 @@
     {include file='garanties/inc/boutonsEditDelPrint.tpl'}
   </div>
 </form>
+
+
+<script>
+
+  $(document).ready(function(){
+
+    $('[data-toggle="tooltip"]').tooltip();
+    
+  })
+
+</script>
