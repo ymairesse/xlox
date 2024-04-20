@@ -23,6 +23,10 @@ $dataItem['remarque'] = isset($dataItem['remarque']) ? htmlspecialchars($dataIte
 
 $smarty->assign('dataItem', $dataItem);
 
+// liste des marchandises disponibles (voir la table ox_inventaire)
+$listeMarchandises = $Garantie->getListeMarchandise();
+$smarty->assign('listeMarchandises', $listeMarchandises);
+
 $smarty->assign('idDevis', $idDevis);
 $smarty->assign('idClient', $idClient);
 $smarty->assign('idItem', $idItem);
