@@ -80,9 +80,15 @@
         </p>
       </div>
       <div class="col-6 mt-4">
-      <a href="#" id="ficheClientPerso" type="button" class="btn btn-success">
+        <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+
+      <a href="#" id="ficheClientPerso" type="button" class="btn btn-success autoEditClient prive">
         <img src="images/oxicoClient.png" alt="Oxfam" class="float-start img-fluid" />
       </a>
+      <a href="#" id="ficheClientEntreprise" type="button" class="btn btn-primary w-100 autoEditClient entreprise">
+        Client Entreprise <i class="fa fa-industry"></i>
+      </a>
+      </div>
         
       </div>
     </div>

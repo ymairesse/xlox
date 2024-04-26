@@ -11,14 +11,15 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-
         <h1 class="modal-title fs-5 w-100" id="modalEditClientLabel">
-          Fiche Client {if $typeClient == 'prive'}Privé{else}Entreprise{/if}
-
+          Fiche Client Entreprise
           <div class="btn-group float-end pe-3">
-            <select name="lang" id="lang"
-            data-bs-toggle="tooltip"
-            data-bs-title="Language">
+            <select
+              name="lang"
+              id="lang"
+              data-bs-toggle="tooltip"
+              data-bs-title="Language"
+            >
               <option value="fr" selected>FR</option>
               <option value="nl">NL</option>
               <option value="gb">EN</option>
@@ -59,59 +60,22 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form autocomplete="false" id="modalFormClient">
+        <form autocomplete="false" id="modalFormEntreprise">
           <input
             type="hidden"
             name="idUser"
             value="{$dataClient.idUser|default:''}"
           />
-          <input type="hidden" name="typeClient" id="typeClient" value="{$typeClient}">
+          <input type="hidden" name="typeClient" value="entreprise" />
 
           <div class="row">
-            {if $typeClient == prive}
-            <div class="pb-3 col-2">
-              <label for="civilite">
-                <i class="fa fa-female" aria-hidden="true"></i>
-                <i class="fa fa-male" aria-hidden="true"></i>
-                <i class="fa fa-genderless" aria-hidden="true"></i>
-              </label>
-              <select
-                name="civilite"
-                id="civilite"
-                class="form-control reparation facture devis"
-                required
-              >
-                <!-- les options d-none ne sont pas affichées a priori -->
-                <option data-lang="fr" value="">Genre</option>
-
-                <option data-lang="fr" value="F">Madame</option>
-                <option class="d-none" data-lang="nl" value="F">Mevrouw</option>
-                <option class="d-none" data-lang="gb" value="F">Mrs</option>
-                <option class="d-none" data-lang="ukr" value="F">Мадам.</option>
-                <option class="d-none" data-lang="ru" value="F">мадам</option>
-                <option data-lang="fr" value="M">Monsieur</option>
-                <option class="d-none" data-lang="nl" value="M">
-                  Mijnheer
-                </option>
-                <option class="d-none" data-lang="gb" value="M">Mr.</option>
-                <option class="d-none" data-lang="ukr" value="M">Пане.</option>
-                <option class="d-none" data-lang="ru" value="M">Г-н.</option>
-                <option value="X" data-lang="fr">MX</option>
-                <option value="X" class="d-none" data-lang="nl">MX</option>
-                <option value="X" class="d-none" data-lang="gb">MX</option>
-                <option value="X" class="d-none" data-lang="ukr">MX</option>
-                <option value="X" class="d-none" data-lang="ru">MX</option>
-              </select>
-            </div>
-            {/if}
-
-            <div class="form-group pb-3 {if $typeClient == 'entreprise'}col-12{else}col-5{/if}">
+            <div class="pb-3 col-12">
               <label for="nom">
-                <span data-lang="fr">Nom{if $typeClient == 'entreprise'} de l'entreprise{/if}</span>
-                <span data-lang="nl" class="d-none">Naam</span>
-                <span data-lang="gb" class="d-none">Family Name</span>
-                <span data-lang="ukr" class="d-none">прізвище</span>
-                <span data-lang="ru" class="d-none">фамилия</span>
+                <span data-lang="fr">Nom de l'entreprise</span>
+                <span data-lang="nl" class="d-none">Bedrijfsnaam</span>
+                <span data-lang="gb" class="d-none">Company name</span>
+                <span data-lang="ukr" class="d-none">Назва компанії</span>
+                <span data-lang="ru" class="d-none">Название компании</span>
               </label>
               <input
                 type="text"
@@ -119,35 +83,15 @@
                 name="nom"
                 id="nom"
                 value="{$dataClient.nom|default:''}"
-                placeholder="Nom{if $typeClient == 'entreprise'} de l'entreprise{/if}"
+                placeholder="Nom de l'entreprise"
                 required
               />
             </div>
-            {if $typeClient == 'prive'}
-            <div class="form-group pb-3 col-5">
-              <label for="prenom">
-                <span data-lang="fr">Prénom</span>
-                <span data-lang="nl" class="d-none">Voornaam</span>
-                <span data-lang="gb" class="d-none">First Name</span>
-                <span data-lang="ukr" class="d-none">ім'я та прізвище</span>
-                <span data-lang="ru" class="d-none">имя</span>
-              </label>
-              <input
-                type="text"
-                class="form-control devis facture reparation"
-                name="prenom"
-                id="prenom"
-                value="{$dataClient.prenom|default:''}"
-                placeholder="Prénom"
-                required
-              />
-            </div>
-            {/if}
 
             <div
               class="form-group pb-3 col-6 col-md-4"
               data-bs-toggle="tooltip"
-              data-bs-title="Au moins l'un des champs (GSM ou téléphone)"
+              data-bs-title="Au moins l'un des trois (GSM, téléphone ou mail)"
             >
               <label for="gsm"
                 ><i class="fa fa-mobile" aria-hidden="true"></i>
@@ -170,7 +114,7 @@
             <div
               class="form-group pb-3 col-6 col-md-4"
               data-bs-toggle="tooltip"
-              data-bs-title="Au moins l'un des champs (GSM ou téléphone)"
+              data-bs-title="Au moins l'un des trois (GSM, téléphone ou mail)"
             >
               <label for="telephone"
                 ><i class="fa fa-phone" aria-hidden="true"></i>
@@ -193,7 +137,7 @@
             <div
               class="form-group pb-3 col-6 col-md-4"
               data-bs-toggle="tooltip"
-              data-bs-title="Adresse mail"
+              data-bs-title="Au moins l'un des trois (GSM, téléphone ou mail)"
             >
               <label for="mail"
                 ><i class="fa fa-send" aria-hidden="true"></i>
@@ -205,12 +149,11 @@
               </label>
               <input
                 type="mail"
-                class="form-control facture reparation"
+                class="form-control contact facture reparation"
                 name="mail"
                 id="mail"
                 value="{$dataClient.mail|default:''}"
                 placeholder="Adresse mail"
-                {if $typeClient == 'entreprise'}required{/if}
               />
             </div>
 
@@ -233,7 +176,6 @@
                 id="adresse"
                 value="{$dataClient.adresse|default:''}"
                 placeholder="Adresse rue / numéro"
-                {if $typeClient == entreprise} required{/if}
               />
             </div>
 
@@ -256,7 +198,6 @@
                 id="cpost"
                 value="{$dataClient.cpost|default:''}"
                 placeholder="Code Postal"
-                {if $typeClient == entreprise} required{/if}
               />
             </div>
 
@@ -279,10 +220,9 @@
                 id="commune"
                 value="{$dataClient.commune|default:''}"
                 placeholder="Commune"
-                {if $typeClient == entreprise} required{/if}
               />
             </div>
-            {if $typeClient == entreprise}
+
             <div class="form-group pb-3 col-12">
               <label for="tva">
                 <span data-lang="fr">Numéro de TVA</span>
@@ -305,11 +245,9 @@
                   name="tva"
                   value="{$dataClient.tva|default:''}"
                   placeholder="Numéro de TVA"
-                  required
                 />
               </div>
             </div>
-            {/if}
 
             <div class="form-group pb-3 col-12">
               <div class="form-check form-switch">
@@ -351,7 +289,7 @@
         </button>
         <button
           type="button"
-          class="btn btn-primary"
+          class="btn btn-primary btn-save"
           id="btn-autoSaveClient"
           disabled
         >
@@ -373,7 +311,6 @@
 </style>
 
 <script>
-
   function phoneFormatter() {
     $(".phone").on("input", function () {
       var number = $(this)
@@ -427,8 +364,6 @@
   civilite1["ru"] = "пол";
 
   $(document).ready(function () {
-    // refreshCaptcha();
-
     $("#rgpd").on("change", function () {
       var info = $(this).is(":checked");
       $("#btn-autoSaveClient").prop("disabled", !info);
@@ -463,6 +398,14 @@
       });
     });
 
+    $("#infoRgpd").click(function () {
+      var texte = $("#textRgpd").html();
+      bootbox.alert({
+        title: "RGPD",
+        message: texte,
+      });
+    });
+
     $(phoneFormatter);
 
     var tooltipTriggerList = [].slice.call(
@@ -472,7 +415,7 @@
       return new bootstrap.Tooltip(tooltipTriggerEl);
     });
 
-    $("#modalFormClient").validate({
+    $("#modalFormEntreprise").validate({
       lang: "fr",
       errorElement: "div",
       rules: {
@@ -480,9 +423,7 @@
           required: true,
         },
         prenom: {
-          required: function(){
-            return ($('#typeClient').val() == 'prive');
-          },
+          required: true,
         },
         telephone: {
           require_from_group: [1, ".contact"],
@@ -491,16 +432,10 @@
           require_from_group: [1, ".contact"],
         },
         mail: {
-          required: function(){
-            return ($('#typeClient').val() == 'entreprise');  
-          },
-          email: true,
+          require_from_group: [1, ".contact"],
         },
         tva: {
-          number: function(){
-            return ($('#typeClient').val() == 'entreprise');
-              
-          },
+          number: true,
         },
       },
     });

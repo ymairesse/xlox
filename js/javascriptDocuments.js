@@ -623,10 +623,21 @@ $(function () {
     );
   });
 
-  // choix de la langue pour la garantie
-  $("body").on("click", ".choixLang", function (event) {
+  // // choix de la langue pour la garantie
+  // $("body").on("click", ".choixLang", function (event) {
+  //   testSession(event);
+  //   var lang = $(this).data("lang");
+  //   alert(lang);
+  // });
+
+  $('body').on('click', '#gestionAccessoires', function(event){
     testSession(event);
-    var lang = $(this).data("lang");
-    alert(lang);
-  });
+    $.post('inc/reparations/getModalListeAccessoires.inc.php', {
+    }, function(resultat){
+      $('#modal').html(resultat);
+      $('#modalEditAccessoires').modal('show');
+    })
+  })
+
+
 });

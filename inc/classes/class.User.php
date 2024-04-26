@@ -610,6 +610,33 @@ class User
     }
 
     /**
+     * modification du type de client: 'privé' ou 'entreprise'
+     * 
+     * @param int $idUser
+     * @param string $typeClient (privé ou entreprise)
+     * 
+     * @return int
+     */
+    public function changeTypeClient($idClient, $typeClient){
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'UPDATE '.PFX.'users ';
+        $sql .= 'SET typeClient = :typeClient ';
+        $sql .= 'WHERE idUser = :idUser ';
+        $requete = $connexion->prepare($sql);
+// echo $sql;
+        $requete->bindParam(':idUser', $idClient, PDO::PARAM_INT);
+        $requete->bindParam(':typeClient', $typeClient, PDO::PARAM_STR, 10);
+// Application::afficher(array($idClient, $typeClient), true);
+        $resulatt = $requete->execute();
+
+        $n = $requete->rowCount();
+
+        Application::DeconnexionPDO($connexion);
+
+        return $n;
+    }
+
+    /**
      * Liste des clients dont l'activité date de plus de $nbJours jours
      * 
      * @param int $nbJours

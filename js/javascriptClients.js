@@ -13,7 +13,6 @@ function restoreSelecteurClients4gestion(
     },
     function (resultat) {
       conteneur.html(resultat);
-      // $("#selectClients").html(resultat);
       conteneur
         .find('.listeClients tr[data-idclient="' + idClient + '"]')
         .addClass("choosen");
@@ -25,31 +24,48 @@ function restoreSelecteurClients4gestion(
 }
 
 $(function () {
-
   $('[data-toggle="tooltip"]').tooltip();
 
-  $('body').on('click', '#visuChamps', function() {
-    var type = $(this).data('type');
-    $('input').removeClass('visu').removeClass('contact');
+  $("body").on("change", "#rgpd", function () {
+    var info = $(this).is(":checked");
+    $(".btn-save").prop("disabled", !info);
+  });
+
+  $("body").on("click", "#infoRgpd", function () {
+    var texte = $("#textRgpd").html();
+    bootbox.alert({
+      title: "RGPD",
+      message: texte,
+      backdrop: false,
+    });
+  });
+
+  // --------------------------------------------------------------------
+  // Mise en évidence des champs nécessaires dans tel ou tel contexte
+  // --------------------------------------------------------------------
+  $("body").on("click", "#visuChamps", function () {
+    var type = $(this).data("type");
+    $("input").removeClass("visu").removeClass("contact");
     switch (type) {
-      case 'reparation':
-        $('.reparation').addClass('visu').addClass('contact');
+      case "reparation":
+        $(".reparation").addClass("visu").addClass("contact");
         break;
-      case 'devis':
-        $('.devis').addClass('visu');
+      case "devis":
+        $(".devis").addClass("visu");
         break;
-      case 'facture': 
-        $('.facture').addClass('visu').addClass('contact');
+      case "facture":
+        $(".facture").addClass("visu").addClass("contact");
         break;
     }
-  })
-
+  });
 
   //----------------------------------------------------------------
   // gestion des clients
   //----------------------------------------------------------------
 
+  // --------------------------------------------------------------------
   // gestion des clients: page principale
+  // --------------------------------------------------------------------
   $("body").on("click", "#gestionClients", function (event) {
     testSession(event);
     var idClient = Cookies.get("clientEnCours");
@@ -64,17 +80,26 @@ $(function () {
       },
       function (resultat) {
         $("#unique").html(resultat);
-        if ($('table.listeClients tr.choosen').length != 0)
-          $('table.listeClients tr.choosen')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if ($("table.listeClients tr.choosen").length != 0)
+          $("table.listeClients tr.choosen")[0].scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
       }
     );
   });
 
-  $('body').on('click', 'h5.boutonsTri', function(){
+  // --------------------------------------------------------------------
+  // mise en évidence du client actuellement actif dans la liste des clients
+  // --------------------------------------------------------------------
+  $("body").on("click", "h5.boutonsTri", function () {
     var ceci = $(this);
-    if (ceci.siblings(".tableClients").find('tr.choosen').length > 0)
-      ceci.siblings(".tableClients").find('tr.choosen')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-  })
+    if (ceci.siblings(".tableClients").find("tr.choosen").length > 0)
+      ceci
+        .siblings(".tableClients")
+        .find("tr.choosen")[0]
+        .scrollIntoView({ behavior: "smooth", block: "center" });
+  });
 
   // ------------------------------------------------------
   // sélection d'un client dans le cadre "listeClients à gauche"
@@ -111,15 +136,13 @@ $(function () {
         }
       );
     }
-
   });
 
   // --------------------------------------------------------------------
   // Suppression d'un client ---------------------------------------
-
+  // --------------------------------------------------------------------
   $("body").on("click", "#delClient", function (event) {
     testSession(event);
-    ceci = $(this);
     var clientToDelete = $(".listeClients tr.choosen").data("idclient");
     if (clientToDelete != undefined) {
       var title = "Suppression d'un client";
@@ -165,7 +188,9 @@ $(function () {
                   // on sélectionne le client précédent (ou, à déraut, le suivent) dans le tableau
                   var selectedClient =
                     prevClient == undefined ? nextClient : prevClient;
-                  Cookies.set("clientEnCours", selectedClient, { sameSite: "strict" });
+                  Cookies.set("clientEnCours", selectedClient, {
+                    sameSite: "strict",
+                  });
                   $.post(
                     "inc/clients/deleteClient.inc.php",
                     {
@@ -194,8 +219,9 @@ $(function () {
     }
   });
 
-  // Édition d'un client
-
+  // ---------------------------------------------------------
+  // Édition d'un client par cliic dans sa fiche écran
+  // ---------------------------------------------------------
   $("body").on("click", "#formClient", function (event) {
     testSession(event);
     if (isDoubleClicked($(this))) return;
@@ -212,10 +238,13 @@ $(function () {
     );
   });
 
-  // nouveau client
-
+  // ---------------------------------------------------------
+  // Création d'un nouveau client par clic sur le bouton
+  // dans la colonne des clients
+  // ---------------------------------------------------------
   $("body").on("click", "#nouveauClient", function (event) {
     testSession(event);
+    if (isDoubleClicked($(this))) return;
     var idClient = null;
     $.post(
       "inc/clients/editClient.inc.php",
@@ -229,9 +258,12 @@ $(function () {
     );
   });
 
+  // ---------------------------------------------------------
+  // édition des données d'un client existant
+  // ---------------------------------------------------------
   $("body").on("click", "#btn-editClient", function (event) {
     testSession(event);
-    var idClient = $('table.listeClients tr.choosen').data('idclient');
+    var idClient = $("table.listeClients tr.choosen").data("idclient");
     $.post(
       "inc/clients/editClient.inc.php",
       {
@@ -244,26 +276,30 @@ $(function () {
     );
   });
 
-  $("body").on("click", "#btn-newClient", function (event) {
-    testSession();
-    var idUser = -1;
-    $.post(
-      "inc/clients/editClient.inc.php",
-      {
-        idUser: idUser,
-      },
-      function (resultat) {
-        $("#modal").html(resultat);
-        $("#modalEditClient").modal("show");
-      }
-    );
-  });
+  // ---------------------------------------------------------
+  // Création d'un nouveau client
+  // ---------------------------------------------------------
+  // $("body").on("click", "#btn-newClient", function (event) {
+  //   testSession();
+  //   var idUser = -1;
+  //   $.post(
+  //     "inc/clients/editClient.inc.php",
+  //     {
+  //       idUser: idUser,
+  //     },
+  //     function (resultat) {
+  //       $("#modal").html(resultat);
+  //       $("#modalEditClient").modal("show");
+  //     }
+  //   );
+  // });
 
   // -----------------------------------------------------------
   // Enregistrement d'une fiche client depuis la boîte modale
-
+  // ---------------------------------------------------------
   $("body").on("click", "#btn-saveClient", function (event) {
     testSession(event);
+
     if ($("#modalFormClient").valid()) {
       var formulaire = $("#modalFormClient").serialize();
       $.post(
@@ -307,6 +343,7 @@ $(function () {
 
   // ---------------------------------------------------------
   // présentation tri par date
+  // ---------------------------------------------------------
   $("body").on("click", ".clientParDate", function (event) {
     testSession(event);
     var ceci = $(this);
@@ -334,13 +371,18 @@ $(function () {
       },
       function (resultat) {
         conteneur.html(resultat);
-        if ($('table.listeClients tr.choosen').length != 0)
-          $('table.listeClients tr.choosen')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if ($("table.listeClients tr.choosen").length != 0)
+          $("table.listeClients tr.choosen")[0].scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
       }
     );
   });
 
+  // ---------------------------------------------------------
   // présentation tri alphaAsc
+  // ---------------------------------------------------------
   $("body").on("click", ".clientAlphaAsc", function (event) {
     testSession(event);
     var ceci = $(this);
@@ -370,13 +412,18 @@ $(function () {
       },
       function (resultat) {
         conteneur.html(resultat);
-        if ($('table.listeClients tr.choosen').length != 0)
-          $('table.listeClients tr.choosen')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if ($("table.listeClients tr.choosen").length != 0)
+          $("table.listeClients tr.choosen")[0].scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
       }
     );
   });
 
+  // ---------------------------------------------------------
   // présentation tri alphaDesc
+  // ---------------------------------------------------------
   $("body").on("click", ".clientAlphaDesc", function (event) {
     testSession(event);
     var ceci = $(this);
@@ -404,20 +451,26 @@ $(function () {
       },
       function (resultat) {
         conteneur.html(resultat);
-        if ($('table.listeClients tr.choosen').length != 0)
-          $('table.listeClients tr.choosen')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if ($("table.listeClients tr.choosen").length != 0)
+          $("table.listeClients tr.choosen")[0].scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
       }
     );
   });
 
-  //
-  // auto-enregistrement de fiche client ---------------------
-  $("body").on("click", "#ficheClientPerso", function () {
+  // auto-création de fiche client ---------------------
+  $("body").on("click", ".autoEditClient", function () {
+    var ceci = $(this);
+    var typeClient;
+    if (ceci.hasClass("prive")) typeClient = "prive";
+    else typeClient = "entreprise";
     $.post(
       "inc/clients/autoEditClient.inc.php",
       {
         idClient: null,
-        autoFiche: true,
+        typeClient: typeClient,
       },
       function (resultat) {
         $("#modal").html(resultat);
@@ -426,12 +479,73 @@ $(function () {
     );
   });
 
+  // $("body").on("click", "#ficheClientPerso", function () {
+  //   $.post(
+  //     "inc/clients/autoEditClient.inc.php",
+  //     {
+  //       idClient: null,
+  //       autoFiche: true,
+  //       typeClient: 'prive'
+  //     },
+  //     function (resultat) {
+  //       $("#modal").html(resultat);
+  //       $("#modalEditClient").modal("show");
+  //     }
+  //   );
+  // });
+
+  // $("body").on("click", "#ficheClientEntreprise", function () {
+  //   $.post(
+  //     "inc/clients/autoEditClient.inc.php",
+  //     {
+  //       idClient: null,
+  //       autoFiche: true,
+  //       typeClient: 'entreprise'
+  //     },
+  //     function (resultat) {
+  //       $("#modal").html(resultat);
+  //       $("#modalEditClient").modal("show");
+  //     }
+  //   );
+  // });
+
+  // ---------------------------------------------------------
+  // auto-enregistrement de fiche client ---------------------
+  // ---------------------------------------------------------
   $("body").on("click", "#btn-autoSaveClient", function () {
     if ($("#modalFormClient").valid()) {
       var formulaire = $("#modalFormClient").serialize();
+      $.post(
+        "inc/clients/autoSaveClient.inc.php",
+        {
+          formulaire: formulaire,
+        },
+        function (resultatJSON) {
+          var resultat = JSON.parse(resultatJSON);
+          var nbModif = resultat["nb"];
+          var quidam = resultat["quidam"];
+          var message =
+            nbModif != 0
+              ? "<b>" +
+                quidam +
+                "</b>" +
+                "<br>Merci! Votre compte client a été créé"
+              : "L'enregistrement a échoué";
+          bootbox.alert({
+            title: "Création de votre compte client",
+            message: message,
+          });
+          if (nbModif != 0) $("#modalEditClient").modal("hide");
+        }
+      );
+    }
+  });
+
+  $("body").on("click", "#btn-autoSaveEntreprise", function () {
+    if ($("#modalFormEntreprise").valid()) {
+      var formulaire = $("#modalFormClient").serialize();
       var nom = $("#modalFormClient")[0]["nom"].value;
-      var prenom = $("#modalFormClient")[0]["prenom"].value;
-      var quidam = prenom + " " + nom;
+
       $.post(
         "inc/clients/autoSaveClient.inc.php",
         {
@@ -457,12 +571,67 @@ $(function () {
     }
   });
 
+  // -----------------------------------------------------------------
+  // changer de formulaire en fonction du type de client (privé ou entreprise)
+  // -----------------------------------------------------------------
+  function vasY(typeClient) {
+    // rechercher le $idClient éventuellement déjà défini
+    var idClient = $("#modal").find('input:hidden[name="idUser"]').val();
+    // réaliser le changement
+    $.post(
+      "inc/clients/changeTypeClient.inc.php",
+      {
+        idClient: idClient,
+        typeClient: typeClient,
+      },
+      function (resultat) {
+        console.log(resultat);
+      }
+    );
+    $("#modalEditClient").modal("hide");
+    // édition dans la boîte modale après changement
+    $.post(
+      "inc/clients/editClient.inc.php",
+      {
+        idClient: idClient,
+      },
+      function (resultat) {
+        $("#modal").html(resultat);
+        $("#modalEditClient").modal("show");
+        $(".tableClients tr.choosen").trigger("click");
+      }
+    );
+  }
 
-  
+  // ---------------------------------------------------------
+  // Changement du type de client: privé ou entreprise
+  // ---------------------------------------------------------
+  $("body").on("click", ".btn-typeClient", function (event) {
+    testSession(event);
+    // inversion du type
+    if ($(this).hasClass("btn4prive")) typeClient = "prive";
+    else typeClient = "entreprise";
+    var modified = $('input[name="modified"]').val();
+    // Si le formulaire a été modifié, on demande une confirmation
+    if (modified == 1) {
+      bootbox.confirm({
+        title: "Changement de statut du client",
+        message:
+          "Vous allez perdre toute modification récente de cette fiche. Veuillez confirmer.",
+        backdrop: false,
+        callback: function (result) {
+          if (result == true) vasY(typeClient);
+        },
+      });
+    }
+    // c'est OK, aucune modification n'a eu lieu
+    else vasY(typeClient);
+  });
 
-  $('body').on('click', '#cloture', function(){
-    // var nbJoursCloture = (Cookies.get('nbJoursCloture') != undefined) ? Cookies.get('nbJoursCloture') : 30;
-    
-  })
-
+  // --------------------------------------------------------------------
+  // "écoute" s'il y a des modifications dans la fiche client
+  // --------------------------------------------------------------------
+  $("body").on("change", "#modalFormClient input, #modalFormClient select", function () {
+    $("input[name='modified']").val(1);
+  });
 });

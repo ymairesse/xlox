@@ -1,10 +1,16 @@
 {if $profil != Null}
 
 <h2>
+  {if $profil.typeClient == 'prive'} 
   <u
     >[{if $profil.civilite == 'F'}Madame{elseif $profil.civilite ==
-    'M'}Monsieur{else} {/if} {$profil.prenom} {$profil.nom}]</u
+    'M'}Monsieur{else} Mme/M. {/if} 
+    {$profil.prenom} {$profil.nom}]
+  </u
   >
+  {else} 
+  {$profil.nom} 
+  {/if}
 
   <button
     class="btn btn-warning"
@@ -18,6 +24,7 @@
 </h2>
 
 <form autocomplete="false" id="formClient">
+
   <div class="container-fluid">
     <div class="row">
       <input
@@ -26,6 +33,9 @@
         name="idClient"
         id="idClient"
       />
+
+      {if $profil.typeClient == 'prive'} 
+
       <div class="pb-3 col-2">
         <label for="civilite">Genre</label>
         <input
@@ -68,6 +78,21 @@
           readonly
         />
       </div>
+      {else} 
+      <div class="form-group pb-3 col-12">
+        <label for="nom">Nom de l'entreprise</label>
+        <input
+          type="text"
+          class="form-control"
+          name="nom"
+          id="nom"
+          autocomplete="false"
+          value="{$profil.nom|default:''}"
+          placeholder="Nom de l'entreprise"
+          readonly
+        />
+      </div>
+      {/if}
 
       <div class="form-group pb-3 col-4">
         <label for="gsm"
@@ -160,6 +185,8 @@
         />
       </div>
 
+      {if $profil.typeClient == 'entreprise'} 
+
       <div class="form-group pb-3 col-12">
         <label for="tva">N° TVA</label>
         <div class="input-group mb-3">
@@ -177,6 +204,7 @@
           />
         </div>
       </div>
+      {/if}
     </div>
   </div>
 </form>

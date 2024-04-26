@@ -42,7 +42,5 @@
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
-  $('td[data-toggle="tooltip"]').on('click', console.log('tt'));
-
   });
 </script>

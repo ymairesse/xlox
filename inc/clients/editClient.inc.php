@@ -16,10 +16,17 @@ $idClient = isset($_POST['idClient']) ? $_POST['idClient'] : Null;
 if ($idClient != Null) {
     $dataClient = $User->getDataUser($idClient);
     $User->touchUser($idClient);
+    $typeClient = $dataClient['typeClient'];
+} else {
+    $dataClient = Null;
+    $typeClent = Null;
 }
-else $dataClient = Null;
 
 $smarty->assign('idClient', $idClient);
 $smarty->assign('dataClient', $dataClient);
+$smarty->assign('typeClient', $typeClient);
 
-$smarty->display('clients/modal/modalEditClient.tpl');
+if ($typeClient == 'prive')
+    $smarty->display('clients/modal/modalEditClientPrive.tpl');
+else
+    $smarty->display('clients/modal/modalEditClientEntreprise.tpl');
