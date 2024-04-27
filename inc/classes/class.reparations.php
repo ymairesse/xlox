@@ -170,12 +170,12 @@ class Reparation
     }
 
     /**
-    * renvoie le nombre de mentions d'avancement pour tous les bons
-    *
-    * @param
-    *
-    * @return array
-    */
+     * renvoie le nombre de mentions d'avancement pour tous les bons
+     *
+     * @param
+     *
+     * @return array
+     */
     public function getNbAvancements4bons($numeroBon = null)
     {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
@@ -365,17 +365,17 @@ class Reparation
             $requete->setFetchMode(PDO::FETCH_ASSOC);
             while ($ligne = $requete->fetch()) {
                 $numeroBon = $ligne['numeroBon'];
-                    switch($ligne['civilite']) {
-                        case 'F':
-                            $ligne['civilite'] = 'Mme';
-                            break;
-                        case 'M':
-                            $ligne['civilite'] = 'M.';
-                            break;
-                        default:
-                            $ligne['civilite'] = 'Mme/M.';
-                            break;
-                    }
+                switch ($ligne['civilite']) {
+                    case 'F':
+                        $ligne['civilite'] = 'Mme';
+                        break;
+                    case 'M':
+                        $ligne['civilite'] = 'M.';
+                        break;
+                    default:
+                        $ligne['civilite'] = 'Mme/M.';
+                        break;
+                }
                 $liste[$numeroBon] = $ligne;
             }
         }
@@ -383,9 +383,9 @@ class Reparation
         Application::DeconnexionPDO($connexion);
 
         return $liste;
-    }    
+    }
 
-        /**
+    /**
      * recherche le nombre de dépendances sur les bons de réparations pour l'utilisateur $idUser
      * afin de ne pas supprimer un utilisateur avec des actions en attente
      *
@@ -425,340 +425,484 @@ class Reparation
      * @return array
      */
 
-     public function getDataBon($idUser, $numeroBon)
-     {
-         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-         $sql = 'SELECT * ';
-         $sql .= 'FROM ' . PFX . 'bonsReparation ';
-         $sql .= 'WHERE idUser = :idUser AND numeroBon = :numeroBon ';
-         $requete = $connexion->prepare($sql);
- 
-         $requete->bindParam(':idUser', $idUser, PDO::PARAM_INT);
-         $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
- 
-         $resultat = $requete->execute();
- 
-         if ($resultat) {
-             $requete->setFetchMode(PDO::FETCH_ASSOC);
-             $dataBon = $requete->fetch();
-         }
- 
-         Application::DeconnexionPDO($connexion);
- 
-         return $dataBon;
-     }
- 
-     /**
-      * renvoie le contenu du bon de réparation $numeroBon
-      *
-      * @param int $numeroBon
-      *
-      * @return array
-      */
- 
-     public function getData4Bon($numeroBon)
-     {
-         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-         $sql = 'SELECT * ';
-         $sql .= 'FROM ' . PFX . 'bonsReparation AS bons ';
-         $sql .= 'JOIN ' . PFX . 'typeMateriel AS tm ON bons.typeMateriel = tm.idTypeMateriel ';
-         $sql .= 'WHERE numeroBon = :numeroBon ';
-         $requete = $connexion->prepare($sql);
- 
-         $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
- 
-         $resultat = $requete->execute();
- 
-         if ($resultat) {
-             $requete->setFetchMode(PDO::FETCH_ASSOC);
-             $dataBon = $requete->fetch();
-         }
- 
-         Application::DeconnexionPDO($connexion);
- 
-         return $dataBon;
-     }
- 
-     /**
-      * Enregistrement des données d'un bon depuis le formulaire $form
-      *
-      * @param array $form
-      *
-      * @return int
-      */
-     public function saveDataBon($form)
-     {
-         $idUser = isset($form['idClient']) ? $form['idClient'] : null;
-         $numeroBon = isset($form['numeroBon']) ? $form['numeroBon'] : null;
- 
-         $typeMateriel = isset($form['typeMateriel']) ? $form['typeMateriel'] : null;
-         $marque = isset($form['marque']) ? $form['marque'] : null;
-         $modele = isset($form['modele']) ? $form['modele'] : null;
- 
-         $dateEntree = ($form['dateEntree'] != '') ? $form['dateEntree'] : null;
-         $benevole = isset($form['benevole']) ? $form['benevole'] : null;
-         $ox = isset($form['ox']) ? $form['ox'] : null;
-         $mdp = isset($form['mdp']) ? $form['mdp'] : null;
-         $data = isset($form['data']) ? $form['data'] : null;
- 
-         $probleme = isset($form['probleme']) ? $form['probleme'] : null;
-         $etat = isset($form['etat']) ? $form['etat'] : null;
-         $devis = isset($form['devis']) ? $form['devis'] : null;
-         $remarque = isset($form['remarque']) ? $form['remarque'] : null;
-         $termine = isset($form['termine']) ? $form['termine'] : null;
-         $dateSortie = ($form['dateSortie'] != '') ? $form['dateSortie'] : null;
-         $apayer = isset($form['apayer']) ? $form['apayer'] : '-';
-         $garantie = isset($form['garantie']) ? $form['garantie'] : null;
- 
-         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-         if ($numeroBon == null) {
-             $sql = 'INSERT INTO ' . PFX . 'bonsReparation ';
-             $sql .= 'SET idUser = :idUser, typeMateriel = :typeMateriel, marque = :marque, modele = :modele, ox = :ox, ';
-             $sql .= 'dateEntree = :dateEntree, benevole = :benevole, mdp = :mdp, probleme = :probleme, etat = :etat, devis = :devis, ';
-             $sql .= 'data = :data, remarque = :remarque, termine = :termine, dateSortie = :dateSortie, apayer = :apayer, ';
-             $sql .= 'garantie = :garantie ';
-         } else {
-             $sql = 'UPDATE ' . PFX . 'bonsReparation ';
-             $sql .= 'SET idUser = :idUser, typeMateriel = :typeMateriel, marque = :marque, modele = :modele, ox = :ox, ';
-             $sql .= 'dateEntree = :dateEntree, benevole = :benevole, mdp = :mdp, probleme = :probleme, etat = :etat, devis = :devis, ';
-             $sql .= 'data = :data, remarque = :remarque, termine = :termine, dateSortie = :dateSortie, apayer = :apayer, ';
-             $sql .= 'garantie = :garantie ';
-             $sql .= 'WHERE numeroBon = :numeroBon ';
-         }
-         $requete = $connexion->prepare($sql);
- 
-         $requete->bindParam(':idUser', $idUser, PDO::PARAM_INT);
-         $requete->bindParam(':typeMateriel', $typeMateriel, PDO::PARAM_INT);
-         $requete->bindParam(':marque', $marque, PDO::PARAM_STR, 50);
-         $requete->bindParam(':modele', $modele, PDO::PARAM_STR, 50);
-         $requete->bindParam(':dateEntree', $dateEntree, PDO::PARAM_STR, 10);
-         $requete->bindParam(':ox', $ox, PDO::PARAM_STR, 7);
-         $requete->bindParam(':benevole', $benevole, PDO::PARAM_STR, 100);
-         $requete->bindParam(':mdp', $mdp, PDO::PARAM_STR, 40);
-         $requete->bindParam(':probleme', $probleme, PDO::PARAM_STR);
-         $requete->bindParam(':etat', $etat, PDO::PARAM_STR);
-         $requete->bindParam(':devis', $devis, PDO::PARAM_STR);
-         $requete->bindParam(':data', $data, PDO::PARAM_INT);
-         $requete->bindParam(':remarque', $remarque, PDO::PARAM_STR);
-         $requete->bindParam(':termine', $termine, PDO::PARAM_INT);
-         $requete->bindParam(':dateSortie', $dateSortie, PDO::PARAM_STR, 10);
-         $requete->bindParam(':apayer', $apayer, PDO::PARAM_INT);
-         $requete->bindParam(':garantie', $garantie, PDO::PARAM_INT);
-         if ($numeroBon != null) {
-             $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
-         }
- 
-         $resultat = $requete->execute();
-         $nb = $requete->rowCount();
- 
-         if ($numeroBon == null) {
-             $numeroBon = $connexion->lastInsertId();
-         }
- 
-         // enregistrement de la liste des accessoires fournis par le client
-         $listeAccessoires = isset($form['accessoires']) ? $form['accessoires'] : null;
- 
-         // nettoyage de la liste actuelle
-         $sql = 'DELETE FROM ' . PFX . 'bonsAccessoires ';
-         $sql .= 'WHERE numeroBon = :numeroBon ';
-         $requete = $connexion->prepare($sql);
- 
-         $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
-         $resultat = $requete->execute();
- 
-         // remise en place éventuelle des "accessoires" du formulaire
-         if ($listeAccessoires != null) {
-             $sql = 'INSERT INTO ' . PFX . 'bonsAccessoires ';
-             $sql .= 'SET numeroBon = :numeroBon, idAccessoire = :idAccessoire ';
-             $requete = $connexion->prepare($sql);
- 
-             $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
- 
-             foreach ($listeAccessoires as $wtf => $idAccessoire) {
-                 $requete->bindParam(':idAccessoire', $idAccessoire, PDO::PARAM_INT);
-                 $resultat = $requete->execute();
-             }
-         }
- 
-         Application::DeconnexionPDO($connexion);
- 
-         return $numeroBon;
-     }
- 
-     /**
+    public function getDataBon($idUser, $numeroBon)
+    {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'SELECT * ';
+        $sql .= 'FROM ' . PFX . 'bonsReparation ';
+        $sql .= 'WHERE idUser = :idUser AND numeroBon = :numeroBon ';
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+        $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
+
+        $resultat = $requete->execute();
+
+        if ($resultat) {
+            $requete->setFetchMode(PDO::FETCH_ASSOC);
+            $dataBon = $requete->fetch();
+        }
+
+        Application::DeconnexionPDO($connexion);
+
+        return $dataBon;
+    }
+
+    /**
+     * renvoie le contenu du bon de réparation $numeroBon
+     *
+     * @param int $numeroBon
+     *
+     * @return array
+     */
+
+    public function getData4Bon($numeroBon)
+    {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'SELECT * ';
+        $sql .= 'FROM ' . PFX . 'bonsReparation AS bons ';
+        $sql .= 'JOIN ' . PFX . 'typeMateriel AS tm ON bons.typeMateriel = tm.idTypeMateriel ';
+        $sql .= 'WHERE numeroBon = :numeroBon ';
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
+
+        $resultat = $requete->execute();
+
+        if ($resultat) {
+            $requete->setFetchMode(PDO::FETCH_ASSOC);
+            $dataBon = $requete->fetch();
+        }
+
+        Application::DeconnexionPDO($connexion);
+
+        return $dataBon;
+    }
+
+    /**
+     * Enregistrement des données d'un bon depuis le formulaire $form
+     *
+     * @param array $form
+     *
+     * @return int
+     */
+    public function saveDataBon($form)
+    {
+        $idUser = isset($form['idClient']) ? $form['idClient'] : null;
+        $numeroBon = isset($form['numeroBon']) ? $form['numeroBon'] : null;
+
+        $typeMateriel = isset($form['typeMateriel']) ? $form['typeMateriel'] : null;
+        $marque = isset($form['marque']) ? $form['marque'] : null;
+        $modele = isset($form['modele']) ? $form['modele'] : null;
+
+        $dateEntree = ($form['dateEntree'] != '') ? $form['dateEntree'] : null;
+        $benevole = isset($form['benevole']) ? $form['benevole'] : null;
+        $ox = isset($form['ox']) ? $form['ox'] : null;
+        $mdp = isset($form['mdp']) ? $form['mdp'] : null;
+        $data = isset($form['data']) ? $form['data'] : null;
+
+        $probleme = isset($form['probleme']) ? $form['probleme'] : null;
+        $etat = isset($form['etat']) ? $form['etat'] : null;
+        $devis = isset($form['devis']) ? $form['devis'] : null;
+        $remarque = isset($form['remarque']) ? $form['remarque'] : null;
+        $termine = isset($form['termine']) ? $form['termine'] : null;
+        $dateSortie = ($form['dateSortie'] != '') ? $form['dateSortie'] : null;
+        $apayer = isset($form['apayer']) ? $form['apayer'] : '-';
+        $garantie = isset($form['garantie']) ? $form['garantie'] : null;
+
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        if ($numeroBon == null) {
+            $sql = 'INSERT INTO ' . PFX . 'bonsReparation ';
+            $sql .= 'SET idUser = :idUser, typeMateriel = :typeMateriel, marque = :marque, modele = :modele, ox = :ox, ';
+            $sql .= 'dateEntree = :dateEntree, benevole = :benevole, mdp = :mdp, probleme = :probleme, etat = :etat, devis = :devis, ';
+            $sql .= 'data = :data, remarque = :remarque, termine = :termine, dateSortie = :dateSortie, apayer = :apayer, ';
+            $sql .= 'garantie = :garantie ';
+        } else {
+            $sql = 'UPDATE ' . PFX . 'bonsReparation ';
+            $sql .= 'SET idUser = :idUser, typeMateriel = :typeMateriel, marque = :marque, modele = :modele, ox = :ox, ';
+            $sql .= 'dateEntree = :dateEntree, benevole = :benevole, mdp = :mdp, probleme = :probleme, etat = :etat, devis = :devis, ';
+            $sql .= 'data = :data, remarque = :remarque, termine = :termine, dateSortie = :dateSortie, apayer = :apayer, ';
+            $sql .= 'garantie = :garantie ';
+            $sql .= 'WHERE numeroBon = :numeroBon ';
+        }
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+        $requete->bindParam(':typeMateriel', $typeMateriel, PDO::PARAM_INT);
+        $requete->bindParam(':marque', $marque, PDO::PARAM_STR, 50);
+        $requete->bindParam(':modele', $modele, PDO::PARAM_STR, 50);
+        $requete->bindParam(':dateEntree', $dateEntree, PDO::PARAM_STR, 10);
+        $requete->bindParam(':ox', $ox, PDO::PARAM_STR, 7);
+        $requete->bindParam(':benevole', $benevole, PDO::PARAM_STR, 100);
+        $requete->bindParam(':mdp', $mdp, PDO::PARAM_STR, 40);
+        $requete->bindParam(':probleme', $probleme, PDO::PARAM_STR);
+        $requete->bindParam(':etat', $etat, PDO::PARAM_STR);
+        $requete->bindParam(':devis', $devis, PDO::PARAM_STR);
+        $requete->bindParam(':data', $data, PDO::PARAM_INT);
+        $requete->bindParam(':remarque', $remarque, PDO::PARAM_STR);
+        $requete->bindParam(':termine', $termine, PDO::PARAM_INT);
+        $requete->bindParam(':dateSortie', $dateSortie, PDO::PARAM_STR, 10);
+        $requete->bindParam(':apayer', $apayer, PDO::PARAM_INT);
+        $requete->bindParam(':garantie', $garantie, PDO::PARAM_INT);
+        if ($numeroBon != null) {
+            $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
+        }
+
+        $resultat = $requete->execute();
+        $nb = $requete->rowCount();
+
+        if ($numeroBon == null) {
+            $numeroBon = $connexion->lastInsertId();
+        }
+
+        // enregistrement de la liste des accessoires fournis par le client
+        $listeAccessoires = isset($form['accessoires']) ? $form['accessoires'] : null;
+
+        // nettoyage de la liste actuelle
+        $sql = 'DELETE FROM ' . PFX . 'bonsAccessoires ';
+        $sql .= 'WHERE numeroBon = :numeroBon ';
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
+        $resultat = $requete->execute();
+
+        // remise en place éventuelle des "accessoires" du formulaire
+        if ($listeAccessoires != null) {
+            $sql = 'INSERT INTO ' . PFX . 'bonsAccessoires ';
+            $sql .= 'SET numeroBon = :numeroBon, idAccessoire = :idAccessoire ';
+            $requete = $connexion->prepare($sql);
+
+            $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
+
+            foreach ($listeAccessoires as $wtf => $idAccessoire) {
+                $requete->bindParam(':idAccessoire', $idAccessoire, PDO::PARAM_INT);
+                $resultat = $requete->execute();
+            }
+        }
+
+        Application::DeconnexionPDO($connexion);
+
+        return $numeroBon;
+    }
+
+    /**
      * renvoie les bons de réparation dont on donne l'identifiant du client correspondant
      *
      * @param int $idClient
      *
      * @return array
      */
-     public function getListeBonsReparation($idClient)
-     {
-         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-         // $sql = 'SELECT numeroBon, idUser, type.type, marque, modele, ox, data, ';
-         // $sql .= 'dateEntree, dateSortie, benevole, mdp, data, probleme, etat, devis, remarque, apayer, termine ';
-         $sql = 'SELECT * ';
-         $sql .= 'FROM ' . PFX . 'bonsReparation ';
-         $sql .= 'JOIN ' . PFX . 'typeMateriel AS type ON typeMateriel = type.idTypeMateriel ';
-         $sql .= 'WHERE idUser = :idClient ';
-         $sql .= 'ORDER BY dateEntree ';
-         $requete = $connexion->prepare($sql);
- 
-         $requete->bindParam(':idClient', $idClient, PDO::PARAM_INT);
- 
-         $resultat = $requete->execute();
-         $liste = array();
-         if ($resultat) {
-             $requete->setFetchMode(PDO::FETCH_ASSOC);
-             while ($ligne = $requete->fetch()) {
-                 $numeroBon = $ligne['numeroBon'];
-                 $liste[$numeroBon] = $ligne;
-             }
-         }
- 
-         Application::DeconnexionPDO($connexion);
- 
-         return $liste;
-     }
- 
-     /**
-      * renvoie tous les types de matériels disponibles en réparation
-      *
-      * @param
-      *
-      * @return array
-      */
-     public function getTypeMateriel()
-     {
-         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-         $sql = 'SELECT idTypeMateriel, type ';
-         $sql .= 'FROM ' . PFX . 'typeMateriel ';
-         $sql .= 'ORDER BY type ';
-         $requete = $connexion->prepare($sql);
- 
-         $liste = array();
-         $resultat = $requete->execute();
-         if ($resultat) {
-             $requete->setFetchMode(PDO::FETCH_ASSOC);
-             while ($ligne = $requete->fetch()) {
-                 $id = $ligne['idTypeMateriel'];
-                 $liste[$id] = $ligne['type'];
-             }
-         }
- 
-         Application::DeconnexionPDO($connexion);
- 
-         return $liste;
-     }
- 
-     /**
-      * Enregistre le nouveau type de matériel $type ou le type $idMatos
-      *
-      * @param string $type
-      * @param int $idMatos
-      *
-      * @return int $idMatos
-      */
-     public function saveMatos($idMatos, $type)
-     {
-         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-         if ($idMatos == null) {
-             $sql = 'INSERT INTO ' . PFX . 'typeMateriel ';
-             $sql .= 'SET type = :type ';
-         } else {
-             $sql = 'UPDATE ' . PFX . 'typeMateriel ';
-             $sql .= 'SET type = :type ';
-             $sql .= 'WHERE idTypeMateriel = :idMatos ';
-         }
-         $requete = $connexion->prepare($sql);
- 
-         $requete->bindParam(':type', $type, PDO::PARAM_STR, 50);
-         if ($idMatos != null) {
-             $requete->bindParam(':idMatos', $idMatos, PDO::PARAM_INT);
-         }
- 
-         $resultat = $requete->execute();
- 
-         if ($idMatos == null) {
-             $idMatos = $connexion->lastInsertId();
-         }
- 
-         Application::DeconnexionPDO($connexion);
- 
-         return $idMatos;
-     }
- 
-     /**
-      * Enregistre un nouveau type d'accessoire ou enregistre l'édition de l'accessoire $idAccessoire
-      *
-      * @param int $idAccessoire
-      * @param string $accessoire
-      *
-      * @return int
-      */
-     public function saveAccessoire($idAccessoire, $accessoire)
-     {
-         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-         if ($idAccessoire == null) {
-             $sql = 'INSERT INTO ' . PFX . 'accessoires ';
-             $sql .= 'SET accessoire = :accessoire ';
-         } else {
-             $sql = 'UPDATE ' . PFX . 'accessoires ';
-             $sql .= 'SET acessoire = :accessoire ';
-             $sql .= 'WHERE idAccessoire = :idAccessoire ';
-         }
-         $requete = $connexion->prepare($sql);
- 
-         $requete->bindParam(':accessoire', $accessoire, PDO::PARAM_STR, 30);
-         if ($idAccessoire != null) {
-             $requete->bindParam(':idAccessoire', $idAccessoire, PDO::PARAM_INT);
-         }
- 
-         $resultat = $requete->execute();
- 
-         if ($idAccessoire == null) {
-             $idAccessoire = $connexion->lastInsertId();
-         }
- 
-         Application::DeconnexionPDO($connexion);
- 
-         return $idAccessoire;
-     }
- 
- 
- 
-     /**
-      * renvoie la liste des accessoires laissés pour le numéro du bon $numeroBon
-      *
-      * @param array $listeBons
-      *
-      * @return array
-      */
-     public function getAccessoires4bon($numeroBon)
-     {
-         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
-         $sql = 'SELECT numeroBon, macc.idAccessoire, accessoire ';
-         $sql .= 'FROM ' . PFX . 'bonsAccessoires AS macc ';
-         $sql .= 'JOIN ' . PFX . 'accessoires AS acc ON acc.idAccessoire = macc.idAccessoire ';
-         $sql .= 'WHERE numeroBon = :numeroBon ';
-         $requete = $connexion->prepare($sql);
- 
-         $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
- 
-         $liste = array();
-         $resultat = $requete->execute();
-         if ($resultat) {
-             $requete->setFetchMode(PDO::FETCH_ASSOC);
-             while ($ligne = $requete->fetch()) {
-                 $numeroBon = $ligne['numeroBon'];
-                 $idAccessoire = $ligne['idAccessoire'];
-                 $liste[$idAccessoire] = $ligne['accessoire'];
-             }
-         }
- 
-         Application::DeconnexionPDO($connexion);
- 
-         return $liste;
-     }
+    public function getListeBonsReparation($idClient)
+    {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        // $sql = 'SELECT numeroBon, idUser, type.type, marque, modele, ox, data, ';
+        // $sql .= 'dateEntree, dateSortie, benevole, mdp, data, probleme, etat, devis, remarque, apayer, termine ';
+        $sql = 'SELECT * ';
+        $sql .= 'FROM ' . PFX . 'bonsReparation ';
+        $sql .= 'JOIN ' . PFX . 'typeMateriel AS type ON typeMateriel = type.idTypeMateriel ';
+        $sql .= 'WHERE idUser = :idClient ';
+        $sql .= 'ORDER BY dateEntree ';
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+
+        $resultat = $requete->execute();
+        $liste = array();
+        if ($resultat) {
+            $requete->setFetchMode(PDO::FETCH_ASSOC);
+            while ($ligne = $requete->fetch()) {
+                $numeroBon = $ligne['numeroBon'];
+                $liste[$numeroBon] = $ligne;
+            }
+        }
+
+        Application::DeconnexionPDO($connexion);
+
+        return $liste;
+    }
+
+    /**
+     * renvoie tous les types de matériels disponibles en réparation
+     *
+     * @param
+     *
+     * @return array
+     */
+    public function getTypeMateriel()
+    {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'SELECT idTypeMateriel, type ';
+        $sql .= 'FROM ' . PFX . 'typeMateriel ';
+        $sql .= 'ORDER BY type ';
+        $requete = $connexion->prepare($sql);
+
+        $liste = array();
+        $resultat = $requete->execute();
+        if ($resultat) {
+            $requete->setFetchMode(PDO::FETCH_ASSOC);
+            while ($ligne = $requete->fetch()) {
+                $id = $ligne['idTypeMateriel'];
+                $liste[$id] = $ligne['type'];
+            }
+        }
+
+        Application::DeconnexionPDO($connexion);
+
+        return $liste;
+    }
+
+    /**
+     * Enregistre le nouveau type de matériel $type ou le type $idMatos
+     *
+     * @param string $type
+     * @param int $idMatos
+     *
+     * @return int $idMatos
+     */
+    public function saveMatos($idMatos, $type)
+    {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        if ($idMatos == null) {
+            $sql = 'INSERT INTO ' . PFX . 'typeMateriel ';
+            $sql .= 'SET type = :type ';
+        } else {
+            $sql = 'UPDATE ' . PFX . 'typeMateriel ';
+            $sql .= 'SET type = :type ';
+            $sql .= 'WHERE idTypeMateriel = :idMatos ';
+        }
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':type', $type, PDO::PARAM_STR, 50);
+        if ($idMatos != null) {
+            $requete->bindParam(':idMatos', $idMatos, PDO::PARAM_INT);
+        }
+
+        $resultat = $requete->execute();
+
+        if ($idMatos == null) {
+            $idMatos = $connexion->lastInsertId();
+        }
+
+        Application::DeconnexionPDO($connexion);
+
+        return $idMatos;
+    }
+
+    /**
+     * Enregistre un nouveau type d'accessoire ou enregistre l'édition de l'accessoire $idAccessoire
+     *
+     * @param int $idAccessoire
+     * @param string $accessoire
+     *
+     * @return int
+     */
+    public function saveAccessoire($idAccessoire, $accessoire)
+    {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        if ($idAccessoire == null) {
+            $sql = 'INSERT INTO ' . PFX . 'accessoires ';
+            $sql .= 'SET accessoire = :accessoire ';
+        } else {
+            $sql = 'UPDATE ' . PFX . 'accessoires ';
+            $sql .= 'SET acessoire = :accessoire ';
+            $sql .= 'WHERE idAccessoire = :idAccessoire ';
+        }
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':accessoire', $accessoire, PDO::PARAM_STR, 30);
+        if ($idAccessoire != null) {
+            $requete->bindParam(':idAccessoire', $idAccessoire, PDO::PARAM_INT);
+        }
+
+        $resultat = $requete->execute();
+
+        if ($idAccessoire == null) {
+            $idAccessoire = $connexion->lastInsertId();
+        }
+
+        Application::DeconnexionPDO($connexion);
+
+        return $idAccessoire;
+    }
+
+
+
+    /**
+     * renvoie la liste des accessoires laissés pour le numéro du bon $numeroBon
+     *
+     * @param array $listeBons
+     *
+     * @return array
+     */
+    public function getAccessoires4bon($numeroBon)
+    {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'SELECT numeroBon, macc.idAccessoire, accessoire ';
+        $sql .= 'FROM ' . PFX . 'bonsAccessoires AS macc ';
+        $sql .= 'JOIN ' . PFX . 'accessoires AS acc ON acc.idAccessoire = macc.idAccessoire ';
+        $sql .= 'WHERE numeroBon = :numeroBon ';
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
+
+        $liste = array();
+        $resultat = $requete->execute();
+        if ($resultat) {
+            $requete->setFetchMode(PDO::FETCH_ASSOC);
+            while ($ligne = $requete->fetch()) {
+                $numeroBon = $ligne['numeroBon'];
+                $idAccessoire = $ligne['idAccessoire'];
+                $liste[$idAccessoire] = $ligne['accessoire'];
+            }
+        }
+
+        Application::DeconnexionPDO($connexion);
+
+        return $liste;
+    }
+
+    /**
+     * renvoie la liste des accessoires disponibles pour les matériels laissés en réparation
+     *
+     * @param
+     *
+     * @return array 
+     */
+    public function getListeAccessoires()
+    {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'SELECT idAccessoire, accessoire ';
+        $sql .= 'FROM ' . PFX . 'accessoires ';
+        $sql .= 'ORDER BY accessoire ';
+        $requete = $connexion->prepare($sql);
+
+        $liste = array();
+
+        $resultat = $requete->execute();
+
+        if ($resultat) {
+            $requete->setFetchMode(PDO::FETCH_ASSOC);
+            while ($ligne = $requete->fetch()) {
+                $idAccessoire = $ligne['idAccessoire'];
+                $accessoire = $ligne['accessoire'];
+                $liste[$idAccessoire]['accessoire'] = $accessoire;
+                // nombre d'usage de l'accessoire (sera complété plus tard)
+                $liste[$idAccessoire]['nb'] = 0;
+            }
+        }
+
+        Application::DeconnexionPDO($connexion);
+
+        return $liste;
+    }
+
+    /**
+     * recherche le nombre de citations des accessoires dans les bons de réparation
+     * 
+     * @param 
+     * 
+     * @return array
+     */
+    public function getAccessoiresInBons()
+    {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'SELECT COUNT(numeroBon) AS compte, idAccessoire ';
+        $sql .= 'FROM ' . PFX . 'bonsAccessoires ';
+        $sql .= 'GROUP BY idAccessoire ';
+        $requete = $connexion->prepare($sql);
+
+        $resultat = $requete->execute();
+
+        $liste = array();
+        if ($resultat) {
+            while ($ligne = $requete->fetch()) {
+                $idAccessoire = $ligne['idAccessoire'];
+                $liste[$idAccessoire] = $ligne['compte'];
+            }
+        }
+
+        Application::DeconnexionPDO($connexion);
+
+        return $liste;
+    }
+    /**
+     * Suppression de l'accessoire $idAccessoire de la liste des accessoires
+     * disponibles dans la BD
+     * 
+     * @param int $idAccessoire
+     * 
+     * @return int
+     */
+    public function delAccessoire($idAccessoire)
+    {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'DELETE FROM ' . PFX . 'accessoires ';
+        $sql .= 'WHERE idAccessoire = :idAccessoire ';
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':idAccessoire', $idAccessoire, PDO::PARAM_INT);
+
+        $resultat = $requete->execute();
+
+        $n = $requete->rowCount();
+
+        Application::DeconnexionPDO($connexion);
+
+        return $n;
+    }
+
+    /**
+     * Ajoute un nouvel accessoire à la liste des items disponibles dans la BD
+     * 
+     * @param string $accessoire
+     * 
+     * @return int
+     */
+    public function addAccessoire($accessoire)
+    {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'INSERT INTO ' . PFX . 'accessoires ';
+        $sql .= 'SET accessoire = :accessoire ';
+        $requete = $connexion->prepare($sql);
+
+        $accessoire = substr($accessoire, 0, 29);
+        $requete->bindParam(':accessoire', $accessoire, PDO::PARAM_STR, 30);
+
+        $resultat = $requete->execute();
+
+        $n = $requete->rowCount();
+
+        Application::DeconnexionPDO($connexion);
+
+        return $n;
+    }
+
+    /**
+     * Modification du nom d'un accessoire disponible dans la BD
+     * 
+     * @param int $idAccessoire
+     * @param string $accessoire
+     * 
+     * @return int
+     */
+    public function editAccessoire($idAccessoire, $accessoire){
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'UPDATE ' . PFX . 'accessoires ';
+        $sql .= 'SET accessoire = :accessoire ';
+        $sql .= 'WHERE idAccessoire = :idAccessoire ';
+        $requete = $connexion->prepare($sql);
+
+        $accessoire = substr($accessoire, 0, 29);
+        $requete->bindParam(':idAccessoire', $idAccessoire, PDO::PARAM_INT);
+        $requete->bindParam(':accessoire', $accessoire, PDO::PARAM_STR, 30);
+
+        $resultat = $requete->execute();
+
+        $n = $requete->rowCount();
+
+        Application::DeconnexionPDO($connexion);
+
+        return $n;
+    }
 
 }

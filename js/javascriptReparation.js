@@ -712,17 +712,90 @@ $(function () {
   // -------------------------------------------------------------------
   // Suppression d'un item de la liste des accessoires disponibles
   // --------------------------------------------------------------------
-  $('body').on('click', '.btn-delAccessoire', function(){
-    var idAccessoire = $(this).closest('tr').data('idaccessoire');
-    console.log(idAccessoire);
-  })
+  $("body").on("click", ".btn-delAccessoire", function () {
+    var ceci = $(this);
+    var idAccessoire = ceci.closest("tr").data("idaccessoire");
+    var accessoire = ceci.closest("tr").find("td").eq(1).text().trim();
+    var message =
+      "Veuillez confirmer la suppression définitive de l'accessoire \"" +
+      accessoire +
+      '"';
+    bootbox.confirm({
+      title: "Suppression",
+      message: message,
+      callback: function (result) {
+        if (result == true) {
+          $.post(
+            "inc/reparations/delAccessoire.inc.php",
+            {
+              idAccessoire: idAccessoire,
+            },
+            function (resultat) {
+              if (resultat == 1) ceci.closest("tr").remove();
+            }
+          );
+        }
+      },
+    });
+  });
+
+  // ---------------------------------------------------------------------
+  // Ajout d'un nouvel item à la liste des accessoires disponibles
+  // ---------------------------------------------------------------------
+  $("body").on("click", "#btn-addAccessoire", function () {
+    bootbox.prompt({
+      title: "Nouvel accessoire",
+      message: "Dénomination de cet accessoire",
+      maxlength: "30",
+      callback: function (accessoire) {
+        if (accessoire != null) {
+          $.post(
+            "inc/reparations/addAccessoire.inc.php",
+            {
+              accessoire: accessoire,
+            },
+            function (resultat) {
+              $("#gestionAccessoires").trigger("click");
+            }
+          );
+        }
+      },
+    });
+  });
 
   // ------------------------------------------------------------------
   // Edition d'un item parmi les accessoires
   // ------------------------------------------------------------------
-  $('body').on('click', '.btn-editAccessoire', function(){
-    var idAccessoire = $(this).closest('tr').data('idaccessoire');
-    console.log(idAccessoire);
-  })
-
+  $("body").on("click", ".btn-editAccessoire", function () {
+    var ceci = $(this);
+    var idAccessoire = ceci.closest("tr").data("idaccessoire");
+    var accessoire = ceci.closest("tr").find("td").eq(1).text().trim();
+    var message = "Nouvelle dénomination de cet accessoire";
+    var nb = ceci.data("nb");
+    if (nb != 0)
+      message +=
+        "<br><strong>Attention! Vous allez modifier cette dénomination sur des fiches de réparation existantes.</strong>";
+    bootbox.prompt({
+      title: "Edition d'un accessoire",
+      message: message,
+      value: accessoire,
+      callback: function (accessoire) {
+        if (accessoire != null) {
+          $.post(
+            "inc/reparations/editAccessoire.inc.php",
+            {
+              idAccessoire: idAccessoire,
+              accessoire: accessoire,
+              maxlength: "30",
+            },
+            function (resultat) {
+              if (resultat != 0) {
+                ceci.closest("tr").find("td").eq(1).text(accessoire);
+              }
+            }
+          );
+        }
+      },
+    });
+  });
 });

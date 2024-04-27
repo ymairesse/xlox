@@ -144,6 +144,12 @@
                 Gestion du stock
               </a>
             </li>
+            <li>
+              <a href="#" id="gestionAccessoires" class="dropdown-item">
+                <i class="fa fa-wrench" aria-hidden="true"></i>
+                Gestion des accessoires
+              </a>
+            </li>
 
             <li><hr class="dropdown-divider" /></li>
             <li>
