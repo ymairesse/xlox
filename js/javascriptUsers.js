@@ -5,7 +5,7 @@ $(function () {
   $("body").on("click", "#profil", function (event) {
     testSession(event);
     $.post("inc/users/getOwnUserProfile.inc.php", {}, function (resultat) {
-      $("#unique").html(resultat);
+      $("#corpsPage").html(resultat);
     });
   });
 
@@ -64,7 +64,7 @@ $(function () {
         idUser: idUser,
       },
       function (resultat) {
-        $("#unique").html(resultat);
+        $("#corpsPage").html(resultat);
       }
     );
   });
@@ -146,7 +146,7 @@ $(function () {
             function (resultat) {
               if (nb > 0) $("#ficheProfil").html(resultat);
               else {
-                $("#unique").html(resultat);
+                $("#corpsPage").html(resultat);
               }
             }
           );

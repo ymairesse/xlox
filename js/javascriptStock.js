@@ -8,7 +8,7 @@ $(function () {
         idMateriel: idMateriel,
       },
       function (resultat) {
-        $("#unique").html(resultat);
+        $("corpsPage").html(resultat);
       }
     );
   });
@@ -100,7 +100,7 @@ $(function () {
               idMateriel: idMateriel,
             },
             function (resultat) {
-              $("#unique").html(resultat);
+              $("corpsPage").html(resultat);
             }
           );
           bootbox.alert({

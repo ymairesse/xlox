@@ -79,7 +79,7 @@ $(function () {
         sortClient: sortClient,
       },
       function (resultat) {
-        $("#unique").html(resultat);
+        $("#corpsPage").html(resultat);
         if ($("table.listeClients tr.choosen").length != 0)
           $("table.listeClients tr.choosen")[0].scrollIntoView({
             behavior: "smooth",
@@ -206,7 +206,7 @@ $(function () {
                           sortClient: sortClient,
                         },
                         function (resultat) {
-                          $("#unique").html(resultat);
+                          $("#corpsPage").html(resultat);
                         }
                       );
                     }
@@ -324,7 +324,7 @@ $(function () {
               sortClient: sortClient,
             },
             function (resultat) {
-              $("#unique").html(resultat);
+              $("#corpsPage").html(resultat);
             }
           );
 

@@ -24,7 +24,7 @@ $(function () {
         sortClient: sortClient,
       },
       function (resultat) {
-        $("#unique").html(resultat);
+        $("#corpsPage").html(resultat);
         var obj = $('tr[data-idclient="' + idClient + '"]');
         // y a-t-il une ligne correspondant à idClient dans la liste de gauche?
         if (obj.length != 0)
@@ -51,7 +51,7 @@ $(function () {
         ticketCaisse: ticketCaisse,
       },
       function (resultat) {
-        $("#unique").html(resultat);
+        $("#corpsPage").html(resultat);
         $(
           'table#listeGarantiesAnonymes tr[data-ticketcaisse="' +
             ticketCaisse +
@@ -324,7 +324,7 @@ $(function () {
                   sortClient: sortClient,
                 },
                 function (resultat) {
-                  $("#unique").html(resultat);
+                  $("#corpsPage").html(resultat);
                   $(
                     'table.listeClients tr[data-idclient="' + idClient + '"]'
                   ).trigger("click");
@@ -347,7 +347,7 @@ $(function () {
                   ticketCaisse: ticketCaisse,
                 },
                 function (resultat) {
-                  $("#unique").html(resultat);
+                  $("#corpsPage").html(resultat);
                   $(
                     '#listeGarantiesAnonymes [data-ticketcaisse="' +
                       ticketCaisse +
@@ -632,10 +632,9 @@ $(function () {
 
   $('body').on('click', '#gestionAccessoires', function(event){
     testSession(event);
-    $.post('inc/reparations/getModalListeAccessoires.inc.php', {
+    $.post('inc/reparations/getAccessoires.inc.php', {
     }, function(resultat){
-      $('#modal').html(resultat);
-      $('#modalEditAccessoires').modal('show');
+      $('#corpsPage').html(resultat);
     })
   })
 

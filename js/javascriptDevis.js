@@ -15,7 +15,7 @@ $(function () {
         sortClient: sortClient,
       },
       function (resultat) {
-        $("#unique").html(resultat);
+        $("#corpsPage").html(resultat);
         var obj = $('tr[data-idclient="' + idClient + '"]');
         // y a-t-il une ligne correspondant à idClient dans la liste de gauche?
         if (obj.length != 0)

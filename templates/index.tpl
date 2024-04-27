@@ -40,9 +40,9 @@
     </div>
 
     <div class="container-fluid" id="corpsPage">
-      <div class="row">
-        <div class="col-12" id="unique">{include file="start.tpl"}</div>
-      </div>
+
+      {include file="start.tpl"}
+
     </div>
 
     <div id="modal"></div>
