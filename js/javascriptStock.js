@@ -1,6 +1,7 @@
 $(function () {
   $("body").on("click", "#gestionStock", function (event) {
     testSession(event);
+    // se "souvenir" du dernier item sélectionné dans le stock
     var idMateriel = Cookies.get("idMateriel");
     $.post(
       "inc/stock/getStock.inc.php",
@@ -8,7 +9,7 @@ $(function () {
         idMateriel: idMateriel,
       },
       function (resultat) {
-        $("corpsPage").html(resultat);
+        $("#corpsPage").html(resultat);
       }
     );
   });
