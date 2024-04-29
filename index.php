@@ -13,5 +13,6 @@ if ($User != Null)
     else $user = Null;
 
 $smarty->assign('user', $user);
+$smarty->assign('VERSION', VERSION);
 
 $smarty->display('index.tpl');
