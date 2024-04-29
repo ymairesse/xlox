@@ -9,6 +9,7 @@ include '../entetes.inc.php';
 
 // idUser sélectionné à l'écran précédent
 $idUser = isset($_POST['idUser']) ? $_POST['idUser'] : Null;
+// $data de cet utilisateur 
 $dataUser = ($idUser != Null) ? $User->getDataUser($idUser) : Null;
 
 // l'utilisateur actif dans l'application

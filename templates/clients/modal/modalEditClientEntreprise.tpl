@@ -13,7 +13,7 @@
       <div class="modal-header">
         <h5 class="modal-title w-100" id="modalEditClientLabel">
           Fiche Client Entreprise
-          
+          {if $dataClient.idUser != Null}
           <button 
             type="button" 
             id="btnChangeType" 
@@ -23,7 +23,7 @@
             >
             <i class="fa fa-arrow-right"></i> <i class="fa fa-user-o" aria-hidden="true"></i> Privé
           </button>
-
+          {/if}
         </h5>
         <button
           type="button"
@@ -210,8 +210,9 @@
             <div class="form-group pb-3 col-12">
               <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="rgpd"
-                name="rgpd" {if isset($dataClient.rgpd) && $dataClient.rgpd ==
-                1}checked{/if}>
+                name="rgpd" 
+                {if isset($dataClient.rgpd) && $dataClient.rgpd == 1}checked{/if}
+                {if isset($dataClient.idUser)}readonly{/if}>
                 <label
                   class="form-check-label reparation facture devis"
                   id="lblrgpd"
@@ -294,7 +295,6 @@
   }
 
   $(document).ready(function () {
-
 
     $(phoneFormatter);
 

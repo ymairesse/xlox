@@ -13,6 +13,7 @@
       <div class="modal-header">
         <h5 class="modal-title w-100" id="modalEditClientLabel">
           Fiche Client Privé
+          {if $dataClient.idUser != Null}
           <button 
             type="button" 
             id="btnChangeType" 
@@ -22,6 +23,7 @@
             >
             <i class="fa fa-arrow-right"></i> <i class="fa fa-industry" aria-hidden="true"></i> Entreprise
           </button>
+          {/if}
         </h5>
         <button
           type="button"

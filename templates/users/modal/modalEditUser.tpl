@@ -97,7 +97,7 @@
                 <label for="droits"><i class="fa fa-user-plus" aria-hidden="true"></i> Droits
                   {if ($self.idUser == $dataUser.idUser)} [non modifiable]{/if}
                 </label>
-                {if ($self.droits != 'root') || ($self.idUser != $dataUser.idUser)}
+                {if ($self.droits == 'root') && ($self.idUser != $dataUser.idUser)}
                 <select name="droits" 
                   id="droits" 
                   class="form-control"

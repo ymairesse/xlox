@@ -202,6 +202,9 @@
     
     </div>
   </div>
+  <button type="button" class="btn btn-warning w-100" id="btn-editProfil">
+    <i class="fa fa-edit"></i> Modifier le profil
+  </button>
 </form>
 
 <style>

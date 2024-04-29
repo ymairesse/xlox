@@ -26,7 +26,7 @@ $smarty->assign('idClient', $idClient);
 $smarty->assign('dataClient', $dataClient);
 $smarty->assign('typeClient', $typeClient);
 
-if ($typeClient == 'prive')
+if (($typeClient == 'prive') || ($typeClient == Null))
     $smarty->display('clients/modal/modalEditClientPrive.tpl');
 else
     $smarty->display('clients/modal/modalEditClientEntreprise.tpl');

@@ -23,7 +23,7 @@ $(function () {
         sortClient: sortClient,
       },
       function (resultat) {
-        $("#corpsPagee").html(resultat);
+        $("#corpsPage").html(resultat);
         $('.nav-link[data-numerobon="' + numeroBon + '"]').trigger("click");
         if ($("table.listeClients tr.choosen") != null) {
           $("table.listeClients tr.choosen")[0].scrollIntoView({
@@ -198,7 +198,7 @@ $(function () {
                     sortClient: sortClient,
                   },
                   function (resultat) {
-                    $("#corpsPagee").html(resultat);
+                    $("#corpsPage").html(resultat);
                     // sélection de l'onglet de la fiche de travail
                     $('.nav-link[data-numerobon="' + numeroBon + '"]').trigger(
                       "click"
@@ -224,7 +224,7 @@ $(function () {
                     bonEnCours: numeroBon,
                   },
                   function (resultat) {
-                    $("#corpsPagee").html(resultat);
+                    $("#corpsPage").html(resultat);
                     var obj = $(
                       '#listeReparations tr[data-numerobon="' + numeroBon + '"]'
                     );
@@ -296,7 +296,7 @@ $(function () {
         sortClient: sortClient,
       },
       function (resultat) {
-        $("#corpsPagee").html(resultat);
+        $("#corpsPage").html(resultat);
       }
     );
   });
@@ -378,7 +378,7 @@ $(function () {
         bonEnCours: bonEnCours,
       },
       function (resultat) {
-        $("#corpsPagee").html(resultat);
+        $("#corpsPage").html(resultat);
         // si un bon de réparation a été sélectionné
         if ($("#listeReparations tr.choosen").length != 0) {
           $("#listeReparations tr.choosen")[0].scrollIntoView({
@@ -401,7 +401,7 @@ $(function () {
         bonEnCours: bonEnCours,
       },
       function (resultat) {
-        $("#corpsPagee").html(resultat);
+        $("#corpsPage").html(resultat);
         // si un bon de réparation a été sélectionné
         if ($("#listeReparations tr.choosen").length != 0) {
           $("#listeReparations tr.choosen")[0].scrollIntoView({

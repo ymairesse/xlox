@@ -242,14 +242,13 @@ $(function () {
   // Création d'un nouveau client par clic sur le bouton
   // dans la colonne des clients
   // ---------------------------------------------------------
-  $("body").on("click", "#nouveauClient", function (event) {
+  $("body").on("click", ".nouveauClient", function (event) {
     testSession(event);
     if (isDoubleClicked($(this))) return;
-    var idClient = null;
+    var typeClient = $(this).data('typeclient');
     $.post(
-      "inc/clients/editClient.inc.php",
-      {
-        idClient: idClient,
+      "inc/clients/newClient.inc.php",{
+        typeClient: typeClient
       },
       function (resultat) {
         $("#modal").html(resultat);
@@ -276,23 +275,10 @@ $(function () {
     );
   });
 
-  // ---------------------------------------------------------
-  // Création d'un nouveau client
-  // ---------------------------------------------------------
-  // $("body").on("click", "#btn-newClient", function (event) {
-  //   testSession();
-  //   var idUser = -1;
-  //   $.post(
-  //     "inc/clients/editClient.inc.php",
-  //     {
-  //       idUser: idUser,
-  //     },
-  //     function (resultat) {
-  //       $("#modal").html(resultat);
-  //       $("#modalEditClient").modal("show");
-  //     }
-  //   );
-  // });
+  $('body').on('change', '#rgpd', function(){
+    var info = $(this).is(":checked");
+    $("#btn-saveClient").prop("disabled", !info);
+  })
 
   // -----------------------------------------------------------
   // Enregistrement d'une fiche client depuis la boîte modale

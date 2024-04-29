@@ -33,7 +33,6 @@
               aria-controls="ticket_{$ticketCaisse}"
               aria-selected="{if $smarty.foreach.garanties.index == 0}true{else}false{/if}"
               title="Ticket de caisse numéro {$ticketCaisse}"
-              data-toggle="tooltip"
             >
               #{$ticketCaisse}
             </button>

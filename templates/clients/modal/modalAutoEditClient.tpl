@@ -427,7 +427,6 @@
   civilite1["ru"] = "пол";
 
   $(document).ready(function () {
-    // refreshCaptcha();
 
     $("#rgpd").on("change", function () {
       var info = $(this).is(":checked");

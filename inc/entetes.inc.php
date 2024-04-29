@@ -18,6 +18,7 @@ $Reparation = new Reparation();
 
 require_once INSTALL_DIR.'/inc/classes/class.User.php';
 
+// récupération de l'objet $User depuis la $_SESSION
 $User = isset($_SESSION[APPLICATION]) ? unserialize($_SESSION[APPLICATION]) : null;
 
 // -------------------------------------------------------------

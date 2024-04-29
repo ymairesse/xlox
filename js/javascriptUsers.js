@@ -87,20 +87,21 @@ $(function () {
   });
 
   // --------------------------------------------------------
-  // Édition d'un profil utilisateur par un clic dans le formulaire
+  // Édition d'un profil utilisateur par un clic dans le formulaire 
+  // ou sur le bouton d'édition
   // --------------------------------------------------------
-  $("body").on("click", "#formUser input.modalOpen", function (event) {
+  $("body").on("click", "#formUser input.modalOpen, #btn-editProfil", function (event) {
     testSession(event);
     if (isDoubleClicked($(this))) return;
     var idUser = $("input#idUser").val();
 
-    // la liste de sélection est présente à gauche?
-    var selfEdit = $("table#listeUsers").length == 0;
+    // // la liste de sélection est présente à gauche?
+    // var selfEdit = $("table#listeUsers").length == 0;
     $.post(
       "inc/users/editUser.inc.php",
       {
         idUser: idUser,
-        selfEdit: selfEdit,
+        // selfEdit: selfEdit,
       },
       function (resultat) {
         $("#modal").html(resultat);
