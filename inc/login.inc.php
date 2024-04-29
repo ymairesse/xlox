@@ -17,7 +17,7 @@ $User = new User($identifiant, $md5passwd);
 $user = $User->getUser();
 
 if ($user != false) {
-
+    // création de la variable de $_SESSION contnenant le $User
     $_SESSION[APPLICATION] = serialize($User);
     // suppression préventive du Cookie 'neverDie'
     setcookie('neverDie', ' ', 
