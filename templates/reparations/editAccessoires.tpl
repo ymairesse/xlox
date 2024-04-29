@@ -23,7 +23,7 @@
           title="Supprimer cet item"
           {if $accessoire.nb != 0} disabled{/if}
         >
-          <i class="fa fa-times"></i>
+          <i class="fa fa-scissors"></i>
         </button>
       </td>
       <td>
