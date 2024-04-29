@@ -746,7 +746,7 @@ $(function () {
     bootbox.prompt({
       title: "Nouvel accessoire",
       message: "Dénomination de cet accessoire",
-      maxlength: "30",
+      maxlength: "31",
       callback: function (accessoire) {
         if (accessoire != null) {
           $.post(
