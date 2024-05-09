@@ -1,7 +1,11 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" href="index.php"
-      ><img src="images/computershop.png" alt="ComputerShop" data-toggle="tooltip" title="test"
+      ><img
+        src="images/computershop.png"
+        alt="ComputerShop"
+        data-toggle="tooltip"
+        title="test"
     /></a>
     <button
       class="navbar-toggler"
@@ -16,9 +20,7 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarScroll">
-      <ul
-        class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
-      >
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
         {if isset($user) && in_array($user.droits, ['oxfam','root'])}
         <li class="nav-item dropdown">
           <a
@@ -63,7 +65,8 @@
             <li><hr class="dropdown-divider" /></li>
             <li>
               <a href="#" class="dropdown-item" id="reparationsArchives">
-                <i class="fa fa-search" aria-hidden="true"></i> Réparations terminées
+                <i class="fa fa-search" aria-hidden="true"></i> Réparations
+                terminées
               </a>
             </li>
           </ul>
@@ -116,6 +119,39 @@
 
         <li class="nav-item dropdown">
           <a
+            href="#"
+            class="nav-link dropdown-toggle"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Gestion
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="#" id="gestionStock" class="dropdown-item"
+                ><i class="fa fa-desktop" aria-hidden="true"></i>
+                Gestion du stock
+              </a>
+            </li>
+            <li>
+              <a href="#" id="gestionAccessoires" class="dropdown-item">
+                <i class="fa fa-wrench" aria-hidden="true"></i>
+                Gestion des accessoires
+              </a>
+            </li>
+            {if $user.droits == 'root'}
+            <li>
+              <a class="dropdown-item" id="gestUsers" href="#"
+                ><i class="fa fa-users"></i> Gestion des utilisateurs</a
+              >
+            </li>
+            {/if}
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a
             class="nav-link dropdown-toggle"
             href="#"
             role="button"
@@ -131,26 +167,6 @@
               >
             </li>
 
-            {if $user.droits == 'root'}
-            <li>
-              <a class="dropdown-item" id="gestUsers" href="#"
-                ><i class="fa fa-users"></i> Gestion des utilisateurs</a
-              >
-            </li>
-            {/if}
-            <li>
-              <a href="#" id="gestionStock" class="dropdown-item"
-                ><i class="fa fa-desktop" aria-hidden="true"></i>
-                Gestion du stock
-              </a>
-            </li>
-            <li>
-              <a href="#" id="gestionAccessoires" class="dropdown-item">
-                <i class="fa fa-wrench" aria-hidden="true"></i>
-                Gestion des accessoires
-              </a>
-            </li>
-
             <li><hr class="dropdown-divider" /></li>
             <li>
               <a class="dropdown-item" id="neverDie" href="#"
@@ -160,20 +176,23 @@
             <li><hr class="dropdown-divider" /></li>
             <li>
               <a href="#" class="dropdown-item text-end">
-                <img src="images/favicon.ico" alt="oxfam" width="18px"> Version: {$VERSION}
+                <img src="images/favicon.ico" alt="oxfam" width="18px" />
+                Version: {$VERSION}
               </a>
             </li>
-
           </ul>
         </li>
 
         {/if}
 
         <li>
-          <i id="ajaxLoader" style="display: none" class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+          <i
+            id="ajaxLoader"
+            style="display: none"
+            class="fa fa-spinner fa-spin fa-3x fa-fw"
+          ></i>
         </li>
       </ul>
-
 
       <ul class="text-end list-unstyled">
         <li class="nav-item">
