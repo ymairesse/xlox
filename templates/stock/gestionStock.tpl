@@ -12,6 +12,7 @@
             <th>Caractéristiques</th>
             <th>Prix</th>
             <th style="width: 2em"></th>
+            <th style="width: 2em"></th>
           </tr>
         </thead>
         <tbody>
@@ -34,6 +35,7 @@
             <td>{$unItemStock.modele}</td>
             <td>{$unItemStock.caracteristiques}</td>
             <td>{$unItemStock.prix} €</td>
+            
             <td>
               <button
                 class="btn btn-sm btn-warning w-100 btn-editItemStock"
@@ -43,6 +45,18 @@
                 <i class="fa fa-edit"></i>
               </button>
             </td>
+
+            <td>
+              <button
+                type="button"
+                class="btn btn-sm btn-success w-100 btn-cloneStock"
+                data-toggle="tooltip"
+                title="Cloner cet item"
+              >
+                <i class="fa fa-clone" aria-hidden="true"></i>
+              </button>
+            </td>
+
           </tr>
 
           {/foreach}

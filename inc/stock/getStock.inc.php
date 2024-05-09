@@ -18,7 +18,6 @@ if (!(in_array($idMateriel, array_keys($listeItemsStock))))   {
     $idMateriel = key($listeItemsStock);
 }
 
-
 $smarty->assign('idMateriel', $idMateriel);
 $smarty->assign('listeItemsStock', $listeItemsStock);
 

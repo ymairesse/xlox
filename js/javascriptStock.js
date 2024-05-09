@@ -15,7 +15,7 @@ $(function () {
   });
 
   // sélection d'une ligne du tableau des matériels
-  $("body").on("click", "#selecteurStock td", function (event) {
+  $("body").on("click", "table#selecteurStock tr", function (event) {
     testSession(event);
     var idMateriel = $(this).closest("tr").data("idmateriel");
     Cookies.set("idMateriel", idMateriel, { sameSite: "strict" });
@@ -35,6 +35,22 @@ $(function () {
       },
       function (resultat) {
         $("#modal").html(resultat);
+        $("#modalEditItemStock").modal("show");
+      }
+    );
+  });
+
+  // clonage d'un article du stock, semblable à l'item idMateriel
+  $("body").on("click", ".btn-cloneStock", function (event) {
+    testSession(event);
+    var idMateriel = $(this).closest("tr").data("idmateriel");
+    $.post(
+      "inc/stock/getItemStock.inc.php",
+      {
+        idMateriel: idMateriel,
+      },
+      function (itemClone) {
+        $("#modal").html(itemClone);
         $("#modalEditItemStock").modal("show");
       }
     );
@@ -72,8 +88,12 @@ $(function () {
               idMateriel: idMateriel,
             },
             function (nb) {
-                if (nb == 1)
-                    $('table#selecteurStock tr[data-idmateriel="' + idMateriel +'"]').remove();
+              if (nb == 1)
+                $(
+                  'table#selecteurStock tr[data-idmateriel="' +
+                    idMateriel +
+                    '"]'
+                ).remove();
             }
           );
       },
@@ -101,13 +121,13 @@ $(function () {
               idMateriel: idMateriel,
             },
             function (resultat) {
-              $("corpsPage").html(resultat);
+              $("#corpsPage").html(resultat);
+              bootbox.alert({
+                title: "Enregistrement d'un article",
+                message: nb + " enregistrement effectué",
+              });
             }
           );
-          bootbox.alert({
-            title: "Enregistrement d'un article",
-            message: nb + " enregistrement effectué",
-          });
         }
       );
     }
