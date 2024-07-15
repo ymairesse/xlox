@@ -32,9 +32,7 @@
 
           <div class="row">
             <div class="form-group pb-3 col-6">
-              <label for="ticketCaisse"
-                >Ticket de caisse</label
-              >
+              <label for="ticketCaisse">Ticket de caisse</label>
               <input
                 type="text"
                 class="form-control"
@@ -81,6 +79,7 @@
 
 <script>
   $(document).ready(function () {
+
     $("#modalFormBonGarantie").validate({
       lang: "fr",
       errorElement: "div",
@@ -88,7 +87,8 @@
         ticketCaisse: {
           required: true,
           maxlength: 7,
-          number: true,
+          minlength: 7,
+          digits: true,
           remote: "inc/garanties/checkTicketUnique.php",
         },
         date: {
@@ -101,6 +101,12 @@
           remote: "Un bon de garantie existe déjà pour ce ticket",
         },
       },
+    });
+
+    $("#ticketCaisse").keypress(function (event) {
+      if (event.key == "Enter") {
+        $("#btn-saveBonGarantie").click();
+      }
     });
   });
 </script>

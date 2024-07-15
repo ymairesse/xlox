@@ -13,6 +13,7 @@ $bonEnCours = isset($_POST['bonEnCours']) ? $_POST['bonEnCours'] : Null;
 
 // informations pour le sélecteur de gauche
 $listeReparations = $Reparation->getListeReparations($termine);
+
 if (in_array($bonEnCours, array_keys($listeReparations))) {
     $numeroBon = $bonEnCours;
 } else {

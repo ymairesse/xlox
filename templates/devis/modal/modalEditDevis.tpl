@@ -98,6 +98,17 @@
 
     $('[data-toggle="tooltip"]').tooltip();
 
+    $("#modalEditDevis").on("shown.bs.modal", function () {
+      $("#dateDevis").focus();
+    });
+
+
+    $("#dateDevis").keypress(function (event) {
+      if (event.key == "Enter") {
+        $("#btn-saveDevis").click();
+      }
+    });
+
     $("#modalFormDevis").validate({
       lang: "fr",
       errorElement: "div",
