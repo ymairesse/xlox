@@ -37,6 +37,7 @@ $(function () {
 
   // ---------------------------------------------------------------
   // sélection d'un client dans le cadre "listeClients" à gauche
+  // pour la page "réparations par client"
   // ---------------------------------------------------------------
   $("body").on(
     "click",
@@ -73,14 +74,14 @@ $(function () {
   );
 
   // Accès aux fiches de réparation par numéro du bon
-  //clic dans une ligne de la liste des bons de réparation
+  // clic dans une ligne de la liste des bons de réparation
   // pour voir la fiche correspondante
   // ---------------------------------------------------------------
-  $("body").on("click", "#listeReparations tr", function (event) {
+  $("body").on("click", "#listeReparations td", function (event) {
     testSession(event);
-    var numeroBon = $(this).data("numerobon");
+    var numeroBon = $(this).closest("tr").data("numerobon");
     $("#listeReparations tr").removeClass("choosen");
-    $(this).addClass("choosen");
+    $(this).closest("tr").addClass("choosen");
     Cookies.set("bonEnCours", numeroBon, { sameSite: "strict" });
     $.post(
       "inc/reparations/getFiche4numeroBon.inc.php",
@@ -91,6 +92,54 @@ $(function () {
         $("#ficheTechnique").html(resultat);
       }
     );
+  });
+
+  function formatNumber(number) {
+    // Convertir le nombre en chaîne de caractères
+    numberString = number.toString();
+    // Ajouter des zéros au début de la chaîne pour atteindre une longueur de 6 caractères
+    formattedNumber = numberString.padStart(6, "0");
+    return formattedNumber;
+  }
+
+  // clôture d'un bon de réparation actuellement en cours
+  $("body").on("click", ".btn-closeBon", function (event) {
+    testSession(event);
+    var numeroBon = formatNumber($(this).closest("tr").data("numerobon"));
+    var nomClient = $(this).closest("tr").data("nom");
+    var idUser = $(this).data("iduser");
+    bootbox.confirm({
+      title: "Veuillez confirmer",
+      message: "Clôture de la fiche de travail <strong>" + numeroBon + "</strong><br>de <strong>" + nomClient + "</strong>",
+      callback: function (result) {
+        if (result == true) {
+          $.post(
+            "inc/reparations/closeBon.inc.php",
+            {
+              numeroBon: numeroBon,
+              idUser: idUser,
+            },
+            function (resultat) {
+              if (resultat == 1) {
+                var prevBon = $("#listeReparations tr.choosen")
+                  .prev()
+                  .data("numerobon");
+                var nextBon = $("#listeReparations tr.choosen")
+                  .next()
+                  .data("numerobon");
+                // sélection du bon de réparation précédent ou, à défaut, du suivant
+                var current = prevBon != undefined ? prevBon : nextBon;
+
+                $("#listeReparations .choosen").remove();
+                $('#listeReparations tr[data-numerobon="' + current + '"] td')
+                  .eq(0)
+                  .trigger("click");
+              }
+            }
+          );
+        }
+      },
+    });
   });
 
   // ------------------------------------------------------------------

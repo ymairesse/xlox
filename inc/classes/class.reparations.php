@@ -35,6 +35,34 @@ class Reparation
         return $nb;
     }
 
+    /**
+     * clôture d'un bon de réparation dans la BD
+     * 
+     * @param int $numeroBon
+     * @param int $idUser
+     * 
+     * @return int
+     */
+    public function closeBon($numeroBon, $idUser)
+    {
+        $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
+        $sql = 'UPDATE '.PFX.'bonsReparation ';
+        $sql .= 'SET termine = 1 ';
+        $sql .= 'WHERE idUser = :idUser AND numeroBon = :numeroBon ';
+        $requete = $connexion->prepare($sql);
+
+        $requete->bindParam(':numeroBon', $numeroBon, PDO::PARAM_INT);
+        $requete->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+
+        $resultat = $requete->execute();
+
+        $nb = $requete->rowCount();
+
+        Application::DeconnexionPDO($connexion);
+
+        return $nb;
+    }
+
 
     /**
      * Enregistre une nouvelle mention pour probleme ou solution dans un bon de réparation
@@ -353,7 +381,7 @@ class Reparation
         $sql .= 'JOIN ' . PFX . 'typeMateriel AS type ON type.idTypeMateriel = bons.typeMateriel ';
         $sql .= 'JOIN ' . PFX . 'users AS clients ON clients.idUser = bons.idUser ';
         $sql .= 'WHERE termine = :termine ';
-        $sql .= 'ORDER BY dateEntree ';
+        $sql .= 'ORDER BY numeroBon ';
         $requete = $connexion->prepare($sql);
 
         $requete->bindParam(':termine', $termine, PDO::PARAM_INT);
@@ -885,7 +913,8 @@ class Reparation
      * 
      * @return int
      */
-    public function editAccessoire($idAccessoire, $accessoire){
+    public function editAccessoire($idAccessoire, $accessoire)
+    {
         $connexion = Application::connectPDO(SERVEUR, BASE, NOM, MDP);
         $sql = 'UPDATE ' . PFX . 'accessoires ';
         $sql .= 'SET accessoire = :accessoire ';
