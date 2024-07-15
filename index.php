@@ -14,5 +14,7 @@ if ($User != Null)
 
 $smarty->assign('user', $user);
 $smarty->assign('VERSION', VERSION);
+$smarty->assign('TITREGENERAL', TITREGENERAL);
 
 $smarty->display('index.tpl');
+
