@@ -12,7 +12,7 @@
       type="text/css"
       media="screen, print"
     />
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
     <script src="bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="js/jquery-3.7.0.min.js"></script>
@@ -29,20 +29,16 @@
     <script src="js/jqvalidate/dist/additional-methods.min.js"></script>
     <script src="js/jqvalidate/dist/localization/messages_fr.js"></script>
     <script src="js/bootbox.all.min.js"></script>
-
   </head>
   <body>
     <div class="container-fluid" id="menu">
       <div class="row">
         {include file="navbar.tpl"}
-
       </div>
     </div>
 
     <div class="container-fluid" id="corpsPage">
-
       {include file="start.tpl"}
-
     </div>
 
     <div id="modal"></div>
@@ -50,6 +46,7 @@
     {include file="footer.tpl"}
 
     <script>
+
       var tooltipTriggerList = [].slice.call(
         document.querySelectorAll('[data-bs-toggle="tooltip"]')
       );
