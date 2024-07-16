@@ -5,7 +5,7 @@
         src="images/computershop.png"
         alt="ComputerShop"
         data-toggle="tooltip"
-        title="test"
+        title="Oxfam Informatique"
     /></a>
     <button
       class="navbar-toggler"
